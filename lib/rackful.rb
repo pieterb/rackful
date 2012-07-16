@@ -345,7 +345,7 @@ The path of this resource.
 
 =begin markdown
 @param path [#to_s] The path of this resource. This is a `path-absolute` as
-  defined in {RFC3986, section 3.3}[http://tools.ietf.org/html/rfc3986#section-3.3].
+  defined in {http://tools.ietf.org/html/rfc3986#section-3.3 RFC3986, section 3.3}.
 @see #path
 =end
   def initialize path
@@ -394,10 +394,10 @@ This works by inspecting all the {#do_METHOD} methods this object implements.
 Handles a HEAD request.
 
 As a courtesy, this module implements a default handler for HEAD requests,
-which calls {#do_METHOD #do_GET}, and then strips of the response body.
+which calls {#do\_METHOD #do\_GET}, and then strips of the response body.
 
 If this resource implements method `content_types`, then `response['Content-Type']`
-will be set in the response object passed to {#do_METHOD #do_GET}.
+will be set in the response object passed to {#do\_METHOD #do\_GET}.
 
 Feel free to override this method at will.
 @return [void]
