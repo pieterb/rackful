@@ -1,0 +1,12 @@
+#--private
+--no-private
+--protected
+--main README.md
+--output-dir doc
+--charset UTF-8
+--title Rackful
+--markup markdown
+lib/**/*.rb
+-
+README.md
+LICENSE.md
