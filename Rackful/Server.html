@@ -108,6 +108,21 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div>
 
@@ -293,6 +308,21 @@ then your Resource Factory can expect to be called like this:</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -300,13 +330,13 @@ then your Resource Factory can expect to be called like this:</p>
       <pre class="lines">
 
 
-657
-658
-659
-660</pre>
+839
+840
+841
+842</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 657</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 839</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_resource_factory'>resource_factory</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -382,6 +412,21 @@ then your Resource Factory can expect to be called like this:</p>
       <li><span class='object_link'><a href="#initialize-instance_method" title="Rackful::Server#initialize (method)">#initialize</a></span></li>
     
   </ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -389,12 +434,12 @@ then your Resource Factory can expect to be called like this:</p>
       <pre class="lines">
 
 
-651
-652
-653</pre>
+832
+833
+834</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 651</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 832</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_factory'>resource_factory</span>
   <span class='ivar'>@resource_factory</span>
@@ -445,6 +490,21 @@ then your Resource Factory can expect to be called like this:</p>
     </li>
   
 </ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -452,15 +512,15 @@ then your Resource Factory can expect to be called like this:</p>
       <pre class="lines">
 
 
-670
-671
-672
-673
-674
-675</pre>
+853
+854
+855
+856
+857
+858</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 670</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 853</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_p_env'>p_env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start'>start</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -503,6 +563,21 @@ then your Resource Factory can expect to be called like this:</p>
     </li>
   
 </ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -510,54 +585,54 @@ then your Resource Factory can expect to be called like this:</p>
       <pre class="lines">
 
 
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
-697
-698
-699
-700
-701
-702
-703
-704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722
-723
-724
-725</pre>
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 681</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 865</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call!'>call!</span><span class='lparen'>(</span><span class='id identifier rubyid_p_env'>p_env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_request'>request</span>  <span class='op'>=</span> <span class='const'>Rackful</span><span class='op'>::</span><span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span> <span class='id identifier rubyid_resource_factory'>resource_factory</span><span class='comma'>,</span> <span class='id identifier rubyid_p_env'>p_env</span> <span class='rparen'>)</span>
@@ -614,7 +689,7 @@ then your Resource Factory can expect to be called like this:</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 16 22:19:13 2012 by
+  Generated on Tue Jul 17 07:52:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>

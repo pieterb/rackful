@@ -120,6 +120,21 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -127,7 +142,31 @@
     <dl class="constants">
       
         <dt id="DEFAULT_TEMPLATE-constant" class="">DEFAULT_TEMPLATE =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
   <span class='op'>|</span> <span class='id identifier rubyid_status_code'>status_code</span><span class='comma'>,</span> <span class='id identifier rubyid_xhtml_message'>xhtml_message</span> <span class='op'>|</span>
@@ -179,8 +218,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute response.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -300,6 +338,21 @@
   
 </ul>
 
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -307,57 +360,57 @@
       <pre class="lines">
 
 
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546
-547
-548
-549
-550
-551
-552
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580</pre>
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 533</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 711</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span> <span class='id identifier rubyid_message'>message</span> <span class='rparen'>)</span>
   <span class='ivar'>@response</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Response</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -430,13 +483,27 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the value of attribute response</p>
-
+    
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -444,12 +511,12 @@
       <pre class="lines">
 
 
-527
-528
-529</pre>
+704
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 527</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 704</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_response'>response</span>
   <span class='ivar'>@response</span>
@@ -493,6 +560,21 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -500,12 +582,12 @@
       <pre class="lines">
 
 
-613
-614
-615</pre>
+792
+793
+794</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 613</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 792</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_template'>template</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span> <span class='op'>||=</span> <span class='lparen'>(</span> <span class='id identifier rubyid_block'>block</span> <span class='op'>||</span> <span class='const'>DEFAULT_TEMPLATE</span> <span class='rparen'>)</span>
@@ -520,7 +602,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 16 22:19:13 2012 by
+  Generated on Tue Jul 17 07:52:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>
