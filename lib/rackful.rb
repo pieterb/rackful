@@ -1,32 +1,183 @@
-=begin License
-  Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-      http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-=end
+# Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 require 'rexml/document' # Used by HTTPStatus
 require 'rack'
 
-
 =begin markdown
-Module containing all Rackful elements
+Library for creating Rackful web services
+
+Rackful
+=======
+
+Rationale
+---------
+
+Confronted with the task of implementing a Rackful web service in Ruby, I
+checked out a number of existing libraries and frameworks, including
+Ruby-on-Rails, and then decided to brew my own, the reason being that I couldn't
+find a library or framework with all of the following properties:
+
+*   **Small** Some of these frameworks are really big. I need to get a job done in
+    time. If understanding the framework takes more time than writing my own, I
+    must at least feel confident that the framework I'm learning is more powerful
+    that what I can come up with by myself. Ruby-on-Rails is probably the biggest
+    framework out there, and it still lacks many features that are essential to
+    Rackful web service programming.
+
+    This library is small. You could read _all_ the source code in less than an
+    hour, and understand every detail.
+
+*   **No extensive tooling or code generation** Code generation has been the
+    subject of more than one flame-war over the years. Not much I can add to the
+    debate. <em>But still,</em> with a language as dynamic as Ruby, you just
+    shouldn't need code generation. Ever.
+
+*   **Full support for conditional requests** using `If-*:` request headers. Most
+    libraries' support is limited to `If-None-Match:` and `If-Modified-Since:`
+    headers, and only for `GET` and `HEAD` requests. For Rackful web services,
+    the `If-Match:` and `If-Unmodified-Since:` headers are at least as important,
+    particularly for unsafe methods like `PUT`, `POST`, `PATCH`, and `DELETE`.
+
+    This library fully supports the `ETag:` and `Last-Modified:` headers, and all
+    `If-*:` headers.
+
+*   **Resource centered** Some libraries claim Rackfulness, but at the same
+    time have a servet-like interface, which requires you to implement method
+    handles such as `doPOST(url)`. In these method handlers you have to find out
+    what resource is posted to, depending on the URL.
+
+    This library requires that you implement a Resource Factory which maps URIs
+    to resource Objects. These objects will then receive HTTP requests.
+
+Hello World!
+------------
+
+Here's a working example of a simple Rackful server:
+
+{include:file:example/config.ru}
+
+This file is included in the distribution as `example/config.ru`.
+If you go to the `example` directory and run `rackup`, you should see
+something like this:
+
+    $> rackup
+    [2012-07-10 11:45:32] INFO  WEBrick 1.3.1
+    [2012-07-10 11:45:32] INFO  ruby 1.9.2 (2011-12-27) [java]
+    [2012-07-10 11:45:32] INFO  WEBrick::HTTPServer#start: pid=5994 port=9292
+
+Go with your browser to {http://localhost:9292/} and be greeted.
+
+In this example, we implement `GET` and `PUT` requests for the resource at '/'. but
+we get a few things for free:
+
+### Free `OPTIONS` response:
+
+Request:
+
+    OPTIONS / HTTP/1.1
+    Host: localhost:9292
+
+Response:
+
+    HTTP/1.1 204 No Content 
+    Allow: PUT, GET, HEAD, OPTIONS
+    Date: Tue, 10 Jul 2012 10:22:52 GMT
+
+As you can see, the server accurately reports all available methods for the
+resource. Notice the availability of the `HEAD` method; if you implement the
+`GET` method, you'll get `HEAD` for free. It's still a good idea to explicitly
+implement your own `HEAD` request handler, especially for expensive resources,
+when responding to a `HEAD` request should be much more efficient than generating
+a full `GET` response, and strip off the response body.
+
+### Free conditional request handling:
+
+Let's first get the current state of the resource, with this request:
+
+    GET / HTTP/1.1
+    Host: localhost:9292
+
+Response:
+
+    HTTP/1.1 200 OK 
+    Content-Type: text/plain
+    Content-Length: 12
+    ETag: "86fb269d190d2c85f6e0468ceca42a20"
+    Date: Tue, 10 Jul 2012 10:34:36 GMT
+    
+    Hello world!
+
+Now, we'd like to change the state of the resource, but only if it's still in
+the state we last saw, to avoid the "lost update problem". To do that, we
+produce an `If-Match:` header, with the entity tag of our last version:
+
+    PUT / HTTP/1.1
+    Host: localhost:9292
+    Content-Type: text/plain
+    Content-Length: 31
+    If-Match: "86fb269d190d2c85f6e0468ceca42a20"
+    
+    All your base are belong to us.
+
+Response:
+
+    HTTP/1.1 204 No Content
+    ETag: "920c1e9267f923c62b55a471c1d8a528"
+    Date: Tue, 10 Jul 2012 10:58:57 GMT
+
+The response contains an `ETag:` header, with the _new_ entity tag of this
+resource. When we replay this request, we get the following response:
+
+    HTTP/1.1 412 Precondition Failed
+    Content-Type: text/html; charset="UTF-8"
+    Date: Tue, 10 Jul 2012 11:06:54 GMT
+    
+    [...]
+    <h1>HTTP/1.1 412 Precondition Failed</h1>
+    <p>If-Match: "86fb269d190d2c85f6e0468ceca42a20"</p>
+    [...]
+
+The server returns with status <tt>412 Precondition Failed</tt>. In the HTML
+response body, the server kindly points out exactly which precondition.
+
+Further reading
+---------------
+*   {Rackful::Server#initialize} for more information about your Resource Factory.
+*   {Rackful::Resource#etag} and {Rackful::Resource#last_modified} for more information on
+    conditional requests.
+*   {Rackful::Resource#do_METHOD} for more information about writing your own request
+    handlers.
+*   {Rackful::RelativeLocation} for more information about this piece of Rack middleware
+    which allows you to return relative and absolute paths in the `Location:`
+    response header, and why you'd want that.
+
+Licensing
+---------
+Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
+
+Licensed under the Apache License 2.0. You should have received a copy of the
+license as part of this distribution.
+@author Pieter van Beek <rackful@djinnit.com>
 =end
 module Rackful
 
 
 =begin markdown
 Subclass of {Rack::Request}, augmented for Rackful requests.
+@since 0.0.1
 =end
 class Request < Rack::Request
 
@@ -35,6 +186,7 @@ class Request < Rack::Request
 The resource factory for the current request.
 @return [#[]]
 @see Server#initialize
+@since 0.0.1
 =end
   attr_reader :resource_factory
 
@@ -52,6 +204,7 @@ In a multi-threaded server, multiple requests can be handled at one time.
 This method returns the request object, created (and registered) by
 {Server#call!}
 @return [Request]
+@since 0.0.1
 =end
   def self.current
     Thread.current[:djinn_request]
@@ -73,6 +226,7 @@ Assert all <tt>If-*</tt> request headers.
 @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3
   for details about weak and strong validator comparison.
 @todo Implement support for the `If-Range:` header.
+@since 0.0.1
 =end
   def assert_if_headers resource
     raise HTTPStatus, 'NOT_IMPLEMENTED If-Range: request header is not supported.' \
@@ -129,6 +283,7 @@ Hash of acceptable media types and their qualities.
 This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
 types are provided, an empty Hash is returned.
 @return [Hash{media_type => quality}]
+@since 0.0.1
 =end
   def accept
     @env['djinn.accept'] ||= begin
@@ -166,6 +321,7 @@ in the server.
   **media type**. I think the implementation is good, only comparing
   **media types**, so all references to **content types** should be
   removed.
+@since 0.0.1
 =end
   def best_content_type content_types, require_match = true
     return content_types.sort_by(&:last).last[0] if self.accept.empty?
@@ -191,6 +347,7 @@ in the server.
 
 =begin markdown
 @deprecated This method seems to be unused...
+@since 0.0.1
 =end
   def truthy? parameter
     value = self.GET[parameter] || ''
@@ -200,6 +357,7 @@ in the server.
 
 =begin markdown
 @deprecated This method seems to be unused...
+@since 0.0.1
 =end
   def falsy? parameter
     value = self.GET[parameter] || ''
@@ -213,6 +371,7 @@ Parses the HTTP/1.1 `If-Match:` header.
 @return [nil, Array<String>]
 @see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
 @see #if_none_match
+@since 0.0.1
 =end
   def if_match none = false
     header = @env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
@@ -232,6 +391,7 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Array<String>]
 @see http://tools.ietf.org/html/rfc2616#section-14.26 RFC2616, section 14.26
 @see #if_match
+@since 0.0.1
 =end
   def if_none_match
     self.if_match true
@@ -243,6 +403,7 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Time]
 @see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
 @see #if_unmodified_since
+@since 0.0.1
 =end
   def if_modified_since unmodified = false
     header = @env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
@@ -260,6 +421,7 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Time]
 @see http://tools.ietf.org/html/rfc2616#section-14.28 RFC2616, section 14.28
 @see #if_modified_since
+@since 0.0.1
 =end
   def if_unmodified_since
     self.if_modified_since true
@@ -278,6 +440,7 @@ Does any of the tags in `etags` match `etag`?
 @return [Boolean]
 @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616 section 13.3.3
   for details about weak and strong validator comparison.
+@since 0.0.1
 =end
   def validate_etag etag, etags
     etag = etag.to_s
@@ -311,6 +474,7 @@ Classes that include this module may implement a method `content_types`
 for content negotiation. This method must return a Hash of
 `mime-type => quality` pairs. 
 @see Server, ResourceFactory
+@since 0.0.1
 =end
 module Resource
 
@@ -332,6 +496,7 @@ called `do_<HTTP_METHOD>`.
 @abstract
 @return [void]
 @raise [HTTPStatus, RuntimeError]
+@since 0.0.1
 =end
 
 
@@ -339,6 +504,7 @@ called `do_<HTTP_METHOD>`.
 The path of this resource.
 @return [String]
 @see #initialize
+@since 0.0.1
 =end
   attr_reader :path
 
@@ -347,6 +513,7 @@ The path of this resource.
 @param path [#to_s] The path of this resource. This is a `path-absolute` as
   defined in {http://tools.ietf.org/html/rfc3986#section-3.3 RFC3986, section 3.3}.
 @see #path
+@since 0.0.1
 =end
   def initialize path
     @path = path.to_s
@@ -362,6 +529,7 @@ produce an empty resource to to handle the `PUT` request. `HEAD` and `GET`
 requests will still yield `404 Not Found`.
 
 @return [Boolean] The default implementation returns `false`.
+@since 0.0.1
 =end
   def empty?
     false
@@ -373,6 +541,7 @@ List of all HTTP/1.1 methods implemented by this resource.
 
 This works by inspecting all the {#do_METHOD} methods this object implements.
 @return [Array<Symbol>]
+@since 0.0.1
 =end
   def http_methods
     unless @djinn_resource_http_methods
@@ -402,6 +571,7 @@ will be set in the response object passed to {#do\_METHOD #do\_GET}.
 Feel free to override this method at will.
 @return [void]
 @raise [HTTPStatus] `405 Method Not Allowed` if the resource doesn't implement the `GET` method.
+@since 0.0.1
 =end
   def do_HEAD request, response
     raise Rackful::HTTPStatus, 'METHOD_NOT_ALLOWED ' +  self.http_methods.join( ' ' ) \
@@ -426,6 +596,7 @@ returned (without an entity body).
 Feel free to override this method at will.
 @return [void]
 @raise [HTTPStatus] `404 Not Found` if this resource is empty.
+@since 0.0.1
 =end
   def do_OPTIONS request, response
     raise Rackful::HTTPStatus, 'NOT_FOUND' if self.empty?
@@ -451,6 +622,7 @@ Make sure your entity tag is a properly formatted string. In ABNF:
 @abstract
 @return [String]
 @see http://tools.ietf.org/html/rfc2616#section-14.19 RFC2616 section 14.19
+@since 0.0.1
 =end
 
 
@@ -467,6 +639,7 @@ for you automatically.
 @return [Array<(Time, Boolean)>] The timestamp, and a flag indicating if the
   timestamp is a strong validator.
 @see http://tools.ietf.org/html/rfc2616#section-14.29 RFC2616 section 14.29
+@since 0.0.1
 =end
 
 
@@ -475,6 +648,7 @@ Wrapper around {#do_HEAD}
 @private
 @return [void]
 @raise [HTTPStatus] `404 Not Found` if this resource is empty.
+@since 0.0.1
 =end
   def http_HEAD request, response
     raise Rackful::HTTPStatus, 'NOT_FOUND' if self.empty?
@@ -490,6 +664,7 @@ Wrapper around {#do_METHOD #do_GET}
 
   -   `404 Not Found` if this resource is empty.
   -   `405 Method Not Allowed` if the resource doesn't implement the `GET` method.
+@since 0.0.1
 =end
   def http_GET request, response
     raise Rackful::HTTPStatus, 'NOT_FOUND' if self.empty?
@@ -504,6 +679,7 @@ Wrapper around {#do_METHOD #do_PUT}
 @private
 @return [void]
 @raise [HTTPStatus] `405 Method Not Allowed` if the resource doesn't implement the `PUT` method.
+@since 0.0.1
 =end
   def http_PUT request, response
     raise Rackful::HTTPStatus, 'METHOD_NOT_ALLOWED ' +  self.http_methods.join( ' ' ) \
@@ -517,6 +693,7 @@ end # module Resource
 
 =begin markdown
 @todo documentation
+@since 0.0.1
 =end
 class HTTPStatus < RuntimeError
 
@@ -529,6 +706,7 @@ class HTTPStatus < RuntimeError
 
 =begin markdown
 @param message [String] `<status> [ <space> <message> ]`
+@since 0.0.1
 =end
   def initialize( message )
     @response = Rack::Response.new
@@ -609,6 +787,7 @@ The passed block must accept two arguments:
 2.  *string* an xhtml fragment
 
 and return a string
+@since 0.0.1
 =end
   def self.template(&block)
     @template ||= ( block || DEFAULT_TEMPLATE )
@@ -620,6 +799,7 @@ end
 
 =begin markdown
 Rack compliant server class for implementing RESTful web services.
+@since 0.0.1
 =end
 class Server
 
@@ -647,12 +827,14 @@ If there's no resource at the given path, but you'd still like to respond to
 {Resource#empty? empty resource}.
 @return [#[]]
 @see #initialize
+@since 0.0.1
 =end
   attr_reader :resource_factory
 
 
 =begin markdown
 {include:Server#resource_factory}
+@since 0.0.1
 =end
   def initialize(resource_factory)
     super()
@@ -666,6 +848,7 @@ As required by the Rack specification.
 For thread safety, this method clones `self`, which handles the request in
 {#call!}. A similar approach is taken by the Sinatra library.
 @return [Array<(status_code, response_headers, response_body)>]
+@since 0.0.1
 =end
   def call(p_env)
     start = Time.now
@@ -677,6 +860,7 @@ For thread safety, this method clones `self`, which handles the request in
 
 =begin markdown
 @return [Array<(status_code, response_headers, response_body)>]
+@since 0.0.1
 =end
   def call!(p_env)
     request  = Rackful::Request.new( resource_factory, p_env )
@@ -730,6 +914,7 @@ private
 
 =begin markdown
 Adds `ETag:` and `Last-Modified:` response headers.
+@since 0.0.1
 =end
   def set_default_headers resource, response
     if ! response.include?( 'ETag' ) &&

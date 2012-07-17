@@ -1,51 +1,49 @@
-=begin License
-  Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-      http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-=end
+# Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 require 'rackful'
 
 module Rackful
-  
-  # Rack middleware that provides method spoofing.
-  #
-  # If you use this middleware, then clients are allowed to spoof an HTTP method
-  # by specifying a `_method=...` request parameter, for example:
-  #
-  #     http://example.com/some_resource?_method=DELETE
-  #
-  # This can be useful if you want to perform `PUT` and `DELETE` requests from
-  # within a browser, of when you want to perform a `GET` requests with (too)
-  # many parameters, exceeding the maximum URI length in your client or server.
-  # In that case, you can put the parameters in a `POST` body, like this:
-  #
-  #     POST /some_resource HTTP/1.1
-  #     Host: example.com
-  #     Content-Type: application/x-www-form-urlencoded
-  #     Content-Length: 123456789
-  #
-  #     param_1=hello&param_2=world&param_3=...
-  # @example Using this middleware
-  #   use Rackful::MethodSpoofing
+
+=begin
+Rack middleware that provides method spoofing.
+
+If you use this middleware, then clients are allowed to spoof an HTTP method
+by specifying a `_method=...` request parameter, for example:
+
+    http://example.com/some_resource?_method=DELETE
+
+This can be useful if you want to perform `PUT` and `DELETE` requests from
+within a browser, of when you want to perform a `GET` requests with (too)
+many parameters, exceeding the maximum URI length in your client or server.
+In that case, you can put the parameters in a `POST` body, like this:
+
+    POST /some_resource HTTP/1.1
+    Host: example.com
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 123456789
+
+    param_1=hello&param_2=world&param_3=...
+@example Using this middleware
+  use Rackful::MethodSpoofing
+=end
   class MethodSpoofing
 
     def initialize app
       @app = app
     end
 
-
-    # @todo Revert the request method after `call()`.
     def call env
       before_call env
       @app.call env
@@ -102,4 +100,5 @@ module Rackful
     end
 
   end
+
 end
