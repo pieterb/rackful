@@ -81,9 +81,13 @@
     
   
   
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="HTTPStatus.html" title="Rackful::HTTPStatus (class)">HTTPStatus</a></span></dd>
+    
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rackful.rb</dd>
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/rackful_resource.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -96,7 +100,7 @@
 of ways.<br>
 Classes that include this module may implement a method <code>content_types</code>
 for content negotiation. This method must return a Hash of
-<code>mime-type =&gt; quality</code> pairs.</p>
+<code>media-type =&gt; quality</code> pairs.</p>
 
 
   </div>
@@ -126,7 +130,17 @@ for content negotiation. This method must return a Hash of
   
 </ul>
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Resource/ClassMethods.html" title="Rackful::Resource::ClassMethods (module)">ClassMethods</a></span>
+    
+  
+    
+  
+</p>
+
 
 
 
@@ -136,7 +150,7 @@ for content negotiation. This method must return a Hash of
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#etag-instance_method" title="#etag (instance method)">- (String) <strong>etag</strong> </a>
+      <a href="#get_etag-instance_method" title="#get_etag (instance method)">- (String) <strong>get_etag</strong> </a>
     
 
     
@@ -164,7 +178,7 @@ for content negotiation. This method must return a Hash of
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#last_modified-instance_method" title="#last_modified (instance method)">- (Array&lt;(Time, Boolean)&gt;) <strong>last_modified</strong> </a>
+      <a href="#get_last_modified-instance_method" title="#get_last_modified (instance method)">- (Array&lt;(Time, Boolean)&gt;) <strong>get_last_modified</strong> </a>
     
 
     
@@ -192,7 +206,7 @@ for content negotiation. This method must return a Hash of
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#path-instance_method" title="#path (instance method)">- (String) <strong>path</strong> </a>
+      <a href="#path-instance_method" title="#path (instance method)">- (Rackful::Path) <strong>path</strong> </a>
     
 
     
@@ -200,8 +214,6 @@ for content negotiation. This method must return a Hash of
   
   
   
-    
-      <span class="note title readonly">readonly</span>
     
     
   
@@ -224,7 +236,7 @@ for content negotiation. This method must return a Hash of
 
   
     <h2>
-      Instance Method Summary
+      Class Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -233,7 +245,7 @@ for content negotiation. This method must return a Hash of
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#do_HEAD-instance_method" title="#do_HEAD (instance method)">- <strong>do_HEAD</strong>(request, response) </a>
+      <a href="#included-class_method" title="included (class method)">+ (void) <strong>included</strong>(base) </a>
     
 
     
@@ -247,7 +259,61 @@ for content negotiation. This method must return a Hash of
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Handles a HEAD request.</p>
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_headers-instance_method" title="#default_headers (instance method)">- (void) <strong>default_headers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds <code>ETag:</code> and <code>Last-Modified:</code> response headers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy-instance_method" title="#destroy (instance method)">- (Hash<sup>?</sup>) <strong>destroy</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>An optional header hash.</p>
 </div></span>
   
 </li>
@@ -279,29 +345,6 @@ for content negotiation. This method must return a Hash of
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#do_OPTIONS-instance_method" title="#do_OPTIONS (instance method)">- <strong>do_OPTIONS</strong>(request, response) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Handles an OPTIONS request.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#empty%3F-instance_method" title="#empty? (instance method)">- (Boolean) <strong>empty?</strong> </a>
     
 
@@ -325,7 +368,7 @@ for content negotiation. This method must return a Hash of
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#http_methods-instance_method" title="#http_methods (instance method)">- (Array&lt;Symbol&gt;) <strong>http_methods</strong> </a>
+      <a href="#http_HEAD-instance_method" title="#http_HEAD (instance method)">- (self) <strong>http_HEAD</strong>(request, response) </a>
     
 
     
@@ -339,7 +382,7 @@ for content negotiation. This method must return a Hash of
   
 
   
-    <span class="summary_desc"><div class='inline'><p>List of all HTTP/1.1 methods implemented by this resource.</p>
+    <span class="summary_desc"><div class='inline'><p>Handles a HEAD request.</p>
 </div></span>
   
 </li>
@@ -348,7 +391,7 @@ for content negotiation. This method must return a Hash of
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Resource) <strong>initialize</strong>(path) </a>
+      <a href="#http_OPTIONS-instance_method" title="#http_OPTIONS (instance method)">- <strong>http_OPTIONS</strong>(request, response) </a>
     
 
     
@@ -362,8 +405,118 @@ for content negotiation. This method must return a Hash of
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of Resource.</p>
+    <span class="summary_desc"><div class='inline'><p>Handles an OPTIONS request.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#requested%3F-instance_method" title="#requested? (instance method)">- (Boolean) <strong>requested?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serializer-instance_method" title="#serializer (instance method)">- (Serializer) <strong>serializer</strong>(content_type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#title-instance_method" title="#title (instance method)">- (void) <strong>title</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_rackful-instance_method" title="#to_rackful (instance method)">- (void) <strong>to_rackful</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_struct-instance_method" title="#to_struct (instance method)">- (#to_json, #each_pair) <strong>to_struct</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -379,9 +532,9 @@ for content negotiation. This method must return a Hash of
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="etag-instance_method">
+  <h3 class="signature first" id="get_etag-instance_method">
   
-    - (<tt>String</tt>) <strong>etag</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>get_etag</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -403,7 +556,10 @@ for you automatically.</p>
 
 <p>Make sure your entity tag is a properly formatted string. In ABNF:</p>
 
-<pre class="code ruby"><code>entity-tag = [ &quot;W/&quot; ] quoted-string
+<pre class="code ruby"><code>entity-tag    = [ &quot;W/&quot; ] quoted-string
+quoted-string = ( &lt;&quot;&gt; *(qdtext | quoted-pair ) &lt;&quot;&gt; )
+qdtext        = &lt;any TEXT except &lt;&quot;&gt;&gt;
+quoted-pair   = &quot;\&quot; CHAR
 </code></pre>
 
 
@@ -417,7 +573,7 @@ for you automatically.</p>
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -456,7 +612,7 @@ for you automatically.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 454</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 246</span>
 
 </pre>
     </td>
@@ -467,9 +623,9 @@ for you automatically.</p>
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="last_modified-instance_method">
+  <h3 class="signature " id="get_last_modified-instance_method">
   
-    - (<tt>Array&lt;(Time, Boolean)&gt;</tt>) <strong>last_modified</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Array&lt;(Time, Boolean)&gt;</tt>) <strong>get_last_modified</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -544,7 +700,7 @@ timestamp is a strong validator.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 270</span>
 
 </pre>
     </td>
@@ -553,11 +709,11 @@ timestamp is a strong validator.</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="path=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="path-instance_method">
   
-    - (<tt>String</tt>) <strong>path</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Rackful::Path</a></span></tt>) <strong>path</strong> 
   
 
   
@@ -578,7 +734,7 @@ timestamp is a strong validator.</p>
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Rackful::Path</a></span></tt>)</span>
       
       
       
@@ -589,7 +745,7 @@ timestamp is a strong validator.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#initialize-instance_method" title="Rackful::Resource#initialize (method)">#initialize</a></span></li>
+      <li>#initialize</li>
     
   </ul>
 <p class="tag_title">Since:</p>
@@ -614,12 +770,12 @@ timestamp is a strong validator.</p>
       <pre class="lines">
 
 
-354
-355
-356</pre>
+205
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span>
   <span class='ivar'>@path</span>
@@ -632,14 +788,14 @@ timestamp is a strong validator.</p>
   </div>
 
 
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="do_HEAD-instance_method">
+  <h3 class="signature first" id="included-class_method">
   
-    - <strong>do_HEAD</strong>(request, response) 
+    + (<tt>void</tt>) <strong>included</strong>(base) 
   
 
   
@@ -647,38 +803,12 @@ timestamp is a strong validator.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>Handles a HEAD request.</p>
-
-<p>As a courtesy, this module implements a default handler for HEAD requests,
-which calls <span class='object_link'><a href="#do_METHOD-instance_method" title="Rackful::Resource#do_METHOD (method)">#do_GET</a></span>, and then strips of the response body.</p>
-
-<p>If this resource implements method <code>content_types</code>, then <code>response[&#39;Content-Type&#39;]</code>
-will be set in the response object passed to <span class='object_link'><a href="#do_METHOD-instance_method" title="Rackful::Resource#do_METHOD (method)">#do_GET</a></span>.</p>
-
-<p>Feel free to override this method at will.</p>
-
+    
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="HTTPStatus.html" title="Rackful::HTTPStatus (class)">HTTPStatus</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p><code>405 Method Not Allowed</code> if the resource doesn&#39;t implement the <code>GET</code> method.</p>
-</div>
-      
-    </li>
-  
-</ul>
 <p class="tag_title">Since:</p>
 <ul class="since">
   
@@ -701,30 +831,140 @@ will be set in the response object passed to <span class='object_link'><a href="
       <pre class="lines">
 
 
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 421</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 26</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_do_HEAD'>do_HEAD</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Rackful</span><span class='op'>::</span><span class='const'>HTTPStatus</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>METHOD_NOT_ALLOWED </span><span class='tstring_end'>'</span></span> <span class='op'>+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_http_methods'>http_methods</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span> <span class='rparen'>)</span> \
-    <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:do_GET</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_do_GET'>do_GET</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
-  <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span>
-    <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_reduce'>reduce</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span> <span class='op'>+</span> <span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
-    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span> <span class='const'>ClassMethods</span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="default_headers-instance_method">
+  
+    - (<tt>void</tt>) <strong>default_headers</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Adds <code>ETag:</code> and <code>Last-Modified:</code> response headers.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+442
+443
+444
+445
+446
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 442</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_headers'>default_headers</span>
+  <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ETag</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_etag'>get_etag</span> \
+    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span> <span class='symbol'>:get_etag</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Last-Modified</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_last_modified'>get_last_modified</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_httpdate'>httpdate</span> \
+    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span> <span class='symbol'>:get_last_modified</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_r'>r</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="destroy-instance_method">
+  
+    - (<tt>Hash</tt><sup>?</sup>) <strong>destroy</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>An optional header hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an optional header hash.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 287</span>
+
+</pre>
     </td>
   </tr>
 </table>
@@ -759,10 +999,10 @@ called <code>do_&lt;HTTP_METHOD&gt;</code>.</p>
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'><p>Handling <code>GET</code> requests</p>
+        <p class="example_title"><div class='inline'><p>Handling <code>PATCH</code> requests</p>
 </div></p>
       
-      <pre class="example code"><span class='kw'>def</span> <span class='id identifier rubyid_do_GET'>do_GET</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
+      <pre class="example code"><span class='kw'>def</span> <span class='id identifier rubyid_do_PATCH'>do_PATCH</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
   <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text/plain</span><span class='tstring_end'>'</span></span>
   <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Hello world!</span><span class='tstring_end'>'</span></span> <span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
@@ -807,92 +1047,9 @@ called <code>do_&lt;HTTP_METHOD&gt;</code>.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 182</span>
 
 </pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="do_OPTIONS-instance_method">
-  
-    - <strong>do_OPTIONS</strong>(request, response) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>Handles an OPTIONS request.</p>
-
-<p>As a courtesy, this module implements a default handler for OPTIONS
-requests. It creates an <code>Allow:</code> header, listing all implemented HTTP/1.1
-methods for this resource. By default, an <code>HTTP/1.1 204 No Content</code> is
-returned (without an entity body).</p>
-
-<p>Feel free to override this method at will.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="HTTPStatus.html" title="Rackful::HTTPStatus (class)">HTTPStatus</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p><code>404 Not Found</code> if this resource is empty.</p>
-</div>
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-446
-447
-448
-449
-450</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 446</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_do_OPTIONS'>do_OPTIONS</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Rackful</span><span class='op'>::</span><span class='const'>HTTPStatus</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>NOT_FOUND</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='id identifier rubyid_status_code'>status_code</span> <span class='symbol'>:no_content</span>
-  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_header'>header</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Allow</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_http_methods'>http_methods</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span>
-<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -960,12 +1117,12 @@ requests will still yield <code>404 Not Found</code>.</p>
       <pre class="lines">
 
 
-379
-380
-381</pre>
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 379</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 235</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_empty?'>empty?</span>
   <span class='kw'>false</span>
@@ -976,9 +1133,9 @@ requests will still yield <code>404 Not Found</code>.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="http_methods-instance_method">
+  <h3 class="signature " id="http_HEAD-instance_method">
   
-    - (<tt>Array&lt;Symbol&gt;</tt>) <strong>http_methods</strong> 
+    - (<tt>self</tt>) <strong>http_HEAD</strong>(request, response) 
   
 
   
@@ -986,9 +1143,12 @@ requests will still yield <code>404 Not Found</code>.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>List of all HTTP/1.1 methods implemented by this resource.</p>
+    <p>Handles a HEAD request.</p>
 
-<p>This works by inspecting all the <span class='object_link'><a href="#do_METHOD-instance_method" title="Rackful::Resource#do_METHOD (method)">#do_METHOD</a></span> methods this object implements.</p>
+<p>This default handler for HEAD requests calls <span class='object_link'><a href="#http_GET-instance_method" title="Rackful::Resource#http_GET (method)">#http_GET</a></span>, and
+then strips off the response body.</p>
+
+<p>Feel free to override this method at will.</p>
 
 
   </div>
@@ -1001,7 +1161,7 @@ requests will still yield <code>404 Not Found</code>.</p>
     <li>
       
       
-        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+        <span class='type'>(<tt>self</tt>)</span>
       
       
       
@@ -1030,37 +1190,29 @@ requests will still yield <code>404 Not Found</code>.</p>
       <pre class="lines">
 
 
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404</pre>
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 391</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 348</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_http_methods'>http_methods</span>
-  <span class='kw'>unless</span> <span class='ivar'>@djinn_resource_http_methods</span>
-    <span class='ivar'>@djinn_resource_http_methods</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_public_methods'>public_methods</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span>
-      <span class='op'>|</span><span class='id identifier rubyid_public_method'>public_method</span><span class='op'>|</span>
-      <span class='kw'>if</span> <span class='lparen'>(</span> <span class='id identifier rubyid_match'>match</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\Ado_([A-Z]+)\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span> <span class='id identifier rubyid_public_method'>public_method</span> <span class='rparen'>)</span> <span class='rparen'>)</span>
-        <span class='ivar'>@djinn_resource_http_methods</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_match'>match</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-    <span class='ivar'>@djinn_resource_http_methods</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:HEAD</span> \
-      <span class='kw'>unless</span> <span class='ivar'>@djinn_resource_http_methods</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:GET</span>
-  <span class='kw'>end</span>
-  <span class='ivar'>@djinn_resource_http_methods</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_http_HEAD'>http_HEAD</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_http_GET'>http_GET</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
+  <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span>
+    <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_reduce'>reduce</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span> <span class='op'>+</span> <span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='comment'># Is this really necessary? Doesn't Rack automatically strip the response
+</span>  <span class='comment'># body for HEAD requests?
+</span>  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1068,9 +1220,9 @@ requests will still yield <code>404 Not Found</code>.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="initialize-instance_method">
+  <h3 class="signature " id="http_OPTIONS-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Rackful::Resource (module)">Resource</a></span></tt>) <strong>initialize</strong>(path) 
+    - <strong>http_OPTIONS</strong>(request, response) 
   
 
   
@@ -1078,40 +1230,37 @@ requests will still yield <code>404 Not Found</code>.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>A new instance of Resource</p>
+    <p class="note returns_void">This method returns an undefined value.</p><p>Handles an OPTIONS request.</p>
+
+<p>As a courtesy, this module implements a default handler for OPTIONS
+requests. It creates an <code>Allow:</code> header, listing all implemented HTTP/1.1
+methods for this resource. By default, an <code>HTTP/1.1 204 No Content</code> is
+returned (without an entity body).</p>
+
+<p>Feel free to override this method at will.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
-        <span class='name'>path</span>
       
-      
-        <span class='type'>(<tt>#to_s</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="HTTP404NotFound.html" title="Rackful::HTTP404NotFound (class)">HTTP404NotFound</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>The path of this resource. This is a <code>path-absolute</code> as
-defined in <a href="http://tools.ietf.org/html/rfc3986#section-3.3" target="_parent" title="RFC3986, section 3.3">RFC3986, section 3.3</a>.</p>
+        <div class='inline'><p><code>404 Not Found</code> if this resource is empty.</p>
 </div>
       
     </li>
   
 </ul>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#path-instance_method" title="Rackful::Resource#path (method)">#path</a></span></li>
-    
-  </ul>
 <p class="tag_title">Since:</p>
 <ul class="since">
   
@@ -1134,16 +1283,318 @@ defined in <a href="http://tools.ietf.org/html/rfc3986#section-3.3" target="_par
       <pre class="lines">
 
 
-363
-364
-365</pre>
+331
+332
+333
+334
+335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 331</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_path'>path</span>
-  <span class='ivar'>@path</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_http_OPTIONS'>http_OPTIONS</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP404NotFound</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='id identifier rubyid_status_code'>status_code</span> <span class='symbol'>:no_content</span>
+  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_header'>header</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Allow</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_http_methods'>http_methods</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="requested?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>requested?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 220</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_requested?'>requested?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_slashify'>slashify</span> <span class='op'>==</span> <span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_slashify'>slashify</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serializer-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Serializer.html" title="Rackful::Serializer (class)">Serializer</a></span></tt>) <strong>serializer</strong>(content_type) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Serializer.html" title="Rackful::Serializer (class)">Serializer</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 169</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_serializer'>serializer</span> <span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='ivar'>@rackful_resource_serializers</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@rackful_resource_serializers</span><span class='lbracket'>[</span><span class='id identifier rubyid_content_type'>content_type</span><span class='rbracket'>]</span> <span class='op'>||=</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_serializers'>all_serializers</span><span class='lbracket'>[</span><span class='id identifier rubyid_content_type'>content_type</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span> <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="title-instance_method">
+  
+    - (<tt>void</tt>) <strong>title</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215
+216
+217</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_title'>title</span>
+  <span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='op'>==</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='rparen'>)</span> <span class='op'>?</span>
+    <span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span> <span class='op'>:</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span><span class='period'>.</span><span class='id identifier rubyid_unescape'>unescape</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_rackful-instance_method">
+  
+    - (<tt>void</tt>) <strong>to_rackful</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 240</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_rackful'>to_rackful</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_struct-instance_method">
+  
+    - (<tt>#to_json</tt>, <tt>#each_pair</tt>) <strong>to_struct</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>#to_json</tt>, <tt>#each_pair</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful_resource.rb', line 177</span>
+
+</pre>
     </td>
   </tr>
 </table>
@@ -1154,7 +1605,7 @@ defined in <a href="http://tools.ietf.org/html/rfc3986#section-3.3" target="_par
 </div>
 
     <div id="footer">
-  Generated on Tue Jul 17 13:26:26 2012 by
+  Generated on Sat Aug  4 13:14:53 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>

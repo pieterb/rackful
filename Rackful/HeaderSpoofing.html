@@ -128,6 +128,21 @@ a normal web browser.</p>
     
   </div>
 
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div>
 
@@ -143,6 +158,28 @@ a normal web browser.</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#after_call-instance_method" title="#after_call (instance method)">- (void) <strong>after_call</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -237,6 +274,21 @@ a normal web browser.</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -267,7 +319,67 @@ a normal web browser.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="before_call-instance_method">
+  <h3 class="signature first" id="after_call-instance_method">
+  
+    - (<tt>void</tt>) <strong>after_call</strong>(env) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful/header_spoofing.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_call'>after_call</span> <span class='id identifier rubyid_env'>env</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_original_query_string'>original_query_string</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.header_spoofing.query_string</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.header_spoofing.query_string</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_original_query_string'>original_query_string</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="before_call-instance_method">
   
     - (<tt>void</tt>) <strong>before_call</strong>(env) 
   
@@ -275,13 +387,36 @@ a normal web browser.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-43
 44
 45
 46
@@ -301,10 +436,11 @@ a normal web browser.</p>
 60
 61
 62
-63</pre>
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful/header_spoofing.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/header_spoofing.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_before_call'>before_call</span> <span class='id identifier rubyid_env'>env</span>
   <span class='id identifier rubyid_original_query_string'>original_query_string</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
@@ -314,7 +450,7 @@ a normal web browser.</p>
     <span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span>
       <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
       <span class='kw'>if</span>  <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A_http_([a-z]+(?:[\-_][a-z]+)*)\z</span><span class='regexp_end'>/i</span></span> <span class='op'>===</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-        <span class='id identifier rubyid_header_name'>header_name</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
+        <span class='id identifier rubyid_header_name'>header_name</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
         <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='id identifier rubyid_header_name'>header_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>=</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
         <span class='kw'>false</span>
       <span class='kw'>else</span>
@@ -341,7 +477,31 @@ a normal web browser.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -351,16 +511,18 @@ a normal web browser.</p>
 38
 39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rackful/header_spoofing.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span> <span class='id identifier rubyid_env'>env</span>
   <span class='id identifier rubyid_before_call'>before_call</span> <span class='id identifier rubyid_env'>env</span>
-  <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='id identifier rubyid_env'>env</span>
-  <span class='comment'># after_call env
-</span><span class='kw'>end</span></pre>
+  <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='id identifier rubyid_env'>env</span>
+  <span class='id identifier rubyid_after_call'>after_call</span> <span class='id identifier rubyid_env'>env</span>
+  <span class='id identifier rubyid_r'>r</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -371,7 +533,7 @@ a normal web browser.</p>
 </div>
 
     <div id="footer">
-  Generated on Tue Jul 17 13:26:27 2012 by
+  Generated on Sat Aug  4 13:14:55 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>
