@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module Rackful
+require 'rackful'
 
-=begin
+=begin markdown
 Rack middleware that provides header spoofing.
 
 If you use this middleware, then clients are allowed to spoof an HTTP header
@@ -26,41 +26,48 @@ This can be useful if you want to specify certain request headers from within
 a normal web browser.
 @example Using this middleware
   use Rackful::HeaderSpoofing
+@since 0.0.1
 =end
-  class HeaderSpoofing
+class Rackful::HeaderSpoofing
 
-    def initialize app
-      @app = app
-    end
-
-    def call env
-      before_call env
-      @app.call env
-      # after_call env
-    end
-
-    def handle_header_spoofing env
-      original_query_string = env['QUERY_STRING']
-      env['QUERY_STRING'] = original_query_string.
-        split('&', -1).
-        collect { |s| s.split('=', -1) }.
-        select {
-          |p|
-          if  /\A_http_([a-z]+(?:[\-_][a-z]+)*)\z/i === p[0]
-            header_name = p.shift.gsub('-', '_').upcase
-            env[header_name] = p.join('=')
-            false
-          else
-            true
-          end
-        }.
-        collect { |p| p.join('=') }.
-        join('&')
-      if original_query_string != env['QUERY_STRING']
-        env['rackful.header_spoofing.query_string'] ||= original_query_string
-      end
-    end
-
-  end
-
+def initialize app
+  @app = app
 end
+
+def call env
+  before_call env
+  r = @app.call env
+  after_call env
+  r
+end
+
+def before_call env
+  original_query_string = env['QUERY_STRING']
+  env['QUERY_STRING'] = original_query_string.
+    split('&', -1).
+    collect { |s| s.split('=', -1) }.
+    select {
+      |p|
+      if  /\A_http_([a-z]+(?:[\-_][a-z]+)*)\z/i === p[0]
+        header_name = p.shift.gsub('-', '_').upcase[1..-1]
+        env[header_name] = p.join('=')
+        false
+      else
+        true
+      end
+    }.
+    collect { |p| p.join('=') }.
+    join('&')
+  if original_query_string != env['QUERY_STRING']
+    env['rackful.header_spoofing.query_string'] ||= original_query_string
+  end
+end
+
+def after_call env
+  if original_query_string = env['rackful.header_spoofing.query_string']
+    env['rackful.header_spoofing.query_string'] = env['QUERY_STRING']
+    env['QUERY_STRING'] = original_query_string
+  end
+end
+
+end # Rackful::HeaderSpoofing

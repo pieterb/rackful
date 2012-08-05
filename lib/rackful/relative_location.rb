@@ -12,10 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+require 'rackful'
 require 'rack/request'
-
-module Rackful
 
 =begin markdown
 Rack middleware, inspired by {Rack::RelativeRedirect}.
@@ -31,28 +29,44 @@ Differences with {Rack::RelativeRedirect}:
 -   uses Rack::Request::base_url for creating absolute URIs.
 -   the `Location:` header, if present, is always rectified, independent of the
     HTTP status code.
+@since 0.0.1
 =end
-class RelativeLocation
+class Rackful::RelativeLocation
 
-  def initialize(app)
-    @app = app
-  end
+def initialize(app)
+  @app = app
+end
 
-  def call(env)
-    res = @app.call(env)
-    if ( location = res[1]['Location'] ) and
-       ! %r{\A[a-z]+://}.match(location)
-      request = Rack::Request.new env
-      unless '/' == location[0, 1]
-        path = request.path.dup
-        path[ %r{[^/]*\z} ] = ''
-        location = File.expand_path( location, path )
-      end
-      res[1]['Location'] = request.base_url + location
+def call_old(env)
+  res = @app.call(env)
+  if ( location = res[1]['Location'] ) and
+     ! %r{\A[a-z]+://}.match(location)
+    request = Rack::Request.new env
+    unless '/' == location[0, 1]
+      path = ( res[1]['Content-Location'] || request.path ).dup
+      path[ %r{[^/]*\z} ] = ''
+      location = File.expand_path( location, path )
     end
-    res
+    if '/' == location[0, 1]
+      location = request.base_url + location
+    end
+    res[1]['Location'] = location
   end
+  res
+end
 
-end # RelativeLocation
+def call(env)
+  res = @app.call(env)
+  request = nil
+  ['Location', 'Content-Location'].each do
+    |header|
+    if  ( location = res[1][header] ) and
+        '/' == location[0,1]
+      request ||= Rack::Request.new env
+      res[1][header] = request.base_url + location
+    end
+  end
+  res
+end
 
-end # Rackful
+end # Rackful::RelativeLocation

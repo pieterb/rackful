@@ -14,9 +14,7 @@
 
 require 'rackful'
 
-module Rackful
-
-=begin
+=begin markdown
 Rack middleware that provides method spoofing.
 
 If you use this middleware, then clients are allowed to spoof an HTTP method
@@ -37,68 +35,68 @@ In that case, you can put the parameters in a `POST` body, like this:
     param_1=hello&param_2=world&param_3=...
 @example Using this middleware
   use Rackful::MethodSpoofing
+@since 0.0.1
 =end
-  class MethodSpoofing
+class Rackful::MethodSpoofing
 
-    def initialize app
-      @app = app
-    end
-
-    def call env
-      before_call env
-      @app.call env
-      after_call env
-    end
-
-    def before_call env
-      return unless ['GET', 'POST'].include? env['REQUEST_METHOD']
-      original_query_string = env['QUERY_STRING']
-      new_method = nil
-      env['QUERY_STRING'] = original_query_string.
-        split('&', -1).
-        collect { |s| s.split('=', -1) }.
-        select {
-          |p|
-          if  /_method/i   === p[0] &&
-              /\A[A-Z]+\z/ === ( method = p[1..-1].join('=').upcase ) &&
-              ! new_method
-            new_method = method
-            false
-          else
-            true
-          end
-        }.
-        collect { |p| p.join('=') }.
-        join('&')
-      if new_method
-        if  'GET' == new_method &&
-            'POST' == env['REQUEST_METHOD'] &&
-            'application/x-www-form-urlencoded' == env['CONTENT_TYPE']
-          unless env['QUERY_STRING'].empty
-            env['QUERY_STRING'] = env['QUERY_STRING'] + '&'
-          end
-          begin
-            env['QUERY_STRING'] = env['QUERY_STRING'] + env['rack.input'].read
-            env['rack.input'].rewind
-          end
-          env['rackful.method_spoofing.input'] = env['rack.input']
-          env.delete 'rack.input'
-          env.delete 'CONTENT_TYPE'
-          env.delete 'CONTENT_LENGTH' if env.key? 'CONTENT_LENGTH'
-        end
-        env['rackful.method_spoofing.QUERY_STRING'] ||= original_query_string
-        env['rackful.method_spoofing.REQUEST_METHOD'] = env['REQUEST_METHOD']
-        env['REQUEST_METHOD'] = new_method
-      end
-    end
-
-    def after_call env
-      if env.key? 'rackful.method_spoofing.input'
-        env['rack.input'] = env['rackful.method_spoofing.input']
-        env.delete 'rackful.input'
-      end
-    end
-
-  end
-
+def initialize app
+  @app = app
 end
+
+def call env
+  before_call env
+  r = @app.call env
+  after_call env
+  r
+end
+
+def before_call env
+  return unless ['GET', 'POST'].include? env['REQUEST_METHOD']
+  original_query_string = env['QUERY_STRING']
+  new_method = nil
+  env['QUERY_STRING'] = original_query_string.
+    split('&', -1).
+    collect { |s| s.split('=', -1) }.
+    select {
+      |p|
+      if  /_method/i   === p[0] &&
+          /\A[A-Z]+\z/ === ( method = p[1..-1].join('=').upcase ) &&
+          ! new_method
+        new_method = method
+        false
+      else
+        true
+      end
+    }.
+    collect { |p| p.join('=') }.
+    join('&')
+  if new_method
+    if  'GET' == new_method &&
+        'POST' == env['REQUEST_METHOD'] &&
+        'application/x-www-form-urlencoded' == env['CONTENT_TYPE']
+      unless env['QUERY_STRING'].empty
+        env['QUERY_STRING'] = env['QUERY_STRING'] + '&'
+      end
+      begin
+        env['QUERY_STRING'] = env['QUERY_STRING'] + env['rack.input'].read
+        env['rack.input'].rewind
+      end
+      env['rackful.method_spoofing.input'] = env['rack.input']
+      env.delete 'rack.input'
+      env.delete 'CONTENT_TYPE'
+      env.delete 'CONTENT_LENGTH' if env.key? 'CONTENT_LENGTH'
+    end
+    env['rackful.method_spoofing.QUERY_STRING'] ||= original_query_string
+    env['rackful.method_spoofing.REQUEST_METHOD'] = env['REQUEST_METHOD']
+    env['REQUEST_METHOD'] = new_method
+  end
+end
+
+def after_call env
+  if env.key? 'rackful.method_spoofing.input'
+    env['rack.input'] = env['rackful.method_spoofing.input']
+    env.delete 'rackful.method_spoofing.input'
+  end
+end
+
+end # Rackful::MethodSpoofing

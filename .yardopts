@@ -1,12 +1,15 @@
 #--private
 --no-private
 --protected
---main README.md
+--main RACKFUL.md
 --output-dir doc
 --charset UTF-8
 --title Rackful
 --markup markdown
+--hide-void-return
+--default-return void
 lib/**/*.rb
 -
-README.md
 LICENSE.md
+RACKFUL.md
+CHANGES.md

@@ -1,28 +1,28 @@
-require 'rackful'
+require 'rack'
 require 'rackful/header_spoofing'
 require 'rackful/method_spoofing'
 require 'rackful/relative_location'
-require 'digest/md5'
 
 # The class of the object we're going to serve:
 class Root
   include Rackful::Resource
-  attr_reader :to_rackful
-  def initialize
-    self.path = '/'
-    @to_rackful = 'Hello world!'
+  def initialize *args
+    super
+    @content = 'Hello world!'
+  end
+  def do_GET request, response
+    response['Content-Type'] = 'text/plain'
+    response.write @content
   end
   def do_PUT request, response
-    @to_rackful = request.body.read.encode( Encoding::UTF_8 )
+    @content = request.body.read
+    response.status = status_code :no_content
   end
-  def get_etag
-    '"' + Digest::MD5.new.update(to_rackful).to_s + '"'
+  def etag
+    '"' + Digest::MD5.new.update(@content).to_s + '"'
   end
-  add_serializer Rackful::XHTML, 1.0
-  add_serializer Rackful::JSON, 1.0
-  add_media_type 'text/plain'
 end
-$root_resource = Root.new
+$root_resource = Root.new '/'
 
 # Rackful::Server needs a resource factory which can map URIs to resource objects:
 class ResourceFactory
