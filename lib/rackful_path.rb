@@ -49,6 +49,13 @@ class Path < String
 
   # An alias for Rack::Utils.unescape
   def unescape( encoding = Encoding::UTF_8 ); Rack::Utils.unescape(self, encoding); end
+  
+  # @return [Array<String>] An array of unencoded segments
+  def segments
+    r = self.split('/').collect { |s| Rack::Utils.unescape( s, Encoding::UTF_8 ) }
+    r.shift
+    r
+  end
 
 end # class Path
 
@@ -106,7 +113,7 @@ class URI::Generic
   end
 
 end # class ::URI::Generic
-=end comment
+=end
 
 
 

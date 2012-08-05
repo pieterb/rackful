@@ -41,7 +41,7 @@ If there's no resource at the given path, but you'd still like to respond to
 
 
 =begin markdown
-{include:Server#resource_factory}
+@param resource_factory [#[]] see Server#resource_factory
 @since 0.0.1
 =end
   def initialize(resource_factory)

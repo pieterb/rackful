@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
 
   # Required properties:
   s.name        = 'rackful'
-  s.version     = '0.1.1'
+  s.version     = '0.1.2'
   s.summary     = "Library for building ReSTful web services with Rack"
   s.description = <<EOS
 Rackful provides a minimal interface for developing ReSTful web services with

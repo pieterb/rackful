@@ -2,6 +2,11 @@
 =====
 The 0.1.x series is a major revision, not backward compatible with 0.0.x.
 
+0.1.1
+-----
+*   Fixed the gemspec file. Not everything new was properly included (including
+    this changelog!).
+
 0.1.0
 -----
 *   Complete revision of the {Rackful::HTTPStatus} exception class. From now on,

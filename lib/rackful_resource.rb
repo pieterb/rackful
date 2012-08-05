@@ -31,17 +31,15 @@ module Resource
   module ClassMethods
 
 
-=begin markdown
-Meta-programmer method.
-@example Have your resource rendered in XML and JSON
-  class MyResource
-    add_serializer MyResource2XML
-    add_serializer MyResource2JSON, 0.5
-  end
-@param serializer [Serializer]
-@param quality [Float]
-@return [self]
-=end
+    #Meta-programmer method.
+    #@example Have your resource rendered in XML and JSON
+    #  class MyResource
+    #    add_serializer MyResource2XML
+    #    add_serializer MyResource2JSON, 0.5
+    #  end
+    #@param serializer [Serializer]
+    #@param quality [Float]
+    #@return [self]
     def add_serializer serializer, quality = 1.0
       quality = quality.to_f
       quality = 1.0 if quality > 1.0
@@ -74,17 +72,15 @@ Meta-programmer method.
     end
 
 
-=begin markdown
-Meta-programmer method.
-@example Have your resource accept XML and JSON in `PUT` requests
-  class MyResource
-    add_parser XML2MyResource, :PUT
-    add_parser JSON2MyResource, :PUT
-  end
-@param parser [Parser]
-@param method [#to_sym]
-@return [self]
-=end
+    #Meta-programmer method.
+    #@example Have your resource accept XML and JSON in `PUT` requests
+    #  class MyResource
+    #    add_parser XML2MyResource, :PUT
+    #    add_parser JSON2MyResource, :PUT
+    #  end
+    #@param parser [Parser]
+    #@param method [#to_sym]
+    #@return [self]
     def add_media_type media_type, method = :PUT
       method = method.to_sym
       self.media_types[method] ||= []
@@ -146,18 +142,16 @@ The best media type for the response body, given the current HTTP request.
     end
 
 
-# =begin markdown
-# @param content_type [String]
-# @param method [#to_s]
-# @return [Serializer]
-# =end
-    # def parser request
-      # method = request.request_method.upcase.to_sym
-      # if !parsers[method] || !parsers[method][request.media_type]
-        # raise HTTP415UnsupportedMediaType, ( parsers[method] ? parsers[method].keys : [] )
-      # end
-      # parsers[method][request.media_type].new( request )
-    # end
+    #~ # @param content_type [String]
+    #~ # @param method [#to_s]
+    #~ # @return [Serializer]
+    #~ def parser request
+      #~ method = request.request_method.upcase.to_sym
+      #~ if !parsers[method] || !parsers[method][request.media_type]
+        #~ raise HTTP415UnsupportedMediaType, ( parsers[method] ? parsers[method].keys : [] )
+      #~ end
+      #~ parsers[method][request.media_type].new( request )
+    #~ end
 
 
   end # module ClassMethods
@@ -178,22 +172,21 @@ The best media type for the response body, given the current HTTP request.
 @return [#to_json, #each_pair]
 =end
 
-=begin markdown
-@!method do_METHOD( Request, Rack::Response )
-HTTP/1.1 method handler.
 
-To handle certain HTTP/1.1 request methods, resources must implement methods
-called `do_<HTTP_METHOD>`.
-@example Handling `PATCH` requests
-  def do_PATCH request, response
-    response['Content-Type'] = 'text/plain'
-    response.body = [ 'Hello world!' ]
-  end
-@abstract
-@return [void]
-@raise [HTTPStatus, RuntimeError]
-@since 0.0.1
-=end
+# @!method do_METHOD( Request, Rack::Response )
+# HTTP/1.1 method handler.
+#
+# To handle certain HTTP/1.1 request methods, resources must implement methods
+# called `do_<HTTP_METHOD>`.
+# @example Handling `PATCH` requests
+#   def do_PATCH request, response
+#     response['Content-Type'] = 'text/plain'
+#     response.body = [ 'Hello world!' ]
+#   end
+# @abstract
+# @return [void]
+# @raise [HTTPStatus, RuntimeError]
+# @since 0.0.1
 
 
 =begin markdown
@@ -206,7 +199,7 @@ The path of this resource.
 
 
   def path= path
-    @path = Path.new(path.to_s)
+    @path = path.to_s.to_path
   end
 
 

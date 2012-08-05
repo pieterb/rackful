@@ -36,6 +36,7 @@ class Serializer
 Every serializer must implement this method.
 @abstract
 @since 0.1.0
+@yield [data] the entity body 
 =end
   def each
     raise HTTP500InternalServerError, "Class #{self.class} doesn't implement #each()."
