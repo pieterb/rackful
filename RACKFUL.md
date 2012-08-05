@@ -143,9 +143,9 @@ response body, the server kindly points out exactly which precondition.
 Further reading
 ---------------
 *   {Rackful::Server#initialize} for more information about your Resource Factory.
-*   {Rackful::Resource#get_etag} and {Rackful::Resource#get_last_modified} for more information on
+*   {Rackful::Resource#get\_etag} and {Rackful::Resource#get\_last\_modified} for more information on
     conditional requests.
-*   {Rackful::Resource#do_METHOD} for more information about writing your own request
+*   {Rackful::Resource#do\_METHOD} for more information about writing your own request
     handlers.
 *   {Rackful::RelativeLocation} for more information about this piece of Rack middleware
     which allows you to return relative and absolute paths in the `Location:`
@@ -155,5 +155,5 @@ Licensing
 ---------
 Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
 
-Licensed under the Apache License 2.0. You should have received a copy of the
+Licensed under the {file:LICENSE.md Apache License 2.0}. You should have received a copy of the
 license as part of this distribution.
