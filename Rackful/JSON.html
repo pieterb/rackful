@@ -253,16 +253,16 @@
       <pre class="lines">
 
 
-287
 288
 289
 290
 291
 292
-293</pre>
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 288</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_input'>input</span>
   <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span>
@@ -291,7 +291,6 @@
       <pre class="lines">
 
 
-295
 296
 297
 298
@@ -309,10 +308,11 @@
 310
 311
 312
-313</pre>
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 296</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_recursive_datetime_parser'>recursive_datetime_parser</span> <span class='id identifier rubyid_p'>p</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
@@ -396,7 +396,6 @@
       <pre class="lines">
 
 
-256
 257
 258
 259
@@ -424,10 +423,11 @@
 281
 282
 283
-284</pre>
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 257</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span> <span class='id identifier rubyid_thing'>thing</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_to_rackful'>to_rackful</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span> <span class='const'>Resource</span> <span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span> <span class='rparen'>)</span>
@@ -468,7 +468,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Aug  4 13:14:54 2012 by
+  Generated on Thu Oct 11 17:54:31 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>

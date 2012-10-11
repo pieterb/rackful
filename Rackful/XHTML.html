@@ -399,7 +399,6 @@ EOS</tt>)</span>
       <pre class="lines">
 
 
-96
 97
 98
 99
@@ -424,10 +423,11 @@ EOS</tt>)</span>
 118
 119
 120
-121</pre>
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
   <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span>
@@ -500,7 +500,6 @@ EOS</tt>)</span>
       <pre class="lines">
 
 
-134
 135
 136
 137
@@ -580,10 +579,11 @@ EOS</tt>)</span>
 211
 212
 213
-214</pre>
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each_nested'>each_nested</span> <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_to_rackful'>to_rackful</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
   <span class='comment'># p = (args.size &gt; 0) ? args[0] : self.resource.to_rackful
@@ -711,12 +711,12 @@ EOS</tt>)</span>
       <pre class="lines">
 
 
-129
 130
-131</pre>
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_footer'>footer</span>
   <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;div class=&quot;rackful_powered&quot;&gt;Powered by &lt;a href=&quot;http://github.com/pieterb/Rackful&quot;&gt;Rackful&lt;/a&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</span><span class='tstring_end'>'</span></span>
@@ -766,12 +766,12 @@ EOS</tt>)</span>
       <pre class="lines">
 
 
-124
 125
-126</pre>
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_header'>header</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;title&gt;</span><span class='embexpr_beg'>#{</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_escape_html'>escape_html</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='tstring_content'>&lt;/title&gt;&lt;/head&gt;&lt;body&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -849,7 +849,6 @@ EOS</tt>)</span>
       <pre class="lines">
 
 
-85
 86
 87
 88
@@ -857,10 +856,11 @@ EOS</tt>)</span>
 90
 91
 92
-93</pre>
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_htmlify'>htmlify</span> <span class='id identifier rubyid_path'>path</span>
   <span class='ivar'>@rackful_bp</span> <span class='op'>||=</span> <span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_base_path'>base_path</span> <span class='comment'># caching
@@ -881,7 +881,7 @@ EOS</tt>)</span>
 </div>
 
     <div id="footer">
-  Generated on Sat Aug  4 13:14:54 2012 by
+  Generated on Thu Oct 11 17:54:31 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>
