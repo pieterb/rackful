@@ -81,21 +81,6 @@ class XHTML < Serializer
   ]
 
 
-  # Turns a relative URI (starting with `/`) into a relative path (starting with `./`)
-  # @param path [Path]
-  # @return [String]
-  # @since 0.1.0
-  def htmlify path
-    @rackful_bp ||= Request.current.base_path # caching
-    length = @rackful_bp.length
-    if @rackful_bp == path[0, length]
-      './' + path[length .. -1]
-    else
-      path.dup
-    end
-  end
-
-
   def each &block
     request = Request.current
     if /xml/ === self.content_type
@@ -110,12 +95,12 @@ EOS
 EOS
     unless request.path == request.content_path
       yield <<EOS
-<base href="#{request.base_path}"/>
+<base href="#{request.base_path.relative request.path}"/>
 EOS
     end
     unless '/' == request.path
       yield <<EOS
-<link rel="contents" href="#{File::dirname(request.path).to_path.slashify}"/>
+<link rel="contents" href="#{'/' === request.content_path[-1] ? '../' : './' }"/>
 EOS
     end
     yield header + '<div id="rackful_content">'
@@ -137,9 +122,10 @@ EOS
   def each_nested p = self.resource.to_rackful, &block
   
     if p.kind_of?( Path )
-      yield "<a href=\"#{self.htmlify(p)}\">" +
-        Rack::Utils.escape_html( File::basename(p.unslashify).to_path.unescape ) +
-        '</a>'
+      yield "<a href=\"#{p.relative}\">" +
+        Rack::Utils.escape_html( Rack::Utils.unescape(
+          File::basename(p.unslashify)
+        ) ) + '</a>'
         
     elsif p.kind_of?( Resource ) && ! p.equal?( self.resource )
       p.serializer( self.content_type ).each_nested &block
