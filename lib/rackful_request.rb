@@ -113,7 +113,7 @@ Assert all <tt>If-*</tt> request headers.
       elsif cond[:unmodified_since]
         raise HTTP412PreconditionFailed, 'If-Unmodified-Since'
       elsif cond[:modified_since]
-        raise HTTP404NotFound
+        raise HTTP404NotFound, resource.path
       end
     else
       if cond[:none_match] && self.validate_etag( etag, cond[:none_match] )

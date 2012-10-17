@@ -323,7 +323,7 @@ Feel free to override this method at will.
 @since 0.0.1
 =end
   def http_OPTIONS request, response
-    raise HTTP404NotFound if self.empty?
+    raise HTTP404NotFound, path if self.empty?
     response.status = status_code :no_content
     response.header['Allow'] = self.http_methods.join ', '
   end
@@ -360,7 +360,7 @@ Feel free to override this method at will.
 @since 0.0.1
 =end
   def http_GET request, response
-    raise HTTP404NotFound if self.empty?
+    raise HTTP404NotFound, path if self.empty?
     # May throw HTTP406NotAcceptable:
     content_type = self.class.best_content_type( request.accept )
     response['Content-Type'] = content_type
@@ -383,7 +383,7 @@ Wrapper around {#do_METHOD #do_GET}
 @since 0.0.1
 =end
   def http_DELETE request, response
-    raise HTTP404NotFound if self.empty?
+    raise HTTP404NotFound, path if self.empty?
     raise HTTP405MethodNotAllowed unless self.respond_to?( :destroy )
     response.status = status_code( :no_content )
     if headers = self.destroy( request, response )

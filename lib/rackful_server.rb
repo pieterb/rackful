@@ -76,7 +76,7 @@ For thread safety, this method clones `self`, which handles the request in
     Thread.current[:rackful_request] = request
     response = Rack::Response.new
     begin
-      raise HTTP404NotFound \
+      raise HTTP404NotFound, request.path \
         unless resource = self.resource_factory[Path.new(request.path)]
       unless resource.path == request.path
         response.header['Content-Location'] = resource.path
