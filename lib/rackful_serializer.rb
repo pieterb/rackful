@@ -43,22 +43,24 @@ Every serializer must implement this method.
   end
 
 =begin markdown
-You don't have to include the `Content-Type` header, as this is done _for_ you.
-
-This method is optional.
 @!method headers()
-@return [Hash, nil]
-@abstract
-@since 0.1.0
+  Extra response headers that a serializer likes to return.
+
+  You don't have to include the `Content-Type` header, as this is done _for_ you.
+
+  This method is optional.
+  @return [Hash, nil]
+  @abstract
+  @since 0.1.0
 =end
 
 
 =begin markdown
-The content types this serializer can produce.
-@!const CONTENT_TYPES
-@return [(String)]
-@abstract
-@since 0.1.0
+@!attribute [r] content_types
+  The content types this serializer can produce.
+  @return [(String)]
+  @abstract
+  @since 0.2.0
 =end
 
 end # class Serializer
@@ -133,23 +135,15 @@ EOS
 
   # Serialize almost any kind of Ruby object to XHTML.
   def each_nested p = self.resource.to_rackful, &block
-    # p = (args.size > 0) ? args[0] : self.resource.to_rackful
+  
     if p.kind_of?( Path )
       yield "<a href=\"#{self.htmlify(p)}\">" +
         Rack::Utils.escape_html( File::basename(p.unslashify).to_path.unescape ) +
         '</a>'
+        
     elsif p.kind_of?( Resource ) && ! p.equal?( self.resource )
       p.serializer( self.content_type ).each_nested &block
-    # elsif p.kind_of?( Hash )
-      # yield '<dl class="rackful_object">'
-      # p.each_pair do
-        # |key, value|
-        # yield '<dt>' + key.to_s.split('_').join(' ').escape_html +
-          # "</dt><dd class=\"rackful_object_#{key.to_s.escape_html}\"#{self.xsd_type(value)}>"
-        # self.each_nested value, &block
-        # yield "</dd>\n"
-      # end
-      # yield '</dl>'
+      
     elsif p.kind_of?( Enumerable ) and p.respond_to?( :each_pair ) and
           p.all? { |r, s| r.kind_of?( Path ) }
       yield '<dl class="rackful-resources">'
@@ -157,22 +151,24 @@ EOS
         |path, child|
         yield '<dt>'
         self.each_nested path, &block
-        yield '</dt><dd>'
+        yield "</dt><dd#{self.xsd_type(child)}>"
         self.each_nested child, &block
         yield "</dd>\n"
       end
       yield '</dl>'
+      
     elsif p.respond_to?( :each_pair )
       yield '<dl class="rackful-object">'
       p.each_pair do
         |path, child|
         yield '<dt>'
         self.each_nested path, &block
-        yield '</dt><dd>'
+        yield "</dt><dd#{self.xsd_type(child)}>"
         self.each_nested child, &block
         yield "</dd>\n"
       end
       yield '</dl>'
+      
     elsif p.kind_of?( Enumerable ) and ( q = p.first ) and (
             q.respond_to?(:keys) && ( keys = q.keys ) &&
             p.all? { |r| r.respond_to?(:keys) && r.keys == keys }
@@ -196,6 +192,7 @@ EOS
         yield '</tr>'
       end
       yield "</tbody></table>"
+      
     elsif p.kind_of?( Enumerable )
       yield '<ul class="rackful-array">'
       p.each do
@@ -205,12 +202,16 @@ EOS
         yield "</li>\n"
       end
       yield '</ul>'
+      
     elsif p.kind_of?( Time )
       yield p.utc.xmlschema
+      
     elsif p.kind_of?( String ) && p.encoding == Encoding::BINARY
       yield Base64.encode64(p).chomp
+      
     else
       yield Rack::Utils.escape_html( p.to_s )
+      
     end
   end
 
