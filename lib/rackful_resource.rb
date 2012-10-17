@@ -23,6 +23,14 @@ module Resource
   include Rack::Utils
 
 
+=begin
+Normally, when a module is included, all the instance methods of the included
+module become available as instance methods to the including module/class. But
+class methods of the included module don't become available as class methods to
+the including class.
+
+
+=end
   def self.included(base)
     base.extend ClassMethods
   end
@@ -30,21 +38,21 @@ module Resource
 
   module ClassMethods
 
-
-    #Meta-programmer method.
-    #@example Have your resource rendered in XML and JSON
-    #  class MyResource
-    #    add_serializer MyResource2XML
-    #    add_serializer MyResource2JSON, 0.5
-    #  end
-    #@param serializer [Serializer]
-    #@param quality [Float]
-    #@return [self]
+=begin
+Meta-programmer method.
+@example Have your resource rendered in XML and JSON
+  class MyResource
+    add_serializer MyResource2XML
+    add_serializer MyResource2JSON, 0.5
+  end
+@param serializer [Serializer]
+@param quality [Float]
+@return [self]
+=end
     def add_serializer serializer, quality = 1.0
       quality = quality.to_f
       quality = 1.0 if quality > 1.0
       quality = 0.0 if quality < 0.0
-      # The single '@' on the following line is on purpose!
       s = [serializer, quality]
       serializer::CONTENT_TYPES.each {
         |content_type|
@@ -55,11 +63,13 @@ module Resource
 
 
     def serializers
+      # The single '@' on the following line is on purpose!
       @rackful_resource_serializers ||= {}
     end
 
 
     def all_serializers
+      # The single '@' on the following line is on purpose!
       @rackful_resource_all_serializers ||=
         if self.superclass.respond_to?(:all_serializers)
           self.superclass.all_serializers.merge( self.serializers ) do
@@ -72,19 +82,21 @@ module Resource
     end
 
 
-    #Meta-programmer method.
-    #@example Have your resource accept XML and JSON in `PUT` requests
-    #  class MyResource
-    #    add_parser XML2MyResource, :PUT
-    #    add_parser JSON2MyResource, :PUT
-    #  end
-    #@param parser [Parser]
-    #@param method [#to_sym]
-    #@return [self]
+=begin
+Meta-programmer method.
+@example Have your resource accept XML and JSON in `PUT` requests
+  class MyResource
+    add_media_type 'text/xml', :PUT
+    add_media_type 'application/json', :PUT
+  end
+@param [#to_s] media_type
+@param [#to_sym] method
+@return [self]
+=end
     def add_media_type media_type, method = :PUT
       method = method.to_sym
       self.media_types[method] ||= []
-      self.media_types[method] << media_type
+      self.media_types[method] << media_type.to_s
       self
     end
 
@@ -142,18 +154,6 @@ The best media type for the response body, given the current HTTP request.
     end
 
 
-    #~ # @param content_type [String]
-    #~ # @param method [#to_s]
-    #~ # @return [Serializer]
-    #~ def parser request
-      #~ method = request.request_method.upcase.to_sym
-      #~ if !parsers[method] || !parsers[method][request.media_type]
-        #~ raise HTTP415UnsupportedMediaType, ( parsers[method] ? parsers[method].keys : [] )
-      #~ end
-      #~ parsers[method][request.media_type].new( request )
-    #~ end
-
-
   end # module ClassMethods
 
 
@@ -173,21 +173,22 @@ The best media type for the response body, given the current HTTP request.
 =end
 
 
-# @!method do_METHOD( Request, Rack::Response )
-# HTTP/1.1 method handler.
-#
-# To handle certain HTTP/1.1 request methods, resources must implement methods
-# called `do_<HTTP_METHOD>`.
-# @example Handling `PATCH` requests
-#   def do_PATCH request, response
-#     response['Content-Type'] = 'text/plain'
-#     response.body = [ 'Hello world!' ]
-#   end
-# @abstract
-# @return [void]
-# @raise [HTTPStatus, RuntimeError]
-# @since 0.0.1
+=begin
+@!method do_METHOD( Request, Rack::Response )
+HTTP/1.1 method handler.
 
+To handle certain HTTP/1.1 request methods, resources must implement methods
+called `do_<HTTP_METHOD>`.
+@example Handling `PATCH` requests
+  def do_PATCH request, response
+    response['Content-Type'] = 'text/plain'
+    response.body = [ 'Hello world!' ]
+  end
+@abstract
+@return [void]
+@raise [HTTPStatus, RuntimeError]
+@since 0.0.1
+=end
 
 =begin markdown
 The path of this resource.
@@ -352,6 +353,8 @@ Feel free to override this method at will.
 
 =begin markdown
 @private
+@param [Rackful::Request] request
+@param [Rack::Response] response
 @return [void]
 @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
 @since 0.0.1
@@ -381,8 +384,9 @@ Wrapper around {#do_METHOD #do_GET}
 =end
   def http_DELETE request, response
     raise HTTP404NotFound if self.empty?
+    raise HTTP405MethodNotAllowed unless self.respond_to?( :destroy )
     response.status = status_code( :no_content )
-    if headers = self.destroy
+    if headers = self.destroy( request, response )
       response.headers.merge! headers
     end
   end
@@ -391,7 +395,7 @@ Wrapper around {#do_METHOD #do_GET}
 =begin markdown
 @private
 @return [void]
-@raise [HTTP415UnsupportedMediaType] `405 Method Not Allowed` if the resource doesn't implement the `PUT` method.
+@raise [HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the resource doesn't implement the `PUT` method.
 @since 0.0.1
 =end
   def http_PUT request, response

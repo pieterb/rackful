@@ -21,9 +21,9 @@ class HTTPStatus < RuntimeError
 
 
 =begin markdown
-@param message [String] XHTML
 @param status [Symbol, Integer] e.g. `404` or `:not_found`
-@param headers [Hash] HTTP response headers
+@param message [String] XHTML
+@param info [Hash]
 =end
   def initialize status, message = nil, info = {}
     self.path = Request.current.path
@@ -185,7 +185,7 @@ end
 # @since 0.1.0
 class HTTP304NotModified < HTTPStatus
 
-  def initialize location
+  def initialize
     super( 304, nil, self.resource.default_headers )
   end
 
@@ -269,7 +269,7 @@ end
 class HTTP415UnsupportedMediaType < HTTPStatus
 
   def initialize media_types
-    super 405, '',
+    super 415, '',
           :'Supported media-type(s):' => media_types
   end
 

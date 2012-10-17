@@ -61,7 +61,7 @@ For thread safety, this method clones `self`, which handles the request in
   def call(p_env)
     start = Time.now
     retval = dup.call! p_env
-    #$stderr.puts( 'Duration: ' + ( Time.now - start ).to_s )
+    #$stderr.puts( p_env.inspect )
     retval
   end
 
@@ -113,7 +113,7 @@ For thread safety, this method clones `self`, which handles the request in
       response.headers.merge! new_resource.default_headers
     end
     r = response.finish
-    $stderr.puts r.inspect
+    #~ $stderr.puts r.inspect
     r
   end
 

@@ -64,10 +64,10 @@ def before_call env
 end
 
 def after_call env
-  if original_query_string = env['rackful.header_spoofing.query_string']
-    env['rackful.header_spoofing.query_string'] = env['QUERY_STRING']
-    env['QUERY_STRING'] = original_query_string
-  end
+  #if original_query_string = env['rackful.header_spoofing.query_string']
+    #env['rackful.header_spoofing.query_string'] = env['QUERY_STRING']
+    #env['QUERY_STRING'] = original_query_string
+  #end
 end
 
 end # Rackful::HeaderSpoofing
