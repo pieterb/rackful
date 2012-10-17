@@ -244,8 +244,8 @@ class JSON < Serializer
   def each thing = self.resource.to_rackful, &block
     if thing.kind_of?( Resource ) && ! thing.equal?( self.resource )
       thing.serializer( self.content_type ).each &block
-    elsif thing.kind_of?( Rackful::Path )
-      yield thing.relative
+    elsif thing.kind_of?( Path )
+      yield thing.relative.to_json
     elsif thing.respond_to? :each_pair
       first = true
       thing.each_pair do
