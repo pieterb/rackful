@@ -15,7 +15,6 @@ Classes that include this module may implement a method `content_types`
 for content negotiation. This method must return a Hash of
 `media-type => quality` pairs. 
 @see Server, ResourceFactory
-@since 0.0.1
 =end
 module Resource
 
@@ -101,11 +100,17 @@ Meta-programmer method.
     end
 
 
+=begin
+@todo Documentation
+=end
     def media_types
       @rackful_resource_media_types ||= {}
     end
 
 
+=begin
+@todo Documentation
+=end
     def all_media_types
       @rackful_resource_all_media_types ||=
         if self.superclass.respond_to?(:all_media_types)
@@ -125,7 +130,6 @@ The best media type for the response body, given the current HTTP request.
 @param require_match [Boolean]
 @return [String] content-type
 @raise [HTTP406NotAcceptable] if `require_match` is `true` and no match was found.
-@since 0.1.0
 =end
     def best_content_type accept, require_match = true
       if accept.empty?
@@ -167,40 +171,33 @@ The best media type for the response body, given the current HTTP request.
   end
 
 
-=begin markdown
-@!method to_struct()
-@return [#to_json, #each_pair]
-=end
-
-
 =begin
 @!method do_METHOD( Request, Rack::Response )
-HTTP/1.1 method handler.
+  HTTP/1.1 method handler.
 
-To handle certain HTTP/1.1 request methods, resources must implement methods
-called `do_<HTTP_METHOD>`.
-@example Handling `PATCH` requests
-  def do_PATCH request, response
-    response['Content-Type'] = 'text/plain'
-    response.body = [ 'Hello world!' ]
-  end
-@abstract
-@return [void]
-@raise [HTTPStatus, RuntimeError]
-@since 0.0.1
+  To handle certain HTTP/1.1 request methods, resources must implement methods
+  called `do_<HTTP_METHOD>`.
+  @example Handling `PATCH` requests
+    def do_PATCH request, response
+      response['Content-Type'] = 'text/plain'
+      response.body = [ 'Hello world!' ]
+    end
+  @abstract
+  @return [void]
+  @raise [HTTPStatus, RuntimeError]
 =end
+
 
 =begin markdown
 The path of this resource.
 @return [Rackful::Path]
 @see #initialize
-@since 0.0.1
 =end
-  attr_reader :path
+  def path; @rackful_resource_path; end
 
 
   def path= path
-    @path = path.to_s.to_path
+    @rackful_resource_path = Path.new(path)
   end
 
 
@@ -215,6 +212,7 @@ The path of this resource.
     self.path.slashify == Request.current.path.slashify
   end
 
+
 =begin markdown
 Does this resource _exists_?
 
@@ -224,13 +222,15 @@ produce an empty resource to to handle the `PUT` request. `HEAD` and `GET`
 requests will still yield `404 Not Found`.
 
 @return [Boolean] The default implementation returns `false`.
-@since 0.0.1
 =end
   def empty?
     false
   end
 
 
+=begin markdown
+
+=end
   def to_rackful
     self
   end
@@ -238,48 +238,46 @@ requests will still yield `404 Not Found`.
 
 =begin markdown
 @!attribute [r] get_etag
-The ETag of this resource.
+  The ETag of this resource.
 
-If your classes implement this method, then an `ETag:` response
-header is generated automatically when appropriate. This allows clients to
-perform conditional requests, by sending an `If-Match:` or
-`If-None-Match:` request header. These conditions are then asserted
-for you automatically.
+  If your classes implement this method, then an `ETag:` response
+  header is generated automatically when appropriate. This allows clients to
+  perform conditional requests, by sending an `If-Match:` or
+  `If-None-Match:` request header. These conditions are then asserted
+  for you automatically.
 
-Make sure your entity tag is a properly formatted string. In ABNF:
+  Make sure your entity tag is a properly formatted string. In ABNF:
 
-    entity-tag    = [ "W/" ] quoted-string
-    quoted-string = ( <"> *(qdtext | quoted-pair ) <"> )
-    qdtext        = <any TEXT except <">>
-    quoted-pair   = "\" CHAR
+      entity-tag    = [ "W/" ] quoted-string
+      quoted-string = ( <"> *(qdtext | quoted-pair ) <"> )
+      qdtext        = <any TEXT except <">>
+      quoted-pair   = "\" CHAR
 
-@abstract
-@return [String]
-@see http://tools.ietf.org/html/rfc2616#section-14.19 RFC2616 section 14.19
-@since 0.0.1
+  @abstract
+  @return [String]
+  @see http://tools.ietf.org/html/rfc2616#section-14.19 RFC2616 section 14.19
 =end
 
 
 =begin markdown
 @!attribute [r] get_last_modified
-Last modification of this resource.
+  Last modification of this resource.
 
-If your classes implement this method, then a `Last-Modified:` response
-header is generated automatically when appropriate. This allows clients to
-perform conditional requests, by sending an `If-Modified-Since:` or
-`If-Unmodified-Since:` request header. These conditions are then asserted
-for you automatically.
-@abstract
-@return [Array<(Time, Boolean)>] The timestamp, and a flag indicating if the
-  timestamp is a strong validator.
-@see http://tools.ietf.org/html/rfc2616#section-14.29 RFC2616 section 14.29
-@since 0.0.1
+  If your classes implement this method, then a `Last-Modified:` response
+  header is generated automatically when appropriate. This allows clients to
+  perform conditional requests, by sending an `If-Modified-Since:` or
+  `If-Unmodified-Since:` request header. These conditions are then asserted
+  for you automatically.
+  @abstract
+  @return [Array<(Time, Boolean)>] The timestamp, and a flag indicating if the
+    timestamp is a strong validator.
+  @see http://tools.ietf.org/html/rfc2616#section-14.29 RFC2616 section 14.29
 =end
 
 
 =begin markdown
 @!method destroy()
-@return [Hash, nil] an optional header hash.
+  @return [Hash, nil] an optional header hash.
 =end
 
 
@@ -288,7 +286,6 @@ List of all HTTP/1.1 methods implemented by this resource.
 
 This works by inspecting all the {#do_METHOD} methods this object implements.
 @return [Array<Symbol>]
-@since 0.0.1
 @private
 =end
   def http_methods
@@ -296,10 +293,10 @@ This works by inspecting all the {#do_METHOD} methods this object implements.
     if self.empty?
       self.class.all_media_types
     else
-      r.merge! [ :OPTIONS, :HEAD, :GET ]
+      r.push( :OPTIONS, :HEAD, :GET )
       r << :DELETE if self.respond_to?( :destroy )
     end
-    self.public_instance_methods.each do
+    self.class.public_instance_methods.each do
       |instance_method|
       if /\Ado_([A-Z])+\z/ === instance_method
         r << $1.to_sym
@@ -320,7 +317,6 @@ returned (without an entity body).
 Feel free to override this method at will.
 @return [void]
 @raise [HTTP404NotFound] `404 Not Found` if this resource is empty.
-@since 0.0.1
 =end
   def http_OPTIONS request, response
     raise HTTP404NotFound, path if self.empty?
@@ -337,7 +333,6 @@ then strips off the response body.
 
 Feel free to override this method at will.
 @return [self]
-@since 0.0.1
 =end
   def http_HEAD request, response
     self.http_GET request, response
@@ -357,7 +352,6 @@ Feel free to override this method at will.
 @param [Rack::Response] response
 @return [void]
 @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
-@since 0.0.1
 =end
   def http_GET request, response
     raise HTTP404NotFound, path if self.empty?
@@ -380,7 +374,6 @@ Wrapper around {#do_METHOD #do_GET}
 @private
 @return [void]
 @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
-@since 0.0.1
 =end
   def http_DELETE request, response
     raise HTTP404NotFound, path if self.empty?
@@ -396,7 +389,6 @@ Wrapper around {#do_METHOD #do_GET}
 @private
 @return [void]
 @raise [HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the resource doesn't implement the `PUT` method.
-@since 0.0.1
 =end
   def http_PUT request, response
     raise HTTP405MethodNotAllowed unless self.respond_to? :do_PUT
@@ -415,7 +407,6 @@ Wrapper around {#do_METHOD #do_PUT}
 @private
 @return [void]
 @raise [HTTPStatus] `405 Method Not Allowed` if the resource doesn't implement the `PUT` method.
-@since 0.0.1
 =end
   def http_method request, response
     method = request.request_method.to_sym
@@ -434,7 +425,6 @@ Wrapper around {#do_METHOD #do_PUT}
 
 =begin markdown
 Adds `ETag:` and `Last-Modified:` response headers.
-@since 0.0.1
 =end
   def default_headers
     r = {}
@@ -447,5 +437,35 @@ Adds `ETag:` and `Last-Modified:` response headers.
 
 
 end # module Resource
+
+
+=begin unused
+module Collection
+
+
+  include Enumerable
+
+
+  def self.included( modul )
+    unless modul.kind_of? Resource
+      raise "module #{self} included in #{modul}, which isn't a Rackful::Resource"
+    end
+  end
+  
+  
+  def recurse?; false; end
+  
+  
+  def each_pair
+    self.each do
+      |path|
+      yield [ path, Request.current.resource_factory( path ) ]
+    end
+  end
+
+
+end # module Collection
+=end
+
 
 end # module Rackful

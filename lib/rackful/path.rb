@@ -8,6 +8,7 @@ require 'rack/utils'
 # @private
 class String
 
+  # @return [Rackful::Path]
   def to_path; Rackful::Path.new(self); end
 
 end
@@ -19,41 +20,59 @@ module Rackful
 # Relative URI (a path)
 class Path < String
 
+
+  # @return [self]
+  def to_path; self; end
+
+
+  # @return [Path] a copy of `self`, with a trailing slash.
   def slashify
     r = self.dup
     r << '/' if '/' != r[-1,1]
     r
   end
 
+
+  # Adds a trailing slash to `self` if necessary.
+  # @return [self]
   def slashify!
     if '/' != self[-1,1]
       self << '/'
     else
       nil
     end
+    self
   end
 
+
+  # @return [Path]a copy of `self` without a trailing slash.
   def unslashify
     r = self.dup
     r = r.chomp( '/' ) if '/' == r[-1,1]
     r
   end
 
+  
+  # Removes a trailing slash from `self`.
+  # @return [self]
   def unslashify!
     if '/' == self[-1,1]
       self.chomp! '/'
     else
       nil
     end
+    self
   end
 
-  # An alias for Rack::Utils.unescape
+
+  # @param [Encoding] encoding the character encoding to presume for `self`
+  # @return [String] the unescaped version of `self`
   def unescape( encoding = Encoding::UTF_8 ); Rack::Utils.unescape(self, encoding); end
   
 
-  # @return [Array<String>] An array of unencoded segments
-  def segments
-    r = self.split('/').collect { |s| Rack::Utils.unescape( s, Encoding::UTF_8 ) }
+  # @return [Array<String>] Unencoded segments
+  def segments( encoding = Encoding::UTF_8 )
+    r = self.split('/').collect { |s| Rack::Utils.unescape( s, encoding ) }
     r.shift
     r
   end
@@ -61,14 +80,8 @@ class Path < String
 
   # Turns a relative URI (starting with `/`) into a relative path (starting with `./`)
   # @param path [Path]
-  # @return [String]
-  # @since 0.1.0
-  def relative base_path = nil
-    begin
-      base_path ||= Request.current.base_path
-    rescue
-      return self.dup
-    end
+  # @return [String] a relative URI
+  def relative base_path = Request.current.base_path
     case self
     when base_path
       # RFC2396, Section 4.2

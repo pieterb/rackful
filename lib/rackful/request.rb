@@ -8,7 +8,6 @@ module Rackful
 
 =begin markdown
 Subclass of {Rack::Request}, augmented for Rackful requests.
-@since 0.0.1
 =end
 class Request < Rack::Request
 
@@ -17,7 +16,6 @@ class Request < Rack::Request
 The resource factory for the current request.
 @return [#[]]
 @see Server#initialize
-@since 0.0.1
 =end
   def resource_factory; self.env['rackful.resource_factory']; end
   def base_path
@@ -31,18 +29,15 @@ The resource factory for the current request.
 Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical path
 to the requested resource, which may differ from {#path}
 @return [Path]
-@since 0.1.0
 =end
   def content_path; self.env['rackful.content_path'] ||= self.path; end
 =begin markdown
 Set by {Rackful::Server#call!}
 @return [Path]
-@since 0.1.0
 =end
   def content_path= bp; self.env['rackful.content_path'] = bp.to_path; end
 =begin markdown
 @return [Path]
-@since 0.1.0
 =end
   def path; super.to_path; end
 
@@ -60,7 +55,6 @@ In a multi-threaded server, multiple requests can be handled at one time.
 This method returns the request object, created (and registered) by
 {Server#call!}
 @return [Request]
-@since 0.0.1
 =end
   def self.current
     Thread.current[:rackful_request]
@@ -82,7 +76,6 @@ Assert all <tt>If-*</tt> request headers.
 @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3
   for details about weak and strong validator comparison.
 @todo Implement support for the `If-Range:` header.
-@since 0.0.1
 =end
   def assert_if_headers resource
     #raise HTTP501NotImplemented, 'If-Range: request header is not supported.' \
@@ -117,7 +110,11 @@ Assert all <tt>If-*</tt> request headers.
       end
     else
       if cond[:none_match] && self.validate_etag( etag, cond[:none_match] )
-        raise HTTP412PreconditionFailed, 'If-None-Match'
+        if allow_weak
+          raise HTTP304NotModified
+        else
+          raise HTTP412PreconditionFailed, 'If-None-Match'
+        end
       elsif cond[:match] && ! self.validate_etag( etag, cond[:match] )
         raise HTTP412PreconditionFailed, 'If-Match'
       elsif cond[:unmodified_since]
@@ -145,7 +142,6 @@ Hash of acceptable media types and their qualities.
 This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
 types are provided, an empty Hash is returned.
 @return [Hash{media_type => quality}]
-@since 0.0.1
 =end
   def accept
     @env['rackful.accept'] ||= begin
@@ -172,7 +168,6 @@ Parses the HTTP/1.1 `If-Match:` header.
 @return [nil, Array<String>]
 @see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
 @see #if_none_match
-@since 0.0.1
 =end
   def if_match none = false
     header = @env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
@@ -192,7 +187,6 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Array<String>]
 @see http://tools.ietf.org/html/rfc2616#section-14.26 RFC2616, section 14.26
 @see #if_match
-@since 0.0.1
 =end
   def if_none_match
     self.if_match true
@@ -204,7 +198,6 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Time]
 @see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
 @see #if_unmodified_since
-@since 0.0.1
 =end
   def if_modified_since unmodified = false
     header = @env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
@@ -222,7 +215,6 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @return [nil, Time]
 @see http://tools.ietf.org/html/rfc2616#section-14.28 RFC2616, section 14.28
 @see #if_modified_since
-@since 0.0.1
 =end
   def if_unmodified_since
     self.if_modified_since true
@@ -241,7 +233,6 @@ Does any of the tags in `etags` match `etag`?
 @return [Boolean]
 @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616 section 13.3.3
   for details about weak and strong validator comparison.
-@since 0.0.1
 =end
   def validate_etag etag, etags
     etag = etag.to_s

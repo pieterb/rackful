@@ -1,6 +1,6 @@
 # Required for parsing:
-require 'rackful_resource.rb'
-require 'rackful_serializer.rb'
+require 'rackful/resource.rb'
+require 'rackful/serializer.rb'
 
 # Required for running
 require 'rexml/rexml'
@@ -10,25 +10,30 @@ module Rackful
 
 =begin markdown
 Exception which represents an HTTP Status response.
-@since 0.1.0
 @abstract
 =end
 class HTTPStatus < RuntimeError
 
 
   include Resource
+  
+  
   attr_reader :status, :headers, :to_rackful
 
 
 =begin markdown
-@param status [Symbol, Integer] e.g. `404` or `:not_found`
-@param message [String] XHTML
-@param info [Hash]
+@param [Symbol, Integer] status e.g. `404` or `:not_found`
+@param [String] message XHTML
+@param [ { Symbol => Object }, { String => String } ] info
+    *   If the Hash is indexed by {Symbol}s, then the values will be returned in
+        the response body.
+    *   If the Hash is indexed by {String}s, the +key => value+ pairs are returned
+        as response headers.
 =end
   def initialize status, message = nil, info = {}
     self.path = Request.current.path
     @status = status_code status
-    raise "Wrong status: #{status}" if 0 == @status
+    raise "Wrong status: #{status}" if 0 === @status
     message ||= ''
     @headers = {}
     @to_rackful = {}
@@ -53,30 +58,42 @@ class HTTPStatus < RuntimeError
       errors.puts "Info: #{@to_rackful.inspect}"
     end
   end
+  
+  
+  def title
+    "#{status} #{HTTP_STATUS_CODES[status]}"
+  end
 
 
   class XHTML < ::Rackful::XHTML
 
 
-    HTTP_STATUS_CODES = Rack::Utils::HTTP_STATUS_CODES
-
-
     def header
-      <<EOS
-<title>#{self.resource.status} #{HTTP_STATUS_CODES[self.resource.status]}</title>
-</head><body>
-<h1>HTTP/1.1 #{self.resource.status} #{HTTP_STATUS_CODES[self.resource.status]}</h1>
-<div id="rackful_description">#{self.resource.message}</div>
+      super + <<EOS
+<h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>
+<div id="rackful_description">#{resource.message}</div>
 EOS
     end
 
 
-    def headers
-      self.resource.headers
-    end
-
-
+    def headers; self.resource.headers; end
+    
+    
   end # class HTTPStatus::XHTML
+
+
+  #~ class JSON < ::Rackful::JSON
+#~ 
+#~ 
+    #~ def headers; self.resource.headers; end
+#~ 
+#~ 
+    #~ def each &block
+      #~ super( [ self.resource.message, self.resource.to_rackful ], &block )
+    #~ end
+#~ 
+#~ 
+  #~ end # class HTTPStatus::XHTML
 
 
   add_serializer XHTML, 1.0
@@ -88,7 +105,6 @@ end # class Rackful::HTTPStatus
 =begin markdown
 @abstract Base class for HTTP status codes with only a simple text message, or
   no message at all.
-@since 0.1.0
 =end
 class HTTPSimpleStatus < HTTPStatus
 
@@ -101,7 +117,6 @@ class HTTPSimpleStatus < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP201Created < HTTPStatus
 
   def initialize locations
@@ -133,7 +148,6 @@ class HTTP201Created < HTTPStatus
 end # class HTTP201Created
 
 
-# @since 0.1.0
 class HTTP202Accepted < HTTPStatus
 
   def initialize location = nil
@@ -152,7 +166,6 @@ class HTTP202Accepted < HTTPStatus
 end # class HTTP202Accepted
 
 
-# @since 0.1.0
 class HTTP301MovedPermanently < HTTPStatus
 
   def initialize location
@@ -167,7 +180,6 @@ class HTTP301MovedPermanently < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP303SeeOther < HTTPStatus
 
   def initialize location
@@ -182,17 +194,15 @@ class HTTP303SeeOther < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP304NotModified < HTTPStatus
 
   def initialize
-    super( 304, nil, self.resource.default_headers )
+    super( 304 )
   end
 
 end
 
 
-# @since 0.1.0
 class HTTP307TemporaryRedirect < HTTPStatus
 
   def initialize location
@@ -207,17 +217,13 @@ class HTTP307TemporaryRedirect < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP400BadRequest < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP403Forbidden < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP404NotFound < HTTPSimpleStatus; end
 
 
-# @since 0.1.0
 class HTTP405MethodNotAllowed < HTTPStatus
 
   def initialize methods
@@ -228,7 +234,6 @@ class HTTP405MethodNotAllowed < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP406NotAcceptable < HTTPStatus
 
   def initialize content_types
@@ -239,17 +244,13 @@ class HTTP406NotAcceptable < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP409Conflict < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP410Gone < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP411LengthRequired < HTTPSimpleStatus; end
 
 
-# @since 0.1.0
 class HTTP412PreconditionFailed < HTTPStatus
 
   def initialize header = nil
@@ -265,7 +266,6 @@ class HTTP412PreconditionFailed < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP415UnsupportedMediaType < HTTPStatus
 
   def initialize media_types
@@ -276,13 +276,10 @@ class HTTP415UnsupportedMediaType < HTTPStatus
 end
 
 
-# @since 0.1.0
 class HTTP422UnprocessableEntity < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP501NotImplemented < HTTPSimpleStatus; end
 
-# @since 0.1.0
 class HTTP503ServiceUnavailable < HTTPSimpleStatus; end
 
 end # module Rackful

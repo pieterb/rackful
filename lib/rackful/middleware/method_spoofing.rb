@@ -35,7 +35,6 @@ In that case, you can put the parameters in a `POST` body, like this:
     param_1=hello&param_2=world&param_3=...
 @example Using this middleware
   use Rackful::MethodSpoofing
-@since 0.0.1
 =end
 class Rackful::MethodSpoofing
 

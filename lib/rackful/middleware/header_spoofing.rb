@@ -26,7 +26,6 @@ This can be useful if you want to specify certain request headers from within
 a normal web browser.
 @example Using this middleware
   use Rackful::HeaderSpoofing
-@since 0.0.1
 =end
 class Rackful::HeaderSpoofing
 
