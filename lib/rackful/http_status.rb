@@ -278,6 +278,8 @@ end
 
 class HTTP422UnprocessableEntity < HTTPSimpleStatus; end
 
+class HTTP500InternalServerError < HTTPSimpleStatus; end
+
 class HTTP501NotImplemented < HTTPSimpleStatus; end
 
 class HTTP503ServiceUnavailable < HTTPSimpleStatus; end
