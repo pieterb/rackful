@@ -1,7 +1,10 @@
+# Load core functionality:
 require 'rackful'
-require 'rackful/header_spoofing'
-require 'rackful/method_spoofing'
-require 'rackful/relative_location'
+
+# Load extra middlewares: ({Rackful::MethodSpoofing}, {Rackful::HeaderSpoofing},
+# Rackful::RelativeLocation})
+require 'rackful/middleware'
+
 require 'digest/md5'
 
 # The class of the object we're going to serve:

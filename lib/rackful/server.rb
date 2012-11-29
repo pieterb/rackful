@@ -7,7 +7,6 @@ module Rackful
 
 =begin markdown
 Rack compliant server class for implementing RESTful web services.
-@since 0.0.1
 =end
 class Server
 
@@ -35,14 +34,12 @@ If there's no resource at the given path, but you'd still like to respond to
 {Resource#empty? empty resource}.
 @return [#[]]
 @see #initialize
-@since 0.0.1
 =end
   attr_reader :resource_factory
 
 
 =begin markdown
-{include:Server#resource_factory}
-@since 0.0.1
+@param resource_factory [#[]] see Server#resource_factory
 =end
   def initialize(resource_factory)
     super()
@@ -56,19 +53,17 @@ As required by the Rack specification.
 For thread safety, this method clones `self`, which handles the request in
 {#call!}. A similar approach is taken by the Sinatra library.
 @return [Array<(status_code, response_headers, response_body)>]
-@since 0.0.1
 =end
   def call(p_env)
     start = Time.now
     retval = dup.call! p_env
-    #$stderr.puts( 'Duration: ' + ( Time.now - start ).to_s )
+    #$stderr.puts( p_env.inspect )
     retval
   end
 
 
 =begin markdown
 @return [Array<(status_code, response_headers, response_body)>]
-@since 0.0.1
 =end
   def call!(p_env)
     request = Request.new( self.resource_factory, p_env )
@@ -76,7 +71,7 @@ For thread safety, this method clones `self`, which handles the request in
     Thread.current[:rackful_request] = request
     response = Rack::Response.new
     begin
-      raise HTTP404NotFound \
+      raise HTTP404NotFound, request.path \
         unless resource = self.resource_factory[Path.new(request.path)]
       unless resource.path == request.path
         response.header['Content-Location'] = resource.path
@@ -113,7 +108,7 @@ For thread safety, this method clones `self`, which handles the request in
       response.headers.merge! new_resource.default_headers
     end
     r = response.finish
-    $stderr.puts r.inspect
+    #~ $stderr.puts r.inspect
     r
   end
 

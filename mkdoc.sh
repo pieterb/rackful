@@ -2,5 +2,5 @@
 
 cd "`dirname "$0"`"
 
-rm -rf docs/* .yardoc/
+rm -rf doc/* .yardoc/
 exec yard "$@"

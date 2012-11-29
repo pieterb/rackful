@@ -29,7 +29,6 @@ Differences with {Rack::RelativeRedirect}:
 -   uses Rack::Request::base_url for creating absolute URIs.
 -   the `Location:` header, if present, is always rectified, independent of the
     HTTP status code.
-@since 0.0.1
 =end
 class Rackful::RelativeLocation
 

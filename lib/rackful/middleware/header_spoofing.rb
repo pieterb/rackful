@@ -26,7 +26,6 @@ This can be useful if you want to specify certain request headers from within
 a normal web browser.
 @example Using this middleware
   use Rackful::HeaderSpoofing
-@since 0.0.1
 =end
 class Rackful::HeaderSpoofing
 
@@ -64,10 +63,10 @@ def before_call env
 end
 
 def after_call env
-  if original_query_string = env['rackful.header_spoofing.query_string']
-    env['rackful.header_spoofing.query_string'] = env['QUERY_STRING']
-    env['QUERY_STRING'] = original_query_string
-  end
+  #if original_query_string = env['rackful.header_spoofing.query_string']
+    #env['rackful.header_spoofing.query_string'] = env['QUERY_STRING']
+    #env['QUERY_STRING'] = original_query_string
+  #end
 end
 
 end # Rackful::HeaderSpoofing
