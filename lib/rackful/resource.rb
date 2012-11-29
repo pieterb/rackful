@@ -101,7 +101,7 @@ Meta-programmer method.
 
 
 =begin
-@todo Documentation
+@return [Hash(method => Array(media_types))]
 =end
     def media_types
       @rackful_resource_media_types ||= {}
@@ -291,14 +291,16 @@ This works by inspecting all the {#do_METHOD} methods this object implements.
   def http_methods
     r = []
     if self.empty?
-      self.class.all_media_types
+      if self.class.all_media_types[:PUT]
+        r << :PUT
+      end
     else
       r.push( :OPTIONS, :HEAD, :GET )
       r << :DELETE if self.respond_to?( :destroy )
     end
     self.class.public_instance_methods.each do
       |instance_method|
-      if /\Ado_([A-Z])+\z/ === instance_method
+      if /\Ado_([A-Z]+)\z/ === instance_method
         r << $1.to_sym
       end
     end
@@ -377,7 +379,7 @@ Wrapper around {#do_METHOD #do_GET}
 =end
   def http_DELETE request, response
     raise HTTP404NotFound, path if self.empty?
-    raise HTTP405MethodNotAllowed unless self.respond_to?( :destroy )
+    raise HTTP405MethodNotAllowed, self.http_methods unless self.respond_to?( :destroy )
     response.status = status_code( :no_content )
     if headers = self.destroy( request, response )
       response.headers.merge! headers
@@ -391,7 +393,7 @@ Wrapper around {#do_METHOD #do_GET}
 @raise [HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the resource doesn't implement the `PUT` method.
 =end
   def http_PUT request, response
-    raise HTTP405MethodNotAllowed unless self.respond_to? :do_PUT
+    raise HTTP405MethodNotAllowed, self.http_methods unless self.respond_to? :do_PUT
     unless self.class.media_types[:PUT] &&
            self.class.media_types[:PUT].include?( request.media_type )
       raise HTTP415UnsupportedMediaType, self.class.media_types[:PUT]

@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
 
   # Required properties:
   s.name        = 'rackful'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
   s.summary     = "Library for building ReSTful web services with Rack"
   s.description = <<EOS
 Rackful provides a minimal interface for developing ReSTful web services with
@@ -11,7 +11,7 @@ resource objects, which expose their state at URLs.
 
 This version is not backward compatible with v0.0.x.
 EOS
-  s.files       = Dir[ '{*.md,example/*,lib/**/*}' ] +
+  s.files       = Dir[ '{*.md,example/*.ru,lib/**/*.rb}' ] +
                   %w( rackful.gemspec mkdoc.sh )
 
   # Optional properties:
