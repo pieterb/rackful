@@ -1,9 +1,7 @@
+# encoding: utf-8
 # Required for parsing:
 require 'rackful/resource.rb'
 require 'rackful/serializer.rb'
-
-# Required for running
-require 'rexml/rexml'
 
 
 module Rackful
@@ -16,22 +14,21 @@ class HTTPStatus < RuntimeError
 
 
   include Resource
-  
-  
+
+
   attr_reader :status, :headers, :to_rackful
 
 
 =begin markdown
-@param [Symbol, Integer] status e.g. `404` or `:not_found`
-@param [String] message XHTML
-@param [ { Symbol => Object }, { String => String } ] info
+@param status [Symbol, Integer] e.g. `404` or `:not_found`
+@param message [String] XHTML
+@param info [ { Symbol => Object }, { String => String } ]
     *   If the Hash is indexed by {Symbol}s, then the values will be returned in
         the response body.
     *   If the Hash is indexed by {String}s, the +key => value+ pairs are returned
         as response headers.
 =end
   def initialize status, message = nil, info = {}
-    self.path = Request.current.path
     @status = status_code status
     raise "Wrong status: #{status}" if 0 === @status
     message ||= ''
@@ -39,33 +36,31 @@ class HTTPStatus < RuntimeError
     @to_rackful = {}
     info.each do
       |k, v|
-      if k.kind_of? Symbol then @to_rackful[k] = v
-      else @headers[k] = v end
+      if k.kind_of? Symbol
+        @to_rackful[k] = v
+      else
+        @headers[k] = v
+      end
     end
     @to_rackful = nil if @to_rackful.empty?
     begin
-      REXML::Document.new \
+      Nokogiri.XML(
         '<?xml version="1.0" encoding="UTF-8" ?>' +
         "<div>#{message}</div>"
+      ) do |config| config.strict.nonet end
     rescue
       message = Rack::Utils.escape_html(message)
     end
     super message
-    if 500 <= @status
-      errors = Request.current.env['rack.errors']
-      errors.puts self.inspect
-      errors.puts "Headers: #{@headers.inspect}"
-      errors.puts "Info: #{@to_rackful.inspect}"
-    end
   end
-  
-  
+
+
   def title
     "#{status} #{HTTP_STATUS_CODES[status]}"
   end
 
 
-  class XHTML < ::Rackful::XHTML
+  class XHTML < Serializer::XHTML
 
 
     def header
@@ -77,23 +72,9 @@ EOS
 
 
     def headers; self.resource.headers; end
-    
-    
-  end # class HTTPStatus::XHTML
 
 
-  #~ class JSON < ::Rackful::JSON
-#~ 
-#~ 
-    #~ def headers; self.resource.headers; end
-#~ 
-#~ 
-    #~ def each &block
-      #~ super( [ self.resource.message, self.resource.to_rackful ], &block )
-    #~ end
-#~ 
-#~ 
-  #~ end # class HTTPStatus::XHTML
+  end # class XHTML
 
 
   add_serializer XHTML, 1.0
@@ -121,60 +102,40 @@ class HTTP201Created < HTTPStatus
 
   def initialize locations
     locations = [ locations ] unless locations.kind_of? Array
-    locations = locations.collect { |l| l.to_path }
-    rf = Request.current.resource_factory
+    locations = locations.collect { |l| URI(l) }
     if locations.size > 1
-      locations = locations.collect {
-        |l|
-        resource = rf[l]
-        { :location => l }.merge( resource.default_headers )
-        rf.uncache l if rf.respond_to? :uncache
-      }
-      super(
-        201, 'New resources were created:', :locations => locations
-      )
+      super( 201, 'New resources were created:', :locations => locations )
     else
       location = locations[0]
-      resource = rf[location]
       super(
-        201, 'A new resource was created:', {
-          :location => location,
-          'Location' => location
-        }.merge( resource.default_headers )
+        201, 'A new resource was created:',
+        :location => location, 'Location' => location
       )
     end
   end
 
-end # class HTTP201Created
+end
 
 
 class HTTP202Accepted < HTTPStatus
 
   def initialize location = nil
     if location
-      super(
-        202, '', {
-          :'Job status location:' => Path.new(locations),
-          'Location' => locations
-        }
-      )
+      location = URI(location)
+      super( 202, '',  :'Job status location:' => location, 'Location' => location )
     else
       super 202
     end
   end
 
-end # class HTTP202Accepted
+end
 
 
 class HTTP301MovedPermanently < HTTPStatus
 
   def initialize location
-    super(
-      301, '', {
-        :'New location:' => Path.new(location),
-        'Location' => location
-      }
-    )
+    location = URI(location)
+    super( 301, '', :'New location:' => location, 'Location' => location )
   end
 
 end
@@ -183,12 +144,8 @@ end
 class HTTP303SeeOther < HTTPStatus
 
   def initialize location
-    super(
-      303, '', {
-        :'See:' => Path.new(location),
-        'Location' => location
-      }
-    )
+    location = URI(location)
+    super( 303, '', :'See:' => location, 'Location' => location )
   end
 
 end
@@ -206,12 +163,8 @@ end
 class HTTP307TemporaryRedirect < HTTPStatus
 
   def initialize location
-    super(
-      301, '', {
-        :'Current location:' => Path.new(location),
-        'Location' => location
-      }
-    )
+    location = URI(location)
+    super( 301, '', :'Current location:' => location, 'Location' => location )
   end
 
 end
@@ -227,8 +180,7 @@ class HTTP404NotFound < HTTPSimpleStatus; end
 class HTTP405MethodNotAllowed < HTTPStatus
 
   def initialize methods
-    super 405, '', 'Allow' => methods.join(', '),
-          :'Allowed methods:' => methods
+    super( 405, '', 'Allow' => methods.join(', '), :'Allowed methods:' => methods )
   end
 
 end
@@ -237,8 +189,7 @@ end
 class HTTP406NotAcceptable < HTTPStatus
 
   def initialize content_types
-    super 406, '',
-          :'Available content-type(s):' => content_types
+    super( 406, '', :'Available content-type(s):' => content_types )
   end
 
 end
@@ -254,13 +205,8 @@ class HTTP411LengthRequired < HTTPSimpleStatus; end
 class HTTP412PreconditionFailed < HTTPStatus
 
   def initialize header = nil
-    info =
-      if header
-        { header.to_sym => Request.current.env[ 'HTTP_' + header.gsub('-', '_').upcase ] }
-      else
-        {}
-      end
-    super 412, 'Failed precondition:', info
+    info = header ? { :'Failed precondition:' => header } : {}
+    super( 412, '', info )
   end
 
 end
@@ -269,8 +215,7 @@ end
 class HTTP415UnsupportedMediaType < HTTPStatus
 
   def initialize media_types
-    super 415, '',
-          :'Supported media-type(s):' => media_types
+    super( 415, '', :'Supported media-type(s):' => media_types )
   end
 
 end

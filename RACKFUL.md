@@ -1,7 +1,7 @@
 Rackful
 =======
 
-Library for creating Rackful web services
+Library for creating ReSTful web services
 
 The latest documentation is always available
 [here, as GitHub pages](http://pieterb.github.com/Rackful/).
@@ -9,7 +9,7 @@ The latest documentation is always available
 Rationale
 ---------
 
-Confronted with the task of implementing a Rackful web service in Ruby, I
+Confronted with the task of implementing a ReSTful web service in Ruby, I
 checked out a number of existing libraries and frameworks, including
 Ruby-on-Rails, and then decided to brew my own, the reason being that I couldn't
 find a library or framework with all of the following properties:
@@ -19,7 +19,7 @@ find a library or framework with all of the following properties:
     must at least feel confident that the framework I'm learning is more powerful
     that what I can come up with by myself. Ruby-on-Rails is probably the biggest
     framework out there, and it still lacks many features that are essential to
-    Rackful web service programming.
+    ReSTful web service programming.
 
     This library is small. You could read _all_ the source code in less than an
     hour, and understand every detail.
@@ -34,14 +34,14 @@ find a library or framework with all of the following properties:
 
 *   **Full support for conditional requests** using `If-*:` request headers. Most
     libraries' support is limited to `If-None-Match:` and `If-Modified-Since:`
-    headers, and only for `GET` and `HEAD` requests. For Rackful web services,
+    headers, and only for `GET` and `HEAD` requests. For ReSTful web services,
     the `If-Match:` and `If-Unmodified-Since:` headers are at least as important,
     particularly for unsafe methods like `PUT`, `POST`, `PATCH`, and `DELETE`.
 
     This library fully supports the `ETag:` and `Last-Modified:` headers, and all
     `If-*:` headers.
 
-*   **Resource centered** Some libraries claim Rackfulness, but at the same
+*   **Resource centered** Some libraries claim ReSTfulness, but at the same
     time have a servet-like interface, which requires you to implement method
     handles such as `doPOST(url)`. In these method handlers you have to find out
     what resource is posted to, depending on the URL.
@@ -52,7 +52,7 @@ find a library or framework with all of the following properties:
 Hello World!
 ------------
 
-Here's a working example of a simple Rackful server:
+Here's a working example of a simple ReSTful server:
 
 {include:file:example/config.ru}
 
@@ -153,7 +153,7 @@ Further reading
 
 Licensing
 ---------
-Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
+Copyright ©2011-2012 Pieter van Beek <pieter@djinnit.com>
 
 Licensed under the {file:LICENSE.md Apache License 2.0}. You should have received a copy of the
 license as part of this distribution.

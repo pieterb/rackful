@@ -1,26 +1,16 @@
-# Copyright ©2011-2012 Pieter van Beek <pieterb@sara.nl>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# encoding: utf-8
+# Required for parsing:
 require 'rackful'
+
+# Required for running:
+
 
 =begin markdown
 Rack middleware that provides method spoofing.
 
 If you use this middleware, then clients are allowed to spoof an HTTP method
-by specifying a `_method=...` request parameter, for example:
-
-    http://example.com/some_resource?_method=DELETE
+by specifying a `_method=...` request parameter, for example
+`http://example.com/some_resource?_method=DELETE`.
 
 This can be useful if you want to perform `PUT` and `DELETE` requests from
 within a browser, of when you want to perform a `GET` requests with (too)
@@ -33,7 +23,10 @@ In that case, you can put the parameters in a `POST` body, like this:
     Content-Length: 123456789
 
     param_1=hello&param_2=world&param_3=...
+
+This middleware won’t work well together with Digest Authentication.
 @example Using this middleware
+  require 'rackful/middleware/method_spoofing'
   use Rackful::MethodSpoofing
 =end
 class Rackful::MethodSpoofing

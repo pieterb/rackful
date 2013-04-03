@@ -1,7 +1,4 @@
-# Required for parsing:
-require 'rack'
-
-# Required for running:
+# encoding: utf-8
 
 
 module Rackful
@@ -12,36 +9,6 @@ Subclass of {Rack::Request}, augmented for Rackful requests.
 class Request < Rack::Request
 
 
-=begin markdown
-The resource factory for the current request.
-@return [#[]]
-@see Server#initialize
-=end
-  def resource_factory; self.env['rackful.resource_factory']; end
-  def base_path
-    self.env['rackful.base_path'] ||= begin
-      r = self.content_path.dup
-      r[%r{[^/]*\z}] = ''
-      r
-    end
-  end
-=begin markdown
-Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical path
-to the requested resource, which may differ from {#path}
-@return [Path]
-=end
-  def content_path; self.env['rackful.content_path'] ||= self.path; end
-=begin markdown
-Set by {Rackful::Server#call!}
-@return [Path]
-=end
-  def content_path= bp; self.env['rackful.content_path'] = bp.to_path; end
-=begin markdown
-@return [Path]
-=end
-  def path; super.to_path; end
-
-
   def initialize resource_factory, *args
     super( *args )
     self.env['rackful.resource_factory'] = resource_factory
@@ -49,15 +16,32 @@ Set by {Rackful::Server#call!}
 
 
 =begin markdown
-The request currently being processed in the current thread.
-
-In a multi-threaded server, multiple requests can be handled at one time.
-This method returns the request object, created (and registered) by
-{Server#call!}
-@return [Request]
+The resource factory for the current request.
+@return [#[]]
+@see Server#initialize
 =end
-  def self.current
-    Thread.current[:rackful_request]
+  def resource_factory
+    self.env['rackful.resource_factory']
+  end
+
+
+=begin markdown
+Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical url
+of the requested resource, which may differ from {#url}
+@return [String]
+=end
+  def content_location
+    self.env['rackful.content_location'] ||= self.url
+  end
+
+
+=begin markdown
+Set by {Rackful::Server#call!}
+@param path [String]
+@return [String]
+=end
+  def content_location= url
+    self.env['rackful.content_location'] = url
   end
 
 
@@ -106,7 +90,7 @@ Assert all <tt>If-*</tt> request headers.
       elsif cond[:unmodified_since]
         raise HTTP412PreconditionFailed, 'If-Unmodified-Since'
       elsif cond[:modified_since]
-        raise HTTP404NotFound, resource.path
+        raise HTTP404NotFound, resource.url
       end
     else
       if cond[:none_match] && self.validate_etag( etag, cond[:none_match] )

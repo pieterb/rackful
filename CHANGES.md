@@ -1,3 +1,14 @@
+0.2.x
+=====
+The 0.2.x series is a major revision, not backward compatible with 0.1.x.
+
+0.2.0
+-----
+*   Removed Request::current, because it won't work well with single-threaded
+    concurrency models (fibers, eventmachine and the like) and it's not essential.
+*   Rackful::Server#call was made reentrant. This is necessary for response code
+    100 Continue.
+
 0.1.x
 =====
 The 0.1.x series is a major revision, not backward compatible with 0.0.x.
@@ -9,8 +20,7 @@ The 0.1.x series is a major revision, not backward compatible with 0.0.x.
 
 0.1.0
 -----
-*   Complete revision of the {Rackful::HTTPStatus} exception class. From now on,
-    there's
+*   Complete revision of the {Rackful::HTTPStatus} exception class. From now on, there's
     a separate class for each HTTP status code, e.g. {Rackful::HTTP404NotFound}.
 *   {Rackful::Path}, a subclass of `String`, is used for HTTP paths. This allows
     serializers, especially for hypermedia, to distinguish paths from "ordinary"

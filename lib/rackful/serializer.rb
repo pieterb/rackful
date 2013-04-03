@@ -1,12 +1,4 @@
-# Required for parsing:
-
-# Required for running:
-require 'rack/utils'
-require 'uri'
-require 'base64'
-require 'json'
-require 'time'
-#require 'json/pure'
+# encoding: utf-8
 
 
 module Rackful
@@ -15,10 +7,15 @@ module Rackful
 =begin markdown
 Base class for all serializers.
 
-The default serializers defined in this library ({Rackful::XHTML} and {Rackful::JSON})
-depend on the availability of method {Rackful::Resource#to_rackful}.
-@abstract Subclasses must implement method `#each` end define constant
-  `CONTENT_TYPES`
+The default serializer defined in this library ({Rackful::XHTML})
+depends on the availability of method {Rackful::Resource#to_rackful resource.to_rackful}.
+@abstract Subclasses must implement method `#each` end define constant `CONTENT_TYPES`
+@!attribute [r] request
+  @return [Request]
+@!attribute [r] resource
+  @return [Resource]
+@!attribute [r] content_type
+  @return [String] The content type to be served by this Serializer.
 =end
 class Serializer
 
@@ -26,21 +23,17 @@ class Serializer
   include Enumerable
 
 
-  attr_reader :resource, :content_type
-
-
-  def initialize resource, content_type
-    @resource, @content_type = resource, content_type
-  end
+  attr_reader :request, :resource, :content_type
 
 
 =begin markdown
-Every serializer must implement this method.
-@abstract
-@yield [data] the entity body 
+@param request [Request]
+@param resource [Resource]
+@param content_type [String]
 =end
-  def each
-    raise "Class #{self.class} doesn't implement #each()."
+  def initialize request, resource, content_type
+    @request, @resource, @content_type =
+      request, resource, content_type
   end
 
 
@@ -51,9 +44,18 @@ Every serializer must implement this method.
   You don't have to include the `Content-Type` header, as this is done _for_ you.
 
   This method is optional.
-  @return [Hash, nil]
+  @return [Hash]
   @abstract
 =end
+
+
+=begin markdown
+@abstract Every serializer must implement this method.
+@yieldparam block [String] (part of) the entity body
+=end
+  def each
+    raise NotImplementedError
+  end
 
 
 end # class Serializer
@@ -61,73 +63,86 @@ end # class Serializer
 
 =begin markdown
 =end
-class XHTML < Serializer
+class Serializer::XHTML < Serializer
 
 
   # The content types served by this serializer.
   # @see Serializer::CONTENT_TYPES
   CONTENT_TYPES = [
-    'application/xhtml+xml; charset=UTF-8',
-    'text/html; charset=UTF-8',
+    'application/xml; charset=UTF-8',
     'text/xml; charset=UTF-8',
-    'application/xml; charset=UTF-8'
+    'text/html; charset=UTF-8',
+    'application/xhtml+xml; charset=UTF-8',
   ]
 
 
-=begin
+=begin markdown
 @yieldparam xhtml [String]
 =end
   def each &block
-    request = Request.current
+    tmp = ''
+    # The XML header is only sent for XML media types:
     if /xml/ === self.content_type
-      yield <<EOS
+      tmp += <<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 EOS
     end
-    yield <<EOS
+    tmp += <<EOS
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <head>
 <title>#{ Rack::Utils.escape_html(resource.title) }</title>
+<base href="#{self.request.content_location}"/>
 EOS
-    #~ unless request.path == request.content_path
-      yield <<EOS
-<base href="#{request.base_path.relative request.path}"/>
-EOS
-    #~ end
-    unless '/' == request.path
-      yield <<EOS
-<link rel="contents" href="#{'/' === request.content_path[-1] ? '../' : './' }"/>
+    unless '/' == self.request.path
+      tmp += <<EOS
+<link rel="contents" href="#{'/' === self.request.content_location[-1] ? '../' : './' }"/>
 EOS
     end
-    yield header + '<div id="rackful_content">'
-    each_nested &block
+    r = self.resource.to_rackful
+    tmp += self.header + '<div id="rackful-content"' + self.xsd_type( r ) + '>'
+    yield tmp
+    each_nested( r, &block )
     yield '</div>' + footer
   end
 
 
-  # Look at the source code!
+=begin markdown
+@api private
+=end
   def header
     self.class.class_variable_defined?( :@@header ) && @@header ?
       @@header.call( self ) :
       "</head><body>"
   end
 
-  
+
+=begin markdown
+Set a header generator.
+@yieldparam serializer [Serializer::XHTML] This serializer
+@yieldreturn [String] some XHTML
+=end
   def self.header &block
     @@header = block
     self
   end
 
 
-  # Look at the source code!
+=begin markdown
+@api private
+=end
   def footer
     self.class.class_variable_defined?( :@@footer ) && @@footer ?
       @@footer.call( self ) :
-      '<div class="rackful_powered">Powered by <a href="http://github.com/pieterb/Rackful">Rackful</a></div></body></html>'
+      '<div class="rackful-powered">Powered by <a href="http://github.com/pieterb/Rackful">Rackful</a></div></body></html>'
   end
 
-  
+
+=begin markdown
+Set a footer generator.
+@yieldparam serializer [Serializer::XHTML] This serializer
+@yieldreturn [String] some XHTML
+=end
   def self.footer &block
     @@footer = block
     self
@@ -139,12 +154,11 @@ Serializes many kinds of objects to XHTML.
 
 How an object is serialized, depends:
 
-*   A *{Resource}* will be serialized by its own 
-    {Resource#serializer serializer}.
-*   A *{Path}* will be serialized as a hyperlink.
+*   A *{Resource}* will be serialized by its own {Resource#serializer serializer}.
+*   A *{URI}* will be serialized as a hyperlink.
 *   An Object responding to *`#each_pair`* (i.e. something {Hash}-like) will
     be represented by
-    *   a descriptive list, with 
+    *   a descriptive list, with
 *   An Object responding to *`#each`* (i.e. something {Enumerable}) will
     be represented as a JSON array.
 *   A *binary encoded {String}* (i.e. a blob} is represented by a JSON string,
@@ -153,88 +167,45 @@ How an object is serialized, depends:
     XMLSchema.
 *   On *all the rest,* method `#to_json` is invoked.
 @overload each_nested
-  @yieldparam xhtml[String]
+  @yieldparam xhtml [String]
+@api private
 =end
   def each_nested p = self.resource.to_rackful, &block
-  
+
+    # A Resource:
     if p.kind_of?( Resource ) && ! p.equal?( self.resource )
-      p.serializer( self.content_type ).each_nested &block
-      
-    elsif p.kind_of?( Path )
-      yield "<a href=\"#{p.relative}\">" +
-        Rack::Utils.escape_html( Rack::Utils.unescape(
-          File::basename(p.unslashify)
-        ) ) + '</a>'
-        
-#     elsif p.kind_of?( Collection )
-#       if p.recurse?
-#         yield '<dl class="rackful-resources">'
-#         p.each_pair do
-#           |path, child|
-#           yield '<dt>'
-#           self.each_nested path, &block
-#           yield "</dt><dd#{self.xsd_type(child)}>"
-#           self.each_nested child, &block
-#           yield "</dd>\n"
-#         end
-#         yield '</dl>'
-      #~ elsif ( q = p.first ) and
-            #~ q.kind_of?( Enumerable )
-              #~ q.respond_to?( :keys ) && ( keys = q.keys ) &&
-              #~ p.all? { |r| r.respond_to?( :keys ) && r.keys == keys }
-            #~ )
-        #~ yield '<table class="rackful-objects"><thead><tr>' +
-          #~ keys.collect {
-            #~ |column|
-            #~ '<th>' +
-            #~ Rack::Utils.escape_html( column.to_s.split('_').join(' ') ) +
-            #~ "</th>\n"
-          #~ }.join + '</tr></thead><tbody>'
-        #~ p.each do
-          #~ |h|
-          #~ yield '<tr>'
-          #~ h.each_pair do
-            #~ |key, value|
-            #~ yield "<td class=\"rackful-objects-#{Rack::Utils.escape_html( key.to_s )}\"#{self.xsd_type(value)}>"
-            #~ self.each_nested value, &block
-            #~ yield "</td>\n"
-          #~ end
-          #~ yield '</tr>'
-        #~ end
-        #~ yield "</tbody></table>"
-#       else
-#         yield '<ul class="rackful-resources">'
-#         p.each do
-#           |value|
-#           yield "<li#{self.xsd_type(value)}>"
-#           self.each_nested value, &block
-#           yield "</li>\n"
-#         end
-#         yield '</ul>'
-#       end
-      
+      p.serializer( self.request, self.content_type ).each_nested( &block )
+
+    # A URI:
+    elsif p.kind_of?( URI )
+      rel_path = p.route_from self.request.content_location
+      yield "<a href=\"#{rel_path}\">" +
+        Rack::Utils.escape_html( Rack::Utils.unescape( rel_path.to_s ) ) + '</a>'
+
+    # An Object:
     elsif p.respond_to?( :each_pair )
-      yield '<br/><dl class="rackful-object">'
+      yield '<br/><dl>'
       p.each_pair do
         |key, value|
-        yield "<dt#{self.xsd_type(key)}>"
-        self.each_nested key, &block
-        yield "</dt><dd#{self.xsd_type(value)}>"
+        yield '<dt xs:type="xs:string">' +
+          Rack::Utils.escape_html( key.to_s.split('_').join(' ') ) +
+          "</dt><dd#{self.xsd_type(value)}>"
         self.each_nested value, &block
         yield "</dd>\n"
       end
       yield '</dl>'
-      
+
+    # A List of Objects with identical keys:
     elsif p.kind_of?( Enumerable ) and
           ( q = p.first ) and
           (
             q.respond_to?( :keys ) && ( keys = q.keys ) &&
             p.all? { |r| r.respond_to?( :keys ) && r.keys == keys }
           )
-      yield '<table class="rackful-objects"><thead><tr>' +
+      yield '<table><thead><tr>' +
         keys.collect {
           |column|
-          '<th>' +
+          '<th xs:type="xs:string">' +
           Rack::Utils.escape_html( column.to_s.split('_').join(' ') ) +
           "</th>\n"
         }.join + '</tr></thead><tbody>'
@@ -243,16 +214,17 @@ How an object is serialized, depends:
         yield '<tr>'
         h.each_pair do
           |key, value|
-          yield "<td class=\"rackful-objects-#{Rack::Utils.escape_html( key.to_s )}\"#{self.xsd_type(value)}>"
+          yield "<td#{self.xsd_type(value)}>"
           self.each_nested value, &block
           yield "</td>\n"
         end
         yield '</tr>'
       end
       yield "</tbody></table>"
-      
+
+    # A List:
     elsif p.kind_of?( Enumerable )
-      yield '<ul class="rackful-array">'
+      yield '<ul>'
       p.each do
         |value|
         yield "<li#{self.xsd_type(value)}>"
@@ -260,21 +232,26 @@ How an object is serialized, depends:
         yield "</li>\n"
       end
       yield '</ul>'
-      
+
+    # A Time:
     elsif p.kind_of?( Time )
       yield p.utc.xmlschema
-      
+
+    # A Blob:
     elsif p.kind_of?( String ) && p.encoding == Encoding::BINARY
       yield Base64.encode64(p).chomp
-      
+
+    # Something serializable (including nil, true, false, Numeric):
     else
       yield Rack::Utils.escape_html( p.to_s )
-      
+
     end
   end
 
 
-  # @private
+=begin markdown
+@api private
+=end
   def xsd_type v
     if v.respond_to? :to_rackful
       v = v.to_rackful
@@ -289,7 +266,7 @@ How an object is serialized, depends:
       ' xs:type="xs:dateTime"'
     elsif v.kind_of?( String ) && v.encoding == Encoding::BINARY
       ' xs:type="xs:base64Binary"'
-    elsif v.kind_of?( String ) && !v.kind_of?( Path )
+    elsif v.kind_of?( String )
       ' xs:type="xs:string"'
     else
       ''
@@ -297,10 +274,10 @@ How an object is serialized, depends:
   end
 
 
-end # class XHTML
+end # class Serializer::XHTML
 
 
-class JSON < Serializer
+class Serializer::JSON < Serializer
 
 
   CONTENT_TYPES = [
@@ -310,30 +287,12 @@ class JSON < Serializer
 
 
 =begin markdown
-Serializes many kinds of objects to JSON.
-
-How an object is serialized, depends:
-
-*   A *{Resource}* will be serialized by its own 
-    {Resource#serializer serializer}.
-*   A *{Path}* will be serialized by a string, containing the relative path.
-*   An Object responding to *`#each_pair`* (i.e. something {Hash}-like) will
-    be represented as a JSON object.
-*   An Object responding to *`#each`* (i.e. something {Enumerable}) will
-    be represented as a JSON array.
-*   A *binary encoded {String}* (i.e. a blob} is represented by a JSON string,
-    containing the base64 encoded version of the data.
-*   A *{Time}* is represented by a string containing a dateTime as defined by
-    XMLSchema.
-*   On *all the rest,* method `#to_json` is invoked.
-@overload each
-  @yieldparam json [String]
+@yield [json]
+@yieldparam json [String]
 =end
   def each thing = self.resource.to_rackful, &block
     if thing.kind_of?( Resource ) && ! thing.equal?( self.resource )
-      thing.serializer( self.content_type ).each &block
-    elsif thing.kind_of?( Path )
-      yield thing.relative.to_json
+      thing.serializer( self.content_type ).each( &block )
     elsif thing.respond_to? :each_pair
       first = true
       thing.each_pair do
@@ -362,37 +321,7 @@ How an object is serialized, depends:
   end
 
 
-  def self.parse input
-    r = ::JSON.parse(
-      input.read,
-      :symbolize_names => true
-    )
-    self.recursive_datetime_parser r
-  end
-
-
-  def self.recursive_datetime_parser p
-    if p.kind_of?(String)
-      begin
-        return Time.xmlschema(p)
-      rescue
-      end
-    elsif p.kind_of?(Hash)
-      p.keys.each do
-        |key|
-        p[key] = self.recursive_datetime_parser( p[key] )
-      end
-    elsif p.kind_of?(Array)
-      (0 ... p.size).each do
-        |i|
-        p[i] = self.recursive_datetime_parser( p[i] )
-      end
-    end
-    p
-  end
-
-
-end # class HTTPStatus::JSON
+end # class Serializer::JSON
 
 
 end # module Rackful
