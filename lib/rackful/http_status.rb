@@ -39,17 +39,20 @@ class HTTPStatus < RuntimeError
       if k.kind_of? Symbol
         @to_rackful[k] = v
       else
-        @headers[k] = v
+        @headers[k] = v.to_s
       end
     end
     @to_rackful = nil if @to_rackful.empty?
-    begin
-      Nokogiri.XML(
-        '<?xml version="1.0" encoding="UTF-8" ?>' +
-        "<div>#{message}</div>"
-      ) do |config| config.strict.nonet end
-    rescue
-      message = Rack::Utils.escape_html(message)
+    if message
+      message = message.to_s
+      begin
+        Nokogiri.XML(
+          '<?xml version="1.0" encoding="UTF-8" ?>' +
+          "<div>#{message}</div>"
+        ) do |config| config.strict.nonet end
+      rescue
+        message = Rack::Utils.escape_html(message)
+      end
     end
     super message
   end
@@ -109,7 +112,7 @@ class HTTP201Created < HTTPStatus
       location = locations[0]
       super(
         201, 'A new resource was created:',
-        :location => location, 'Location' => location
+        :"Location" => location, 'Location' => location
       )
     end
   end
@@ -122,7 +125,10 @@ class HTTP202Accepted < HTTPStatus
   def initialize location = nil
     if location
       location = URI(location)
-      super( 202, '',  :'Job status location:' => location, 'Location' => location )
+      super(
+        202, "The request body you sent has been accepted for processing.",
+        :"Job status location:" => location, 'Location' => location
+      )
     else
       super 202
     end

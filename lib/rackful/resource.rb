@@ -5,7 +5,6 @@ module Rackful
 
 =begin markdown
 Mixin for resources served by {Server}.
-
 @see Server, ResourceFactory
 =end
 module Resource
@@ -15,10 +14,9 @@ module Resource
 
 
 =begin markdown
-When a module is included, all the instance methods of the included
-module become available as instance methods to the including module/class, but
-class methods of the included module don't become available as class methods to
-the including class.
+This callback includes all methods of {ClassMethods} into all subclasses of
+{Resource}, to make them available as a tiny DSL.
+@api private
 =end
   def self.included(base)
     base.extend ClassMethods
@@ -220,21 +218,22 @@ The best media type for the response body, given the current HTTP request.
 
 
 =begin markdown
-The url of this resource.
+The canonical path of this resource.
 @return [URI]
-@see #initialize
 =end
-  def url; @rackful_resource_url; end
+  attr_reader :relative_url
 
 
-  def url= url
-    @rackful_resource_url = URI(url).canonical.to_s
-    url
+=begin markdown
+@param path [String, URI]
+=end
+  def relative_url= path
+    @relative_url = URI(path)
   end
 
 
   def title
-    URI(self.url).segments.last || self.class.to_s
+    self.relative_url.segments.last || self.class.to_s
   end
 
 
@@ -380,7 +379,7 @@ Feel free to override this method at will.
 @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
 =end
   def http_GET request, response
-    raise HTTP404NotFound, self.url if self.empty?
+    raise HTTP404NotFound if self.empty?
     # May throw HTTP406NotAcceptable:
     content_type = self.class.best_content_type( request.accept )
     response['Content-Type'] = content_type
@@ -402,7 +401,7 @@ Wrapper around {#do_METHOD #do_GET}
 @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
 =end
   def http_DELETE request, response
-    raise HTTP404NotFound, self.url if self.empty?
+    raise HTTP404NotFound if self.empty?
     raise HTTP405MethodNotAllowed, self.http_methods unless self.respond_to?( :destroy )
     response.status = status_code( :no_content )
     if headers = self.destroy( request, response )
@@ -454,35 +453,6 @@ Adds `ETag:` and `Last-Modified:` response headers.
 
 
 end # module Resource
-
-
-=begin unused
-module Collection
-
-
-  include Enumerable
-
-
-  def self.included( modul )
-    unless modul.kind_of? Resource
-      raise "module #{self} included in #{modul}, which isn't a Rackful::Resource"
-    end
-  end
-
-
-  def recurse?; false; end
-
-
-  def each_pair
-    self.each do
-      |path|
-      yield [ path, Request.current.resource_factory( path ) ]
-    end
-  end
-
-
-end # module Collection
-=end
 
 
 end # module Rackful

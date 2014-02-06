@@ -8,7 +8,7 @@
 --markup markdown
 --hide-void-return
 --default-return void
-lib/**/*.rb
+lib/**/*.rb gems/rack-*/lib/**/*.rb
 -
 LICENSE.md
 RACKFUL.md

@@ -92,11 +92,11 @@ EOS
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <head>
 <title>#{ Rack::Utils.escape_html(resource.title) }</title>
-<base href="#{self.request.content_location}"/>
+<base href="#{self.request.canonical_url.path}"/>
 EOS
-    unless '/' == self.request.path
+    unless '/' == self.request.canonical_url.path
       tmp += <<EOS
-<link rel="contents" href="#{'/' === self.request.content_location[-1] ? '../' : './' }"/>
+<link rel="contents" href="#{'/' === self.request.canonical_url.path[-1] ? '../' : './' }"/>
 EOS
     end
     r = self.resource.to_rackful
@@ -178,7 +178,7 @@ How an object is serialized, depends:
 
     # A URI:
     elsif p.kind_of?( URI )
-      rel_path = p.route_from self.request.content_location
+      rel_path = self.request.canonical_url(p).route_from self.request.canonical_url
       yield "<a href=\"#{rel_path}\">" +
         Rack::Utils.escape_html( Rack::Utils.unescape( rel_path.to_s ) ) + '</a>'
 

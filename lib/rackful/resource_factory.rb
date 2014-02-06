@@ -31,10 +31,13 @@ module ResourceFactory
 
 
 =begin markdown
-@param url [String] The url of the requested resource
-@return [Resource, nil]
+@note The returned {Resource Resource} must have its {Resource#path path}
+  property set!
+@param path [String] The canonicalized path of the requested resource.
+@return [Resource] A (possibly {Resource#empty? empty}) resource
+@raise [HTTP404NotFound] if no resource exists at the given path
 =end
-def [] url
+def [] path
   raise NotImplementedError
 end
 

@@ -47,12 +47,15 @@ For reentrancy, the clone is stored in the environment.
     request = Request.new( self.resource_factory, p_env )
     response = Rack::Response.new
     begin
-      unless resource = self.resource_factory[request.url]
-        raise HTTP404NotFound, request.url
+      resource = self.resource_factory[ request.canonical_url.path ]
+      unless request.canonical_url.path == resource.relative_url.path
+        request.canonical_url.path = resource.relative_url.path
       end
-      unless resource.url == request.url
-        response.header['Content-Location'] = resource.url
-        request.content_location = resource.url
+      unless request.path == request.canonical_url.path
+        if %w{HEAD GET}.include?( request.request_method )
+          raise Rackful::HTTP301MovedPermanently, request.canonical_url
+        end
+        response.header['Content-Location'] = request.canonical_url.to_s
       end
       request.assert_if_headers resource
       if %w{HEAD GET OPTIONS PUT DELETE}.include?( request.request_method )
@@ -61,7 +64,7 @@ For reentrancy, the clone is stored in the environment.
         resource.http_method request, response
       end
     rescue HTTPStatus => e
-      e.url = request.content_location
+      e.relative_url = request.canonical_url.path
       content_type = e.class.best_content_type( request.accept, false )
       response = Rack::Response.new
       response['Content-Type'] = content_type
@@ -77,16 +80,17 @@ For reentrancy, the clone is stored in the environment.
     if request.head?
       response.body = []
     end
-    if  201 == response.status &&
-        ( location = response['Location'] ) &&
-        ( new_resource = request.resource_factory[location] ) &&
-        ! new_resource.empty? \
-    or  ( (200...300) === response.status ||
-           304        ==  response.status ) &&
-        ! response['Location'] &&
-        ( new_resource = request.resource_factory[request.url] ) &&
-        ! new_resource.empty?
-      response.headers.merge! new_resource.default_headers
+    begin
+      if  201 == response.status &&
+          ( location = response['Location'] ) &&
+          ! ( new_resource = request.resource_factory[ URI(location).normalize.path ] ).empty? \
+      or  ( (200...300) === response.status ||
+             304        ==  response.status ) &&
+          ! response['Location'] &&
+          ! ( new_resource = request.resource_factory[ request.canonical_url.path ] ).empty?
+        response.headers.merge! new_resource.default_headers
+      end
+    rescue HTTP404NotFound => e
     end
     response.finish
   end

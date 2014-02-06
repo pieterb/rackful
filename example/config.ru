@@ -10,8 +10,8 @@ require 'digest/md5'
 class Root
   include Rackful::Resource
   attr_reader :to_rackful
-  def initialize url
-    self.url = url
+  def initialize path
+    self.relative_url = path
     @to_rackful = { :a => 'Hello', :b => Time.now }
   end
   def do_PUT request, response
@@ -30,10 +30,10 @@ $root_resource = nil
 # Rackful::Server needs a resource factory which can map URIs to resource objects:
 class ResourceFactory
   include Rackful::ResourceFactory
-  def [] uri
-    case URI(uri).path
-    when '/' then $root_resource ||= Root.new(uri)
-    else nil
+  def [] path
+    case path
+    when '/' then $root_resource ||= Root.new(path)
+    else raise Rackful::HTTP404NotFound
     end
   end
 end

@@ -27,21 +27,23 @@ The resource factory for the current request.
 
 =begin markdown
 Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical url
-of the requested resource, which may differ from {#url}
-@return [String]
-=end
-  def content_location
-    self.env['rackful.content_location'] ||= self.url
-  end
+of the requested resource, which may differ from {#url}.
 
-
-=begin markdown
-Set by {Rackful::Server#call!}
-@param path [String]
-@return [String]
+If paramater +full_path+ is provided, than this is used instead of the current
+request’s full path (which is the path plus optional query string).
+@param [URI, String, NilClass] full_path
+@return [URI]
 =end
-  def content_location= url
-    self.env['rackful.content_location'] = url
+  def canonical_url( full_path = nil )
+    if ! full_path
+      self.env['rackful.canonical_url'] ||= URI( self.url ).normalize
+    else
+      full_path = URI( full_path )
+      retval = self.canonical_url.dup
+      retval.path  = full_path.path
+      retval.query = full_path.query
+      retval
+    end
   end
 
 
@@ -90,7 +92,7 @@ Assert all <tt>If-*</tt> request headers.
       elsif cond[:unmodified_since]
         raise HTTP412PreconditionFailed, 'If-Unmodified-Since'
       elsif cond[:modified_since]
-        raise HTTP404NotFound, resource.url
+        raise HTTP404NotFound
       end
     else
       if cond[:none_match] && self.validate_etag( etag, cond[:none_match] )

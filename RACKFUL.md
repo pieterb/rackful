@@ -79,7 +79,7 @@ Request:
 
 Response:
 
-    HTTP/1.1 204 No Content 
+    HTTP/1.1 204 No Content
     Allow: PUT, GET, HEAD, OPTIONS
     Date: Tue, 10 Jul 2012 10:22:52 GMT
 
@@ -99,12 +99,12 @@ Let's first get the current state of the resource, with this request:
 
 Response:
 
-    HTTP/1.1 200 OK 
+    HTTP/1.1 200 OK
     Content-Type: text/plain
     Content-Length: 12
     ETag: "86fb269d190d2c85f6e0468ceca42a20"
     Date: Tue, 10 Jul 2012 10:34:36 GMT
-    
+
     Hello world!
 
 Now, we'd like to change the state of the resource, but only if it's still in
@@ -116,7 +116,7 @@ produce an `If-Match:` header, with the entity tag of our last version:
     Content-Type: text/plain
     Content-Length: 31
     If-Match: "86fb269d190d2c85f6e0468ceca42a20"
-    
+
     All your base are belong to us.
 
 Response:
@@ -131,7 +131,7 @@ resource. When we replay this request, we get the following response:
     HTTP/1.1 412 Precondition Failed
     Content-Type: text/html; charset="UTF-8"
     Date: Tue, 10 Jul 2012 11:06:54 GMT
-    
+
     [...]
     <h1>HTTP/1.1 412 Precondition Failed</h1>
     <p>If-Match: "86fb269d190d2c85f6e0468ceca42a20"</p>
@@ -147,9 +147,6 @@ Further reading
     conditional requests.
 *   {Rackful::Resource#do\_METHOD} for more information about writing your own request
     handlers.
-*   {Rackful::RelativeLocation} for more information about this piece of Rack middleware
-    which allows you to return relative and absolute paths in the `Location:`
-    response header, and why you'd want that.
 
 Licensing
 ---------

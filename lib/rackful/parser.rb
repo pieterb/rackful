@@ -76,7 +76,7 @@ The media types parsed by this parser.
     begin
       @document = Nokogiri.XML(
         self.request.env['rack.input'].read,
-        self.request.url,
+        self.request.canonical_url.to_s,
         encoding
       ) do |config|
         config.strict.nonet
@@ -100,7 +100,7 @@ class Parser::XHTML < Parser::DOM
 The media types parsed by this parser.
 @see Parser
 =end
-  MEDIA_TYPES = Parser::DOM::MEDIA_TYPES + [ 
+  MEDIA_TYPES = Parser::DOM::MEDIA_TYPES + [
     'application/xhtml+xml',
     'text/html'
   ]
@@ -127,10 +127,13 @@ The media types parsed by this parser.
       '/html:html/html:head/html:base',
       'html' => 'http://www.w3.org/1999/xhtml'
     )
-    @base_url = base_url.empty? ? URI(self.request.url) :
-      URI(base_url.first.attribute('href').text)
-    if @base_url.relative?
-      @base_url = URI(self.request.url) + @base_url
+    if base_url.empty?
+      @base_url = self.request.canonical_url.dup
+    else
+      @base_url = URI( base_url.first.attribute('href').text ).normalize
+      if @base_url.relative?
+        @base_url = self.request.canonical_url + @base_url
+      end
     end
     # Parse the f*cking thing:
     self.parse_recursive content.first
@@ -144,7 +147,7 @@ The media types parsed by this parser.
 
     # A URI:
     if ( nodelist = node.xpath( 'html:a', 'html' => 'http://www.w3.org/1999/xhtml' ) ).length == 1
-      r = URI(nodelist.first.attribute('href').text)
+      r = URI( nodelist.first.attribute('href').text )
       r.relative? ? @base_url + r : r
 
     # An Object (AKA a Hash)

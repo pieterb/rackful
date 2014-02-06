@@ -23,15 +23,7 @@
 class URI::Generic
 
 
-=begin markdown
-Non-destructive version of {#canonical!}.
-@return [URI]
-=end
-  def canonical
-    r = self.dup
-    r.canonical!
-    r
-  end
+  alias_method :rackful_normalize!, :normalize!
 
 
 =begin markdown
@@ -46,11 +38,11 @@ Check RFC3986 syntax:
 @return [self, nil] self if the path was modified, or nil of the path was
   already in canonical form.
 =end
-  def canonical!
+  def normalize!
     #unless %r{\A(?:/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*\z}i === self.path
     #  raise TypeError, "Can’t convert String #{self.path.inspect} to Rackful::Path"
     #end
-    self.normalize!
+    self.rackful_normalize!
     path = '/' + self.segments( Encoding::BINARY ).collect do |segment|
       segment.gsub(/([^a-zA-Z0-9\-._~]+)/n) {
         '%'+$1.unpack('H2'*bytesize($1)).join('%').upcase
