@@ -9,7 +9,7 @@ module Rackful
 =begin markdown
 Mixin for resources served by {Server}.
 
-{Server} helps you implement Rackful resource objects quickly in a couple
+{Server} helps you implement ReSTful resource objects quickly in a couple
 of ways.  
 Classes that include this module may implement a method `content_types`
 for content negotiation. This method must return a Hash of

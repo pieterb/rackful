@@ -2,11 +2,11 @@ Gem::Specification.new do |s|
 
   # Required properties:
   s.name        = 'rackful'
-  s.version     = '0.1.4'
+  s.version     = '0.1.5'
   s.summary     = "Library for building ReSTful web services with Rack"
   s.description = <<EOS
 Rackful provides a minimal interface for developing ReSTful web services with
-Rack and Ruby. Instead of writing HTTP method handlers, you'll implement
+Rack and Ruby. Instead of writing HTTP method handlers, you’ll implement
 resource objects, which expose their state at URLs.
 
 This version is not backward compatible with v0.0.x.

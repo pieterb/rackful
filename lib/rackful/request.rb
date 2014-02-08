@@ -7,7 +7,7 @@ require 'rack'
 module Rackful
 
 =begin markdown
-Subclass of {Rack::Request}, augmented for Rackful requests.
+Subclass of {Rack::Request}, augmented for ReSTful requests.
 =end
 class Request < Rack::Request
 

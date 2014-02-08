@@ -23,7 +23,7 @@ The Resource Factory you provide need only implement one method, with signature
 This method will be called with a URI-encoded path string, and must return a
 {Resource}, or `nil` if there's no resource at the given path.
 
-For example, if a Rackful client
+For example, if a ReSTful client
 tries to access a resource with URI {http://example.com/your/resource http://example.com/some/resource},
 then your Resource Factory can expect to be called like this:
 

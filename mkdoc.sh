@@ -1,6 +1,7 @@
 #!/bin/bash
+# Nice options: server --reload
 
-cd "`dirname "$0"`"
+cd "`dirname "$BASH_SOURCE[0]"`"
 
 rm -rf doc/* .yardoc/
 exec yard "$@"
