@@ -2,3 +2,6 @@
 doc
 rackful*.gem
 *~
+.DS_Store
+/.project
+gems

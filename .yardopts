@@ -1,13 +1,16 @@
 #--private
 --no-private
 --protected
---main RACKFUL.md
+--main README.md
 --output-dir doc
 --charset UTF-8
---title Rackful
+--locale en_US.UTF-8
+--embed-mixins
+--title Lucipher
 --markup markdown
---hide-void-return
 --default-return void
+--hide-void-return
+--hide-api private
 lib/**/*.rb gems/rack-*/lib/**/*.rb
 -
 LICENSE.md
