@@ -1,43 +1,28 @@
-# encoding: utf-8
-
-
-=begin deprecated
-  =begin markdown
-  A String monkeypatch
-  =end
-  class String
-
-
-  =begin markdown
-  @return [Rackful::Path]
-  =end
-    def to_path
-      Rackful::Path.new( self )
-    end
-
-
-  end # class String
-=end
-
-
+# Extension and monkeypatch of Ruby’s StdLib URI::Generic class.
 class URI::Generic
 
+  unless method_defined? :rackful_normalize!
+    # Copy of the original StdLib
+    # [URI::Generic::normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
+    # method.
+    alias_method :rackful_normalize!, :normalize!
+  end
 
-  alias_method :rackful_normalize!, :normalize!
 
-
-=begin markdown
-Canonicalizes the path.
-No unreserved characters are pct-encoded, and all non-unreserved characters _are_
-pct-encoded.
-
-Check RFC3986 syntax:
-  abempty = *( "/" *(unreserved / pct-encoded / sub-delims / ":" / "@") )
-  unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
-  sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-@return [self, nil] self if the path was modified, or nil of the path was
-  already in canonical form.
-=end
+  # Monkeypatch of [Ruby’s StdLib implementation](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21).
+  # In addition to the default
+  # implementation, this implementation ensures that
+  #
+  # 1.  no unreserved characters are pct-encoded, and
+  # 2.  all non-unreserved characters _are_ pct-encoded.
+  #
+  # Check [RFC3986](http://tools.ietf.org/html/rfc3986) syntax:
+  #
+  #     abempty = *( "/" *(unreserved / pct-encoded / sub-delims / ":" / "@") )
+  #     unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
+  #     sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+  # @return [self, nil] self if the path was modified, or nil of the path was
+  #   already in canonical form.
   def normalize!
     #unless %r{\A(?:/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*\z}i === self.path
     #  raise TypeError, "Can’t convert String #{self.path.inspect} to Rackful::Path"
@@ -57,9 +42,7 @@ Check RFC3986 syntax:
   end
 
 
-=begin markdown
-@return [Path] a copy of `self`, with a trailing slash.
-=end
+  # @return [Path] a copy of `self`, with a trailing slash.
   def slashify
     r = self.dup
     r.slashify!
@@ -67,10 +50,8 @@ Check RFC3986 syntax:
   end
 
 
-=begin markdown
-Adds a trailing slash to `self` if necessary.
-@return [self]
-=end
+  # Adds a trailing slash to `self` if necessary.
+  # @return [self]
   def slashify!
     if '/' != self.path[-1,1]
       self.path += '/'
@@ -81,9 +62,7 @@ Adds a trailing slash to `self` if necessary.
   end
 
 
-=begin markdown
-@return [Path]a copy of `self` without trailing slashes.
-=end
+  # @return [Path] a copy of `self` without trailing slashes.
   def unslashify
     r = self.dup
     r.unslashify!
@@ -91,10 +70,8 @@ Adds a trailing slash to `self` if necessary.
   end
 
 
-=begin markdown
-Removes trailing slashes from `self`.
-@return [self]
-=end
+  # Removes trailing slashes from `self`.
+  # @return [self]
   def unslashify!
     path = self.path.sub( %r{/+\z}, '' )
     if path == self.path
@@ -106,9 +83,7 @@ Removes trailing slashes from `self`.
   end
 
 
-=begin markdown
-@return [Array<String>] Unencoded segments
-=end
+  # @return [Array<String>] Unencoded segments
   def segments( encoding = Encoding::UTF_8 )
     r = self.path.split(%r{/+}).collect do |s|
       Rack::Utils.unescape( s, encoding )
@@ -118,12 +93,10 @@ Removes trailing slashes from `self`.
   end
 
 
-=begin markdown
-Turns a relative URI (starting with `/`) into a relative path (starting with `./` or `../`)
-@param base_path [Path]
-@return [String] a relative URI
-@deprecated
-=end
+  # Turns a relative URI (starting with `/`) into a relative path (starting with `./` or `../`)
+  # @param base_path [Path]
+  # @return [String] a relative URI
+  # @deprecated
   def relative_deprecated base_path
     case self
     when base_path

@@ -5,3 +5,6 @@ rackful*.gem
 .DS_Store
 /.project
 gems
+/Gemfile
+/Gemfile.lock
+attic

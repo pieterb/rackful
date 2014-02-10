@@ -1,7 +1,7 @@
 # Load core functionality:
 require 'rackful'
 
-# Load extra middlewares: ({Rackful::MethodSpoofing}, {Rackful::HeaderSpoofing})
+# Load extra middlewares: ({Rackful::MethodOverride}, {Rackful::HeaderSpoofing})
 require 'rackful/middleware'
 
 require 'digest/md5'
@@ -39,7 +39,7 @@ class ResourceFactory
 end
 
 use Rack::Reloader
-use Rackful::MethodSpoofing
+use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
 
-run Rackful::Server.new ResourceFactory.new
+run Rackful::Server.new( ResourceFactory.new )

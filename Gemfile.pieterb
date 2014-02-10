@@ -1,0 +1,6 @@
+#ruby=jruby@rackful
+ruby "1.9.3"
+source 'https://rubygems.org'
+gem "rack"
+gem "yard"
+gem "nokogiri"
