@@ -1,61 +1,68 @@
-# encoding: utf-8
-
-
 module Rackful
 
-=begin markdown
-Rack compliant server class for implementing RESTful web services.
-=end
+# Rack compliant server class for implementing RESTful web services.
 class Server
 
 
-=begin markdown
-@return [#resource]
-@see #initialize
-@see ResourceFactory
-=end
-  attr_reader :resource_factory
-
-
-=begin markdown
-@param resource_factory [#resource] The {ResourceFactory resource factory} to
-  be used by this server.
-=end
-  def initialize(resource_factory)
-    super()
-    @resource_factory = resource_factory
+  # Constructor.
+  #
+  # This generic server class has no knowledge, and makes no presumptions,
+  # about your URI namespace. It depends on the code block you provide here
+  # to produce the {Resource} object which lives at a certain URI.
+  # This block will be called with a {::URI::Generic#normalize! normalized}
+  # {::URI::HTTP URI}, and must return a {Resource}, or `nil` if there’s no
+  # resource at the given URI.
+  #
+  # If there’s no resource at the given URI, but you’d still like to respond to
+  # `POST` or `PUT` requests to this URI, you can return an
+  # {Resource#empty? empty resource}.
+  #
+  # The provided code block must be thread-safe and reentrant.
+  # @yieldparam uri [::URI::Generic] The {::URI::Generic::normalize normalized}
+  #   URI of the requested resource.
+  # @yieldreturn [Resource] A (possibly {Resource#empty? empty}) resource, or nil.
+  def initialize( &resource_registry )
+    @resource_registry = resource_registry
   end
 
 
-=begin markdown
-As required by the Rack specification.
-
-For thread safety, this method clones `self`, which handles the request in
-{#call!}.
-For reentrancy, the clone is stored in the environment.
-@return [Array<(status_code, response_headers, response_body)>]
-=end
-  def call( p_env )
-    ( p_env['rackful.server'] ||= self.dup ).call!( p_env )
+  # Calls the code block passed to the {#initialize constructor}.
+  # @param uri [URI::HTTP, String]
+  # @return [Resource]
+  # @raise [HTTP404NotFound]
+  def resource_at(uri)
+    uri = URI(uri) unless uri.kind_of?( URI::Generic )
+    retval = @resource_registry.call( uri.normalize )
+    raise HTTP404NotFound unless retval
+    retval
   end
 
 
-=begin markdown
-@return [Array<(status_code, response_headers, response_body)>]
-=end
-  def call!( p_env )
-    request = Request.new( self.resource_factory, p_env )
+  # As required by the Rack specification.
+  #
+  # For thread safety, this method clones `self`, which handles the request in
+  # {#call!}.
+  # For reentrancy, the clone is stored in the environment.
+  # @param env [{String => Mixed}]
+  # @return [(status_code, response_headers, response_body)]
+  def call( env )
+    ( env['rackful.server'] ||= self.dup ).call!( env )
+  end
+
+
+  # @see #call
+  # @return [(status_code, response_headers, response_body)]
+  def call!( env )
+    request = Request.new( env )
     response = Rack::Response.new
     begin
-      resource = self.resource_factory[ request.canonical_url.path ]
-      unless request.canonical_url.path == resource.relative_url.path
-        request.canonical_url.path = resource.relative_url.path
-      end
-      unless request.path == request.canonical_url.path
+      resource = resource_at( request.url )
+      request.canonical_uri = resource.uri
+      if request.url != request.canonical_uri.to_s
         if %w{HEAD GET}.include?( request.request_method )
-          raise Rackful::HTTP301MovedPermanently, request.canonical_url
+          raise HTTP301MovedPermanently, request.canonical_uri
         end
-        response.header['Content-Location'] = request.canonical_url.to_s
+        response.header['Content-Location'] = request.canonical_uri.to_s
       end
       request.assert_if_headers resource
       if %w{HEAD GET OPTIONS PUT DELETE}.include?( request.request_method )
@@ -64,8 +71,8 @@ For reentrancy, the clone is stored in the environment.
         resource.http_method request, response
       end
     rescue HTTPStatus => e
-      e.relative_url = request.canonical_url.path
-      content_type = e.class.best_content_type( request.accept, false )
+      e.uri = request.url
+      content_type = request.best_content_type( e, false )
       response = Rack::Response.new
       response['Content-Type'] = content_type
       response.status = e.status
@@ -83,11 +90,13 @@ For reentrancy, the clone is stored in the environment.
     begin
       if  201 == response.status &&
           ( location = response['Location'] ) &&
-          ! ( new_resource = request.resource_factory[ URI(location).normalize.path ] ).empty? \
+          ( new_resource = resource_at( location ) ) &&
+          ! new_resource.empty? \
       or  ( (200...300) === response.status ||
              304        ==  response.status ) &&
           ! response['Location'] &&
-          ! ( new_resource = request.resource_factory[ request.canonical_url.path ] ).empty?
+          ( new_resource = resource_at( request.canonical_uri ) ) &&
+          ! new_resource.empty?
         response.headers.merge! new_resource.default_headers
       end
     rescue HTTP404NotFound => e

@@ -71,12 +71,14 @@ The media types parsed by this parser.
 @raise [HTTP400BadRequest] if the document is malformed.
 =end
   def initialize request, resource
-    super
+    super request, resource
+    # TODO Is ISO-8859-1 indeed the default encoding for XML documents? If so,
+    # that fact must be documented and referenced.
     encoding = self.request.media_type_params['charset'] || 'ISO-8859-1'
     begin
       @document = Nokogiri.XML(
         self.request.env['rack.input'].read,
-        self.request.canonical_url.to_s,
+        self.request.canonical_uri.to_s,
         encoding
       ) do |config|
         config.strict.nonet
@@ -84,6 +86,7 @@ The media types parsed by this parser.
     rescue
       raise HTTP400BadRequest, $!.to_s
     end
+    raise( HTTP400BadRequest, $!.to_s ) unless @document.root
   end
 
 
@@ -128,11 +131,11 @@ The media types parsed by this parser.
       'html' => 'http://www.w3.org/1999/xhtml'
     )
     if base_url.empty?
-      @base_url = self.request.canonical_url.dup
+      @base_url = self.request.canonical_uri.dup
     else
       @base_url = URI( base_url.first.attribute('href').text ).normalize
       if @base_url.relative?
-        @base_url = self.request.canonical_url + @base_url
+        @base_url = self.request.canonical_uri + @base_url
       end
     end
     # Parse the f*cking thing:

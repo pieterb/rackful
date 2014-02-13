@@ -1,15 +1,15 @@
 # @title Rackful
 
-Rackful
-=======
-
 Library for creating ReSTful web services
 
-The latest documentation is always available
-[here, as GitHub pages](http://pieterb.github.com/Rackful/).
+The latest “stable” documentation can be found here:
 
-Rationale
----------
+* [User documentation](http://pieterb.github.com/Rackful/)
+* [Developer documentation](http://pieterb.github.com/Rackful/devel/) (includes
+  documentation for private methods and other internals)
+
+Overview
+========
 
 Confronted with the task of implementing a ReSTful web service in Ruby, I
 checked out a number of existing libraries and frameworks, including
@@ -30,8 +30,8 @@ find a library or framework with all of the following properties:
     subject of more than one flame-war over the years. Not much I can add to the
     debate...
 
-    _...but,_ with Ruby, you shouldn't _need_ code generation!
-    Unless, of course, you're an ex-Java programmer and/or don't understand
+    _...but,_ with Ruby, you shouldn’t _need_ code generation!
+    Unless, of course, you’re an ex-Java programmer and/or don’t understand
     meta-programming.
 
 *   **Full support for conditional requests** using `If-*:` request headers. Most
@@ -145,13 +145,26 @@ response body, the server kindly points out exactly which precondition.
 Further reading
 ---------------
 *   {Rackful::Server#initialize} for more information about your Resource Factory.
-*   {Rackful::Resource#get\_etag} and {Rackful::Resource#get\_last\_modified} for more information on
-    conditional requests.
+*   {Rackful::Resource#get\_etag} and {Rackful::Resource#get\_last\_modified} for more
+    information on conditional requests.
 *   {Rackful::Resource#do\_METHOD} for more information about writing your own request
     handlers.
 
+Development
+===========
+Some conventions used throughout the code and documentation:
+
+*   In {Rack}, URLs are represented by Ruby Strings. In Rackful, URLs are
+    represented by objects of class {::URI::HTTP} wherever possible. This can
+    lead to confusion. As a convention, methods and variables that return/contain
+    a URL String have `url` in their names. while methods and variables that
+    return/contain a {::URI::HTTP} object have `uri` in their names. Yes, it’s
+    ugly, but it helps.
+*   URI’s are stored and passed around in their {::URI::Generic#normalize normalized}
+    form wherever possible.
+
 Licensing
----------
+=========
 Copyright ©2011-2012 Pieter van Beek <pieter@djinnit.com>
 
 Licensed under the {file:LICENSE.md Apache License 2.0}. You should have received a copy of the

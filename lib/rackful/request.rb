@@ -3,25 +3,24 @@
 
 module Rackful
 
-=begin markdown
-Subclass of {Rack::Request}, augmented for Rackful requests.
-=end
+# Subclass of {Rack::Request}, augmented for Rackful requests.
 class Request < Rack::Request
 
 
-  def initialize resource_factory, *args
+  def initialize *args
     super( *args )
-    self.env['rackful.resource_factory'] = resource_factory
   end
 
 
 =begin markdown
-The resource factory for the current request.
-@return [#[]]
-@see Server#initialize
+Shortcut to {Server#resource_at}.
+
+(see Server#resource_at)
+@return (see Server#resource_at)
+@raise (see Server#resource_at)
 =end
-  def resource_factory
-    self.env['rackful.resource_factory']
+  def resource_at *args
+    env['rackful.server'].resource_at( *args )
   end
 
 
@@ -29,21 +28,26 @@ The resource factory for the current request.
 Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical url
 of the requested resource, which may differ from {#url}.
 
-If paramater +full_path+ is provided, than this is used instead of the current
+If parameter +full_path+ is provided, than this is used instead of the current
 request’s full path (which is the path plus optional query string).
-@param [URI, String, NilClass] full_path
-@return [URI]
+@return [URI::Generic]
 =end
-  def canonical_url( full_path = nil )
-    if ! full_path
-      self.env['rackful.canonical_url'] ||= URI( self.url ).normalize
-    else
-      full_path = URI( full_path )
-      retval = self.canonical_url.dup
-      retval.path  = full_path.path
-      retval.query = full_path.query
-      retval
-    end
+  def canonical_uri
+    env['rackful.canonical_uri'] ||= URI( self.url ).normalize
+  end
+
+
+=begin markdown
+The canonical url of the requested resource. This may differ from {#url}.
+
+@todo Change URI::Generic into URI::HTTP
+@param uri [URI::Generic, String]
+@return [URI::Generic, String] `uri`
+=end
+  def canonical_uri=( uri )
+    env['rackful.canonical_uri'] =
+      uri.kind_of?( URI::Generic ) ? uri : URI(uri).normalize
+    uri
   end
 
 
@@ -65,7 +69,7 @@ Assert all <tt>If-*</tt> request headers.
 =end
   def assert_if_headers resource
     #raise HTTP501NotImplemented, 'If-Range: request header is not supported.' \
-    #  if @env.key? 'HTTP_IF_RANGE'
+    #  if env.key? 'HTTP_IF_RANGE'
     empty = resource.empty?
     etag =
       if ! empty && resource.respond_to?(:get_etag)
@@ -122,17 +126,77 @@ Assert all <tt>If-*</tt> request headers.
   end
 
 
-=begin markdown
-Hash of acceptable media types and their qualities.
+  # Shortcut to {Rack::Utils.q_values}. Well, actually, we reimplemented it
+  # because the implementation in {Rack::Utils} seems incomplete.
+  # @return [Array<Array(type, quality)>]
+  # @see Rack::Utils.q_values
+  def q_values
+    # This would be the “shortcut” implementation:
+    #env['rackful.q_values'] ||= Rack::Utils.q_values(env['HTTP_ACCEPT'])
+    # But here’s a full (and better) implementation:
+    env['rackful.q_values'] ||= env['HTTP_ACCEPT'].to_s.split(/\s*,\s*/).map do
+      |part|
+      value, *parameters = part.split(/\s*;\s*/)
+      quality = 1.0
+      parameters.each do |p|
+        quality = p[2..-1].to_f if p.start_with? 'q='
+      end
+      [value, quality]
+    end
+  end
 
-This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
-types are provided, an empty Hash is returned.
-@return [Hash{media_type => quality}]
+
+=begin markdown
+The best media type to represent a resource, given the current HTTP request.
+@param resource [Resource] the resource to represent
+@param require_match [Boolean] this flag determines what must happen if the
+  client sent an `Accept:` header, and we cannot serve any of the acceptable
+  media types. **`TRUE`** means that an {HTTP406NotAcceptable} exception is
+  raised. **`FALSE`** means that the content-type with the highest quality is
+  returned.
+@return [String] content-type
+@raise [HTTP406NotAcceptable]
+@api private
 =end
+  def best_content_type( resource, require_match = true )
+    q_values = self.q_values
+    if q_values.empty?
+      return resource.all_serializers.values.sort_by(&:last).last[0]::CONTENT_TYPES[0]
+    end
+    matches = []
+    q_values.each {
+      |accept_media_type, accept_quality|
+      resource.class.all_serializers.each_pair {
+        |content_type, v|
+        quality = v[1]
+        media_type = content_type.split(';').first.strip
+        if File.fnmatch( accept_media_type, media_type )
+          matches << [ content_type, accept_quality * quality ]
+        end
+      }
+    }
+    if matches.empty?
+      if require_match
+        raise( HTTP406NotAcceptable, resource.all_serializers.keys() )
+      else
+        return resource.all_serializers.values.sort_by(&:last).
+          last.first::CONTENT_TYPES.first
+      end
+    end
+    matches.sort_by(&:last).last.first
+  end
+
+
+  # Hash of acceptable media types and their qualities.
+  #
+  # This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
+  # types are provided, an empty Hash is returned.
+  # @return [Hash{media_type => quality}]
+  # @deprecate Use {#q_values} instead
   def accept
-    @env['rackful.accept'] ||= begin
+    env['rackful.accept'] ||= begin
       Hash[
-        @env['HTTP_ACCEPT'].to_s.split(',').collect do
+        env['HTTP_ACCEPT'].to_s.split(',').collect do
           |entry|
           type, *options = entry.delete(' ').split(';')
           quality = 1
@@ -156,7 +220,7 @@ Parses the HTTP/1.1 `If-Match:` header.
 @see #if_none_match
 =end
   def if_match none = false
-    header = @env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
+    header = env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
     return nil unless header
     envkey = "rackful.if_#{ none ? 'none_' : '' }match"
     if %r{\A\s*\*\s*\z} === header
@@ -186,7 +250,7 @@ Parses the HTTP/1.1 `If-None-Match:` header.
 @see #if_unmodified_since
 =end
   def if_modified_since unmodified = false
-    header = @env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
+    header = env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
     return nil unless header
     begin
       header = Time.httpdate( header )

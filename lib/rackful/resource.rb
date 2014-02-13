@@ -1,177 +1,139 @@
 # encoding: utf-8
-
-
 module Rackful
 
-=begin markdown
-Mixin for resources served by {Server}.
-@see Server, ResourceFactory
-=end
+# Abstract superclass for resources served by {Server}.
+# @see Server
+# @todo better documentation
+# @abstract Realizations must implement…
 module Resource
 
 
-  include Rack::Utils
+
+  def initialize( uri = nil )
+    self.uri = uri
+  end
 
 
-=begin markdown
-This callback includes all methods of {ClassMethods} into all subclasses of
-{Resource}, to make them available as a tiny DSL.
-@api private
-=end
+  # This callback includes all methods of {ClassMethods} into all subclasses of
+  # {Resource}, to make them available as a tiny DSL.
+  # @api private
   def self.included(base)
     base.extend ClassMethods
   end
 
 
-=begin markdown
-@see Resource::included
-=end
+  # @see Resource::included
   module ClassMethods
 
 
-=begin markdown
-Meta-programmer method.
-@example Have your resource rendered in XML and JSON
-  class MyResource
-    add_serializer MyResource2XML
-    add_serializer MyResource2JSON, 0.5
+  # Meta-programmer method.
+  # @example Have your resource rendered in XML and JSON
+  #   class MyResource
+  #     add_serializer MyResource2XML
+  #     add_serializer MyResource2JSON, 0.5
+  #   end
+  # @param serializer [Serializer]
+  # @param quality [Float]
+  # @return [self]
+  def add_serializer serializer, quality = 1.0
+    quality = quality.to_f
+    quality = 1.0 if quality > 1.0
+    quality = 0.0 if quality < 0.0
+    s = [serializer, quality]
+    serializer::CONTENT_TYPES.each {
+    |content_type|
+      self.serializers[content_type.to_s] = s
+    }
+    self
   end
-@param serializer [Serializer]
-@param quality [Float]
-@return [self]
-=end
-    def add_serializer serializer, quality = 1.0
-      quality = quality.to_f
-      quality = 1.0 if quality > 1.0
-      quality = 0.0 if quality < 0.0
-      s = [serializer, quality]
-      serializer::CONTENT_TYPES.each {
-        |content_type|
-        self.serializers[content_type.to_s] = s
-      }
-      self
-    end
 
 
-=begin markdown
-@return [Hash{Serializer => Float}]
-@api private
-=end
-    def serializers
-      # The single '@' on the following line is on purpose!
-      @rackful_resource_serializers ||= {}
-    end
-
-
-=begin markdown
-@return [Hash{Serializer => Float}]
-@api private
-=end
-    def all_serializers
-      # The single '@' on the following line is on purpose!
-      @rackful_resource_all_serializers ||=
-        if self.superclass.respond_to?(:all_serializers)
-          self.superclass.all_serializers.merge( self.serializers ) do
-            |key, oldval, newval|
-            newval[1] >= oldval[1] ? newval : oldval
-          end
-        else
-          self.serializers
-        end
-    end
-
-
-=begin markdown
-Meta-programmer method.
-@example Have your resource accept XHTML in `PUT` requests
-  class MyResource
-    include Rackful::Resource
-    add_parser Rackful::Parser::XHTML, :PUT
+  # Meta-programmer method.
+  # @example Have your resource accept XHTML in `PUT` requests
+  #   class MyResource
+  #     include Rackful::Resource
+  #     add_parser Rackful::Parser::XHTML, :PUT
+  #   end
+  # @param parser [Class] an implementation (ie. subclass) of {Parser}
+  # @param method [#to_sym] For example: `:PUT` or `:POST`
+  # @return [self]
+  def add_parser parser, method = :PUT
+    method = method.to_sym
+    self.parsers[method] ||= []
+    self.parsers[method] << parser
+    self.parsers[method].uniq!
+    self
   end
-@param parser [Class] an implementation (ie. subclass) of {Parser}
-@param method [#to_sym] For example: `:PUT` or `:POST`
-@return [self]
-=end
-    def add_parser parser, method = :PUT
-      method = method.to_sym
-      self.parsers[method] ||= []
-      self.parsers[method] << parser
-      self
-    end
 
 
-=begin markdown
-@return [Hash{Symbol => Array<Class>}]
-@api private
-=end
-    def parsers
-      @rackful_resource_parsers ||= {}
-    end
+  # All parsers added to _this_ class.  Ie. not including parsers added
+  # to parent classes.
+  # @return [Hash{Symbol => Array<Class>}] A hash of lists of {Parser} classes,
+  #   indexed by HTTP method.
+  # @api private
+  def parsers
+    @rackful_resource_parsers ||= {}
+  end
 
 
-=begin markdown
-@param method [#to_sym] For example: `:PUT` or `:POST`
-@return [Array<Class>] An array of {Parser} classes
-@api private
-=end
-    def all_parsers method
-      method = method.to_sym
-      retval = self.parsers[method] || []
+  # All serializers added to _this_ class.  Ie. not including serializers added
+  # to parent classes.
+  # @return [Hash{Serializer => Float}]
+  # @api private
+  def serializers
+    # The single '@' on the following line is on purpose!
+    @rackful_resource_serializers ||= {}
+  end
+
+
+  # All parsers for this class, including parsers added to parent classes.
+  # The result of this method is cached, which will interfere with code reloading.
+  # @param method [#to_sym] For example: `:PUT` or `:POST`
+  # @return [Hash{Symbol => Array<Class>}]
+  # @api private
+  def all_parsers
+    # The single '@' on the following line is on purpose!
+    @rackful_resource_all_parsers ||=
       if self.superclass.respond_to?(:all_parsers)
-        self.superclass.all_parsers(method) + retval
-      else
-        retval
-      end
-    end
-
-
-=begin markdown
-The best media type for the response body, given the current HTTP request.
-@param accept [Hash{String => Float}] a Hash of **media-type => quality** pairs.
-@param require_match [Boolean]
-@return [String] content-type
-@raise [HTTP406NotAcceptable] if `require_match` is `true` and no match was found.
-@api private
-=end
-    def best_content_type accept, require_match = true
-      if accept.empty?
-        return self.all_serializers.values.sort_by(&:last).last[0]::CONTENT_TYPES[0]
-      end
-      matches = []
-      accept.each_pair {
-        |accept_media_type, accept_quality|
-        self.all_serializers.each_pair {
-          |content_type, v|
-          quality = v[1]
-          media_type = content_type.split(';').first.strip
-          if File.fnmatch( accept_media_type, media_type )
-            matches << [ content_type, accept_quality * quality ]
-          end
-        }
-      }
-      if matches.empty?
-        if require_match
-          raise( HTTP406NotAcceptable, self.all_serializers.keys() )
-        else
-          return self.all_serializers.values.sort_by(&:last).last[0]::CONTENT_TYPES[0]
+        self.parsers.merge( self.superclass.all_parsers ) do
+          |key, oldval, newval|
+          ( oldval + newval ).uniq
         end
+      else
+        self.parsers
       end
-      matches.sort_by(&:last).last[0]
-    end
+  end
+
+
+  # All serializers for this class, including those added to parent classes.
+  # The result of this method is cached, which will interfere with code reloading.
+  # @return [Hash{Serializer => Float}] The float indicates the quality of each
+  #   serializer in the interval [0,1]
+  # @api private
+  def all_serializers
+    # The single '@' on the following line is on purpose!
+    @rackful_resource_all_serializers ||=
+      if self.superclass.respond_to?(:all_serializers)
+        self.superclass.all_serializers.merge( self.serializers ) do
+          |key, oldval, newval|
+          newval[1] >= oldval[1] ? newval : oldval
+        end
+      else
+        self.serializers
+      end
+  end
 
 
   end # module ClassMethods
 
 
 =begin markdown
-@param request [Rackful::Request]
+@param request [Request]
 @param content_type [String]
 @return [Serializer]
 =end
   def serializer request, content_type
-    @rackful_resource_serializers ||= {}
-    @rackful_resource_serializers[content_type] ||=
-      self.class.all_serializers[content_type][0].new( request, self, content_type )
+    self.class.all_serializers[content_type][0].new( request, self, content_type )
   end
 
 
@@ -183,15 +145,16 @@ The best media type for the response body, given the current HTTP request.
 =end
   def parser request
     unless request.content_length ||
-           'chunked' == request.env['HTTP_TRANSFER_ENCODING'] and
-           ( request_media_type = request.media_type )
-      return nil
+           'chunked' == request.env['HTTP_TRANSFER_ENCODING']
+      raise HTTP411LengthRequired
     end
+    request_media_type = request.media_type.to_s
     supported_media_types = []
-    self.class.all_parsers( request.request_method ).reverse_each do |parser|
-      parser::MEDIA_TYPES.each do |parser_media_type|
+    all_parsers = self.class.all_parsers[ request.request_method.to_sym ] || []
+    all_parsers.each do |p|
+      p::MEDIA_TYPES.each do |parser_media_type|
         if File.fnmatch( parser_media_type, request_media_type )
-          return parser.new( request, self )
+          return p.new( request, self )
         end
         supported_media_types << parser_media_type
       end
@@ -221,28 +184,29 @@ The best media type for the response body, given the current HTTP request.
 The canonical path of this resource.
 @return [URI]
 =end
-  attr_reader :relative_url
+  attr_reader :uri
 
 
 =begin markdown
-@param path [String, URI]
+@param uri [String, URI]
 =end
-  def relative_url= path
-    @relative_url = URI(path)
+  def uri= uri
+    @uri = uri.kind_of?( URI::Generic ) ? uri : URI(uri.to_s).normalize
+    uri
   end
 
 
   def title
-    self.relative_url.segments.last || self.class.to_s
+    self.uri.segments.last || self.class.to_s
   end
 
 
 =begin markdown
-Does this resource _exists_?
+Does this resource _exist_?
 
 For example, a client can `PUT` to a URL that doesn't refer to a resource
-yet. In that case, your {Server#resource_factory resource factory} can
-produce an empty resource to to handle the `PUT` request. `HEAD` and `GET`
+yet. In that case, your {Server#initialize resource registry} can
+produce an empty resource to handle the `PUT` request. `HEAD` and `GET`
 requests will still yield `404 Not Found`.
 
 @return [Boolean] The default implementation returns `false`.
@@ -251,10 +215,7 @@ requests will still yield `404 Not Found`.
     false
   end
 
-
-=begin markdown
-
-=end
+  # @todo documentation
   def to_rackful
     self
   end
@@ -345,7 +306,7 @@ Feel free to override this method at will.
 @raise [HTTP404NotFound] `404 Not Found` if this resource is empty.
 =end
   def http_OPTIONS request, response
-    response.status = status_code :no_content
+    response.status = Rack::Utils.status_code :no_content
     response.header['Allow'] = self.http_methods.join ', '
   end
 
@@ -381,9 +342,9 @@ Feel free to override this method at will.
   def http_GET request, response
     raise HTTP404NotFound if self.empty?
     # May throw HTTP406NotAcceptable:
-    content_type = self.class.best_content_type( request.accept )
+    content_type = request.best_content_type( self )
     response['Content-Type'] = content_type
-    response.status = status_code( :ok )
+    response.status = Rack::Utils.status_code( :ok )
     response.headers.merge! self.default_headers
     # May throw HTTP405MethodNotAllowed:
     serializer = self.serializer( request, content_type )
@@ -402,8 +363,9 @@ Wrapper around {#do_METHOD #do_GET}
 =end
   def http_DELETE request, response
     raise HTTP404NotFound if self.empty?
-    raise HTTP405MethodNotAllowed, self.http_methods unless self.respond_to?( :destroy )
-    response.status = status_code( :no_content )
+    raise HTTP405MethodNotAllowed, self.http_methods unless
+      self.respond_to?( :destroy )
+    response.status = Rack::Utils.status_code( :no_content )
     if headers = self.destroy( request, response )
       response.headers.merge! headers
     end
@@ -417,7 +379,7 @@ Wrapper around {#do_METHOD #do_GET}
 =end
   def http_PUT request, response
     raise HTTP405MethodNotAllowed, self.http_methods unless self.respond_to? :do_PUT
-    response.status = status_code( self.empty? ? :created : :no_content )
+    response.status = Rack::Utils.status_code( self.empty? ? :created : :no_content )
     self.do_PUT( request, response )
     response.headers.merge! self.default_headers
   end

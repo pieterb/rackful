@@ -50,25 +50,23 @@ require 'set'
 class Rackful::MethodOverride
 
   METHOD_OVERRIDE_PARAM_KEY = '_method'.freeze
-
-  # The maximum size of a `POST` request body to be converted into `GET`
-  # query parameters.
-  DEFAULT_QUERY_STRING_MAX_LENGTH = 1024 * 1024
+  
+  POST_TO_GET_REQUEST_BODY_MAX_SIZE = 1024 * 1024
 
   ALLOWED_OVERRIDES = {
     'GET'.freeze  => [ 'DELETE', 'HEAD',  'OPTIONS' ].to_set.freeze,
     'POST'.freeze => [ 'PATCH', 'PUT'     ].to_set.freeze
   }.freeze
 
-  # Constructor. Supported options are:
-  #
-  # *   **`:max_length`** the maximum accepted request body size (in bytes) for
-  #     `POST` → `GET` method overrides.
-  # @example config.ru
-  #   use Rackful::MethodOverride, :max_length => 2**26 # 64MiB
+  # Constructor.
+  # @param app [#call]
+  # @param options [Hash{Symbol => Mixed}] Configuration options. The following
+  #   options are supported:
+  #   *   **`:max_size`** the maximum size (in bytes) of the request body of a
+  #       `POST` request that is converted to a `GET` request.
   def initialize( app, options = {} )
     @app = app
-    @max_length = options[:max_length].to_i || DEFAULT_QUERY_STRING_MAX_LENGTH
+    @max_size = options[:max_size]
   end
 
 
@@ -97,9 +95,10 @@ class Rackful::MethodOverride
     join('&')
     if new_method
       if  'GET' == new_method &&
-          'POST' == env['REQUEST_METHOD'] &&
+          'POST' == env['REQUEST_METHOD']
+        raise HTTP415
           'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
-          env['CONTENT_LENGTH'].to_i <= @max_length
+          env['CONTENT_LENGTH'].to_i <= @max_size
         if env.key?('rack.input')
           new_query_string += '&' unless new_query_string.empty?
           new_query_string += env['rack.input'].read

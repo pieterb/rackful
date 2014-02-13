@@ -1,19 +1,32 @@
 # Extension and monkeypatch of Ruby’s StdLib URI::Generic class.
 class URI::Generic
 
-  unless method_defined? :rackful_normalize!
+  unless method_defined? :uri_generic_normalize!
     # Copy of the original StdLib
     # [URI::Generic::normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
     # method.
-    alias_method :rackful_normalize!, :normalize!
+    alias_method :uri_generic_normalize!, :normalize!
+  end
+  
+  unless method_defined? :uri_generic_normalize
+    # Copy of the original StdLib
+    # [URI::Generic::normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
+    # method.
+    alias_method :uri_generic_normalize, :normalize
+  end
+  
+  # (see #normalize!)
+  # @return [URI::Generic] a normalized copy of `self`.
+  def normalize
+    r = self.dup
+    r.normalize!
+    r
   end
 
-
   # Monkeypatch of [Ruby’s StdLib implementation](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21).
-  # In addition to the default
-  # implementation, this implementation ensures that
+  # In addition to the default implementation, this implementation ensures that
   #
-  # 1.  no unreserved characters are pct-encoded, and
+  # 1.  _no_ unreserved characters are pct-encoded, and
   # 2.  all non-unreserved characters _are_ pct-encoded.
   #
   # Check [RFC3986](http://tools.ietf.org/html/rfc3986) syntax:
@@ -21,13 +34,13 @@ class URI::Generic
   #     abempty = *( "/" *(unreserved / pct-encoded / sub-delims / ":" / "@") )
   #     unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
   #     sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-  # @return [self, nil] self if the path was modified, or nil of the path was
-  #   already in canonical form.
+  # @return [self, nil] `self` if the URI was modified, or `nil` of the uri was
+  #   already in normal form.
   def normalize!
     #unless %r{\A(?:/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*\z}i === self.path
     #  raise TypeError, "Can’t convert String #{self.path.inspect} to Rackful::Path"
     #end
-    self.rackful_normalize!
+    self.uri_generic_normalize!
     path = '/' + self.segments( Encoding::BINARY ).collect do |segment|
       segment.gsub(/([^a-zA-Z0-9\-._~]+)/n) {
         '%'+$1.unpack('H2'*bytesize($1)).join('%').upcase

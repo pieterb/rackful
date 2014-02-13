@@ -4,13 +4,13 @@ require 'rackful/resource.rb'
 require 'rackful/serializer.rb'
 
 
-module Rackful::WebDAV
+module Rackful
 
 =begin markdown
 Exception which represents an HTTP Status response.
 @abstract
 =end
-class DAVStatus < RuntimeError
+class HTTPStatus < RuntimeError
 
 
   include Resource
@@ -22,14 +22,12 @@ class DAVStatus < RuntimeError
 =begin markdown
 @param status [Symbol, Integer] e.g. `404` or `:not_found`
 @param message [String] XHTML
-@param info [ { Symbol => Object }, { String => String } ]
-    *   If the Hash is indexed by {Symbol}s, then the values will be returned in
-        the response body.
-    *   If the Hash is indexed by {String}s, the +key => value+ pairs are returned
-        as response headers.
+@param info [ { Symbol => Object, String => String } ]
+    *   {Object}s indexed by {Symbol}s are returned in the response body.
+    *   {String}s indexed by {String}s are returned as response headers.
 =end
   def initialize status, message = nil, info = {}
-    @status = status_code status
+    @status = Rack::Utils.status_code status
     raise "Wrong status: #{status}" if 0 === @status
     message ||= ''
     @headers = {}
@@ -39,34 +37,37 @@ class DAVStatus < RuntimeError
       if k.kind_of? Symbol
         @to_rackful[k] = v
       else
-        @headers[k] = v
+        @headers[k] = v.to_s
       end
     end
     @to_rackful = nil if @to_rackful.empty?
-    begin
-      Nokogiri.XML(
-        '<?xml version="1.0" encoding="UTF-8" ?>' +
-        "<div>#{message}</div>"
-      ) do |config| config.strict.nonet end
-    rescue
-      message = Rack::Utils.escape_html(message)
+    if message
+      message = message.to_s
+      begin
+        Nokogiri.XML(
+          '<?xml version="1.0" encoding="UTF-8" ?>' +
+          "<div>#{message}</div>"
+        ) do |config| config.strict.nonet end
+      rescue
+        message = Rack::Utils.escape_html(message)
+      end
     end
     super message
   end
 
 
   def title
-    "#{status} #{HTTP_STATUS_CODES[status]}"
+    "#{status} #{Rack::Utils::HTTP_STATUS_CODES[status]}"
   end
 
 
-  class XML < Serializer
+  class XHTML < Serializer::XHTML
 
 
     def header
       super + <<EOS
 <h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>
-<div id="rackful_description">#{resource.message}</div>
+<div id="rackful-description">#{resource.message}</div>
 EOS
     end
 
@@ -74,7 +75,7 @@ EOS
     def headers; self.resource.headers; end
 
 
-  end # class HTTPStatus::XHTML
+  end # class XHTML
 
 
   add_serializer XHTML, 1.0
@@ -109,7 +110,7 @@ class HTTP201Created < HTTPStatus
       location = locations[0]
       super(
         201, 'A new resource was created:',
-        :location => location, 'Location' => location
+        :"Location" => location, 'Location' => location
       )
     end
   end
@@ -122,7 +123,10 @@ class HTTP202Accepted < HTTPStatus
   def initialize location = nil
     if location
       location = URI(location)
-      super( 202, '',  :'Job status location:' => location, 'Location' => location )
+      super(
+        202, "The request body you sent has been accepted for processing.",
+        :"Job status location:" => location, 'Location' => location
+      )
     else
       super 202
     end

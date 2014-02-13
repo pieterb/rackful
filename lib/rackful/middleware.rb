@@ -1,2 +1,2 @@
-require 'rackful/middleware/header_spoofing.rb'
-require 'rackful/middleware/method_override.rb'
+require 'rackful/middleware/headerspoofing.rb'
+require 'rackful/middleware/methodoverride.rb'

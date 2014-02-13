@@ -4,19 +4,21 @@
 module Rackful
 
 
-=begin markdown
-Base class for all serializers.
 
-The default serializer defined in this library ({Rackful::XHTML})
-depends on the availability of method {Rackful::Resource#to_rackful resource.to_rackful}.
-@abstract Subclasses must implement method `#each` end define constant `CONTENT_TYPES`
-@!attribute [r] request
-  @return [Request]
-@!attribute [r] resource
-  @return [Resource]
-@!attribute [r] content_type
-  @return [String] The content type to be served by this Serializer.
-=end
+# Base class for all serializers.
+#
+# The serializers {Serializer::XHTML} and {Serializer::JSON} defined in this
+# library depend on the presence of method
+# {Rackful::Resource#to_rackful resource.to_rackful}.
+# @abstract Subclasses must implement method `#each` end define constant
+#   `CONTENT_TYPES`
+# @!attribute [r] request
+#   @return [Request]
+# @!attribute [r] resource
+#   @return [Resource]
+# @!attribute [r] content_type
+#   @return [String] The content type to be served by this Serializer. This will
+#     always be one of the content types listed in constant `CONTENT_TYPES`.
 class Serializer
 
 
@@ -26,33 +28,28 @@ class Serializer
   attr_reader :request, :resource, :content_type
 
 
-=begin markdown
-@param request [Request]
-@param resource [Resource]
-@param content_type [String]
-=end
+  # @param request [Request]
+  # @param resource [Resource]
+  # @param content_type [String]
   def initialize request, resource, content_type
     @request, @resource, @content_type =
       request, resource, content_type
   end
 
 
-=begin markdown
-@!method headers()
-  Extra response headers that a serializer likes to return.
+  # @!method headers()
+  #   Extra response headers that a serializer likes to return.
+  #
+  #   You don't have to include the `Content-Type` header, as this is done
+  #   _for_ you.
+  #
+  #   This method is optional.
+  #   @return [Hash]
+  #   @abstract
 
-  You don't have to include the `Content-Type` header, as this is done _for_ you.
 
-  This method is optional.
-  @return [Hash]
-  @abstract
-=end
-
-
-=begin markdown
-@abstract Every serializer must implement this method.
-@yieldparam block [String] (part of) the entity body
-=end
+  # @abstract Every serializer must implement this method.
+  # @yieldparam block [String] (part of) the entity body
   def each
     raise NotImplementedError
   end
@@ -61,8 +58,6 @@ class Serializer
 end # class Serializer
 
 
-=begin markdown
-=end
 class Serializer::XHTML < Serializer
 
 
@@ -76,9 +71,7 @@ class Serializer::XHTML < Serializer
   ]
 
 
-=begin markdown
-@yieldparam xhtml [String]
-=end
+  # @yieldparam xhtml [String]
   def each &block
     tmp = ''
     # The XML header is only sent for XML media types:
@@ -92,11 +85,11 @@ EOS
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <head>
 <title>#{ Rack::Utils.escape_html(resource.title) }</title>
-<base href="#{self.request.canonical_url.path}"/>
+<base href="#{self.request.canonical_uri}"/>
 EOS
-    unless '/' == self.request.canonical_url.path
+    unless '/' == self.request.canonical_uri.path
       tmp += <<EOS
-<link rel="contents" href="#{'/' === self.request.canonical_url.path[-1] ? '../' : './' }"/>
+<link rel="contents" href="#{'/' === self.request.canonical_uri.path[-1] ? '../' : './' }"/>
 EOS
     end
     r = self.resource.to_rackful
@@ -107,9 +100,7 @@ EOS
   end
 
 
-=begin markdown
-@api private
-=end
+  # @api private
   def header
     self.class.class_variable_defined?( :@@header ) && @@header ?
       @@header.call( self ) :
@@ -117,20 +108,16 @@ EOS
   end
 
 
-=begin markdown
-Set a header generator.
-@yieldparam serializer [Serializer::XHTML] This serializer
-@yieldreturn [String] some XHTML
-=end
+  # Set a header generator.
+  # @yieldparam serializer [Serializer::XHTML] This serializer
+  # @yieldreturn [String] some XHTML
   def self.header &block
     @@header = block
     self
   end
 
 
-=begin markdown
-@api private
-=end
+  # @api private
   def footer
     self.class.class_variable_defined?( :@@footer ) && @@footer ?
       @@footer.call( self ) :
@@ -138,38 +125,34 @@ Set a header generator.
   end
 
 
-=begin markdown
-Set a footer generator.
-@yieldparam serializer [Serializer::XHTML] This serializer
-@yieldreturn [String] some XHTML
-=end
+  # Set a footer generator.
+  # @yieldparam serializer [Serializer::XHTML] This serializer
+  # @yieldreturn [String] some XHTML
   def self.footer &block
     @@footer = block
     self
   end
 
 
-=begin markdown
-Serializes many kinds of objects to XHTML.
-
-How an object is serialized, depends:
-
-*   A *{Resource}* will be serialized by its own {Resource#serializer serializer}.
-*   A *{URI}* will be serialized as a hyperlink.
-*   An Object responding to *`#each_pair`* (i.e. something {Hash}-like) will
-    be represented by
-    *   a descriptive list, with
-*   An Object responding to *`#each`* (i.e. something {Enumerable}) will
-    be represented as a JSON array.
-*   A *binary encoded {String}* (i.e. a blob} is represented by a JSON string,
-    containing the base64 encoded version of the data.
-*   A *{Time}* is represented by a string containing a dateTime as defined by
-    XMLSchema.
-*   On *all the rest,* method `#to_json` is invoked.
-@overload each_nested
-  @yieldparam xhtml [String]
-@api private
-=end
+  # Serializes many kinds of objects to XHTML.
+  #
+  # How an object is serialized, depends:
+  #
+  # * A *{Resource}* will be serialized by its own {Resource#serializer serializer}.
+  # * A *{URI}* will be serialized as a hyperlink.
+  # * An Object responding to *`#each_pair`* (i.e. something {Hash}-like) will
+  #   be represented by
+  #   * a descriptive list, with
+  # * An Object responding to *`#each`* (i.e. something {Enumerable}) will
+  #   be represented as a JSON array.
+  # * A *binary encoded {String}* (i.e. a blob} is represented by a JSON string,
+  #   containing the base64 encoded version of the data.
+  # * A *{Time}* is represented by a string containing a dateTime as defined by
+  #   XMLSchema.
+  # * On *all the rest,* method `#to_json` is invoked.
+  # @overload each_nested
+  #   @yieldparam xhtml [String]
+  # @api private
   def each_nested p = self.resource.to_rackful, &block
 
     # A Resource:
@@ -178,7 +161,7 @@ How an object is serialized, depends:
 
     # A URI:
     elsif p.kind_of?( URI )
-      rel_path = self.request.canonical_url(p).route_from self.request.canonical_url
+      rel_path = p.route_from self.request.canonical_uri
       yield "<a href=\"#{rel_path}\">" +
         Rack::Utils.escape_html( Rack::Utils.unescape( rel_path.to_s ) ) + '</a>'
 
@@ -249,9 +232,7 @@ How an object is serialized, depends:
   end
 
 
-=begin markdown
-@api private
-=end
+  # @api private
   def xsd_type v
     if v.respond_to? :to_rackful
       v = v.to_rackful
@@ -286,10 +267,8 @@ class Serializer::JSON < Serializer
   ]
 
 
-=begin markdown
-@yield [json]
-@yieldparam json [String]
-=end
+  # @yield [json]
+  # @yieldparam json [String]
   def each thing = self.resource.to_rackful, &block
     if thing.kind_of?( Resource ) && ! thing.equal?( self.resource )
       thing.serializer( self.content_type ).each( &block )
