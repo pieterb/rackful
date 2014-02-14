@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Rack
+  
+    &mdash; Lucipher
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">Rack</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Rack
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">rack/rack.rb<span class="defines">,<br />
+  rack/rack/etag.rb,<br /> rack/rack/file.rb,<br /> rack/rack/head.rb,<br /> rack/rack/lint.rb,<br /> rack/rack/lock.rb,<br /> rack/rack/mime.rb,<br /> rack/rack/mock.rb,<br /> rack/rack/utils.rb,<br /> rack/rack/config.rb,<br /> rack/rack/logger.rb,<br /> rack/rack/server.rb,<br /> rack/rack/static.rb,<br /> rack/rack/urlmap.rb,<br /> rack/rack/builder.rb,<br /> rack/rack/cascade.rb,<br /> rack/rack/chunked.rb,<br /> rack/rack/handler.rb,<br /> rack/rack/lobster.rb,<br /> rack/rack/request.rb,<br /> rack/rack/runtime.rb,<br /> rack/rack/deflater.rb,<br /> rack/rack/reloader.rb,<br /> rack/rack/response.rb,<br /> rack/rack/sendfile.rb,<br /> rack/rack/directory.rb,<br /> rack/rack/multipart.rb,<br /> rack/rack/recursive.rb,<br /> rack/rack/body_proxy.rb,<br /> rack/rack/nulllogger.rb,<br /> rack/rack/showstatus.rb,<br /> rack/rack/auth/basic.rb,<br /> rack/rack/handler/cgi.rb,<br /> rack/rack/commonlogger.rb,<br /> rack/rack/content_type.rb,<br /> rack/rack/handler/lsws.rb,<br /> rack/rack/handler/scgi.rb,<br /> rack/rack/handler/thin.rb,<br /> rack/rack/session/pool.rb,<br /> rack/rack/conditionalget.rb,<br /> rack/rack/content_length.rb,<br /> rack/rack/methodoverride.rb,<br /> rack/rack/showexceptions.rb,<br /> rack/rack/session/cookie.rb,<br /> rack/rack/auth/digest/md5.rb,<br /> rack/rack/handler/mongrel.rb,<br /> rack/rack/handler/webrick.rb,<br /> rack/rack/rewindable_input.rb,<br /> rack/rack/multipart/parser.rb,<br /> rack/rack/session/memcache.rb,<br /> rack/rack/auth/digest/nonce.rb,<br /> rack/rack/auth/digest/params.rb,<br /> rack/rack/auth/digest/request.rb,<br /> rack/rack/multipart/generator.rb,<br /> rack/rack/session/abstract/id.rb,<br /> rack/rack/auth/abstract/handler.rb,<br /> rack/rack/auth/abstract/request.rb,<br /> rack/rack/handler/evented_mongrel.rb,<br /> rack/rack/multipart/uploaded_file.rb,<br /> rack/rack/handler/swiftiplied_mongrel.rb,<br /> rack/rack/handler/fastcgi.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Rack main module, serving as a namespace for all core Rack modules and
+classes.</p>
+
+<p>All modules meant for use in your application are <code>autoload</code>ed
+here, so it should be enough just to <code>require rack.rb</code> in your
+code.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Rack/Auth.html" title="Rack::Auth (module)">Auth</a></span>, <span class='object_link'><a href="Rack/Handler.html" title="Rack::Handler (module)">Handler</a></span>, <span class='object_link'><a href="Rack/Mime.html" title="Rack::Mime (module)">Mime</a></span>, <span class='object_link'><a href="Rack/Multipart.html" title="Rack::Multipart (module)">Multipart</a></span>, <span class='object_link'><a href="Rack/Session.html" title="Rack::Session (module)">Session</a></span>, <span class='object_link'><a href="Rack/Utils.html" title="Rack::Utils (module)">Utils</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Rack/BodyProxy.html" title="Rack::BodyProxy (class)">BodyProxy</a></span>, <span class='object_link'><a href="Rack/Builder.html" title="Rack::Builder (class)">Builder</a></span>, <span class='object_link'><a href="Rack/Cascade.html" title="Rack::Cascade (class)">Cascade</a></span>, <span class='object_link'><a href="Rack/Chunked.html" title="Rack::Chunked (class)">Chunked</a></span>, <span class='object_link'><a href="Rack/CommonLogger.html" title="Rack::CommonLogger (class)">CommonLogger</a></span>, <span class='object_link'><a href="Rack/ConditionalGet.html" title="Rack::ConditionalGet (class)">ConditionalGet</a></span>, <span class='object_link'><a href="Rack/Config.html" title="Rack::Config (class)">Config</a></span>, <span class='object_link'><a href="Rack/ContentLength.html" title="Rack::ContentLength (class)">ContentLength</a></span>, <span class='object_link'><a href="Rack/ContentType.html" title="Rack::ContentType (class)">ContentType</a></span>, <span class='object_link'><a href="Rack/Deflater.html" title="Rack::Deflater (class)">Deflater</a></span>, <span class='object_link'><a href="Rack/Directory.html" title="Rack::Directory (class)">Directory</a></span>, <span class='object_link'><a href="Rack/ETag.html" title="Rack::ETag (class)">ETag</a></span>, <span class='object_link'><a href="Rack/File.html" title="Rack::File (class)">File</a></span>, <span class='object_link'><a href="Rack/ForwardRequest.html" title="Rack::ForwardRequest (class)">ForwardRequest</a></span>, <span class='object_link'><a href="Rack/Head.html" title="Rack::Head (class)">Head</a></span>, <span class='object_link'><a href="Rack/Lint.html" title="Rack::Lint (class)">Lint</a></span>, <span class='object_link'><a href="Rack/Lobster.html" title="Rack::Lobster (class)">Lobster</a></span>, <span class='object_link'><a href="Rack/Lock.html" title="Rack::Lock (class)">Lock</a></span>, <span class='object_link'><a href="Rack/Logger.html" title="Rack::Logger (class)">Logger</a></span>, <span class='object_link'><a href="Rack/MethodOverride.html" title="Rack::MethodOverride (class)">MethodOverride</a></span>, <span class='object_link'><a href="Rack/MockRequest.html" title="Rack::MockRequest (class)">MockRequest</a></span>, <span class='object_link'><a href="Rack/MockResponse.html" title="Rack::MockResponse (class)">MockResponse</a></span>, <span class='object_link'><a href="Rack/NullLogger.html" title="Rack::NullLogger (class)">NullLogger</a></span>, <span class='object_link'><a href="Rack/Recursive.html" title="Rack::Recursive (class)">Recursive</a></span>, <span class='object_link'><a href="Rack/Reloader.html" title="Rack::Reloader (class)">Reloader</a></span>, <span class='object_link'><a href="Rack/Request.html" title="Rack::Request (class)">Request</a></span>, <span class='object_link'><a href="Rack/Response.html" title="Rack::Response (class)">Response</a></span>, <span class='object_link'><a href="Rack/RewindableInput.html" title="Rack::RewindableInput (class)">RewindableInput</a></span>, <span class='object_link'><a href="Rack/Runtime.html" title="Rack::Runtime (class)">Runtime</a></span>, <span class='object_link'><a href="Rack/Sendfile.html" title="Rack::Sendfile (class)">Sendfile</a></span>, <span class='object_link'><a href="Rack/Server.html" title="Rack::Server (class)">Server</a></span>, <span class='object_link'><a href="Rack/ShowExceptions.html" title="Rack::ShowExceptions (class)">ShowExceptions</a></span>, <span class='object_link'><a href="Rack/ShowStatus.html" title="Rack::ShowStatus (class)">ShowStatus</a></span>, <span class='object_link'><a href="Rack/Static.html" title="Rack::Static (class)">Static</a></span>, <span class='object_link'><a href="Rack/URLMap.html" title="Rack::URLMap (class)">URLMap</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Rack protocol version number implemented.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#release-class_method" title="release (class method)">+ (void) <strong>release</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the Rack release as a dotted string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#version-class_method" title="version (class method)">+ (void) <strong>version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the Rack protocol version as a dotted string.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="release-class_method">
+  
+    + (<tt>void</tt>) <strong>release</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the Rack release as a dotted string.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack.rb', line 22</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_release'>release</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.5</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="version-class_method">
+  
+    + (<tt>void</tt>) <strong>version</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the Rack protocol version as a dotted string.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_version'>version</span>
+  <span class='const'>VERSION</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Feb 14 16:37:14 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

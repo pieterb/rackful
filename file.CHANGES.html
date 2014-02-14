@@ -6,13 +6,13 @@
 <title>
   File: CHANGES
   
-    &mdash; Rackful
+    &mdash; Lucipher
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -61,47 +61,66 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><div id='filecontents'><h1>0.1.x</h1>
+    <div id="content"><div id='filecontents'>
+<h1 id="label-0.2.x">0.2.x</h1>
+
+<p>The 0.2.x series is a major revision, not backward compatible with 0.1.x.</p>
+
+<h2 id="label-0.2.0">0.2.0</h2>
+<ul><li>
+<p>Removed Request::current, because it won’t work well with single-threaded
+concurrency models (fibers, eventmachine and the like) and it’s not
+essential.</p>
+</li><li>
+<p>Rackful::Server#call was made reentrant. This is necessary for response
+code 100 Continue.</p>
+</li></ul>
+
+<h1 id="label-0.1.x">0.1.x</h1>
 
 <p>The 0.1.x series is a major revision, not backward compatible with 0.0.x.</p>
 
-<h2>0.1.1</h2>
+<h2 id="label-0.1.1">0.1.1</h2>
+<ul><li>
+<p>Fixed the gemspec file. Not everything new was properly included (including
+this changelog!).</p>
+</li></ul>
 
-<ul>
-<li>  Fixed the gemspec file. Not everything new was properly included (including
-this changelog!).</li>
-</ul>
+<h2 id="label-0.1.0">0.1.0</h2>
+<ul><li>
+<p>Complete revision of the <code>Rackful::HTTPStatus</code> exception class.
+From now on, there’s a separate class for each HTTP status code, e.g.
+<code>Rackful::HTTP404NotFound</code>.</p>
+</li><li>
+<p><code>Rackful::Path</code>, a subclass of <code>String</code>, is used for
+HTTP paths. This allows serializers, especially for hypermedia, to
+distinguish paths from “ordinary” strings, and render them accordingly.</p>
+</li><li>
+<p>The concept of <code>Rackful::Serializer Serializers</code> was introduced.
+A serializer is an object that knows how to serialize an object to a
+certain media type.</p>
+</li><li>
+<p>The mechanism for content negotiation has changed completely. See
+<code>Rackful::Resource#serializer</code> and
+<code>Rackful::Resource::ClassMethods#best_content_type</code>.</p>
+</li><li>
+<p>The mechanism for implementing HTTP method handlers has changed. See
+<code>Rackful::Resource#do_METHOD</code> and
+<code>Rackful::Resource::ClassMethods#add_parser</code>.</p>
+</li></ul>
 
-<h2>0.1.0</h2>
+<h1 id="label-0.0.x">0.0.x</h1>
 
-<ul>
-<li>  Complete revision of the <span class='object_link'><a href="Rackful/HTTPStatus.html" title="Rackful::HTTPStatus (class)">Rackful::HTTPStatus</a></span> exception class. From now on,
-there&#39;s
-a separate class for each HTTP status code, e.g. <span class='object_link'><a href="Rackful/HTTP404NotFound.html" title="Rackful::HTTP404NotFound (class)">Rackful::HTTP404NotFound</a></span>.</li>
-<li>  <span class='object_link'><a href="Rackful/Path.html" title="Rackful::Path (class)">Rackful::Path</a></span>, a subclass of <code>String</code>, is used for HTTP paths. This allows
-serializers, especially for hypermedia, to distinguish paths from &quot;ordinary&quot;
-strings, and render them accordingly.</li>
-<li>  The concept of <span class='object_link'><a href="Rackful/Serializer.html" title="Rackful::Serializer (class)">Serializers</a></span> was introduced. A serializer
-is an object that knows how to serialize an object to a certain media type.</li>
-<li>  The mechanism for content negotiation has changed completely. See
-<span class='object_link'><a href="Rackful/Resource.html#serializer-instance_method" title="Rackful::Resource#serializer (method)">Rackful::Resource#serializer</a></span> and Rackful::Resource::ClassMethods#best&lt;em&gt;content&lt;/em&gt;type.</li>
-<li>  The mechanism for implementing HTTP method handlers has changed. See
-Rackful::Resource#do&lt;em&gt;METHOD and Rackful::Resource::ClassMethods#add&lt;/em&gt;parser.</li>
-</ul>
-
-<h1>0.0.x</h1>
-
-<h2>0.0.2</h2>
-
-<ul>
-<li>  Improved documentation</li>
-</ul>
+<h2 id="label-0.0.2">0.0.2</h2>
+<ul><li>
+<p>Improved documentation</p>
+</li></ul>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Oct 11 17:54:30 2012 by
+  Generated on Fri Feb 14 16:37:14 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.2).
+  0.8.7.3 (ruby-1.9.3).
 </div>
 
   </body>

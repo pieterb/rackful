@@ -1,0 +1,2022 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Rack::Lint
+  
+    &mdash; Lucipher
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Rack.html" title="Rack (module)">Rack</a></span></span>
+     &raquo; 
+    <span class="title">Lint</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Rack::Lint
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Rack::Lint</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="Lint/Assertion.html" title="Rack::Lint::Assertion (module)">Assertion</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">rack/rack/lint.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Rack::Lint validates your application and the requests and responses
+according to the Rack spec.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Lint/Assertion.html" title="Rack::Lint::Assertion (module)">Assertion</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Lint/ErrorWrapper.html" title="Rack::Lint::ErrorWrapper (class)">ErrorWrapper</a></span>, <span class='object_link'><a href="Lint/HijackWrapper.html" title="Rack::Lint::HijackWrapper (class)">HijackWrapper</a></span>, <span class='object_link'><a href="Lint/InputWrapper.html" title="Rack::Lint::InputWrapper (class)">InputWrapper</a></span>, <span class='object_link'><a href="Lint/LintError.html" title="Rack::Lint::LintError (class)">LintError</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#_call-instance_method" title="#_call (instance method)">- (void) <strong>_call</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert-instance_method" title="#assert (instance method)">- (void) <strong>assert</strong>(message, &amp;block) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Lint/Assertion.html#assert-instance_method" title="Rack::Lint::Assertion#assert (method)">Assertion</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#call-instance_method" title="#call (instance method)">- (void) <strong>call</strong>(env = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A Rack application is a Ruby object (not a class) that responds to
+<code>call</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_content_length-instance_method" title="#check_content_length (instance method)">- (void) <strong>check_content_length</strong>(status, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Content-Length.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_content_type-instance_method" title="#check_content_type (instance method)">- (void) <strong>check_content_type</strong>(status, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Content-Type.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_env-instance_method" title="#check_env (instance method)">- (void) <strong>check_env</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>== The Environment.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_error-instance_method" title="#check_error (instance method)">- (void) <strong>check_error</strong>(error) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Error Stream.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_headers-instance_method" title="#check_headers (instance method)">- (void) <strong>check_headers</strong>(header) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Headers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_hijack-instance_method" title="#check_hijack (instance method)">- (void) <strong>check_hijack</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== Hijacking.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_hijack_response-instance_method" title="#check_hijack_response (instance method)">- (void) <strong>check_hijack_response</strong>(headers, env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>==== Response (after headers) It is also possible to hijack a response
+after the status and headers have been sent.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_input-instance_method" title="#check_input (instance method)">- (void) <strong>check_input</strong>(input) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Input Stream.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_status-instance_method" title="#check_status (instance method)">- (void) <strong>check_status</strong>(status) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Status.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close-instance_method" title="#close (instance method)">- (void) <strong>close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">- (void) <strong>each</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>=== The Body.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Lint) <strong>initialize</strong>(app) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Lint.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_content_length-instance_method" title="#verify_content_length (instance method)">- (void) <strong>verify_content_length</strong>(bytes) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Rack::Lint (class)">Lint</a></span></tt>) <strong>initialize</strong>(app) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Lint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
+  <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
+  <span class='ivar'>@content_length</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="_call-instance_method">
+  
+    - (<tt>void</tt>) <strong>_call</strong>(env) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid__call'>_call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='comment'>## It takes exactly one argument, the *environment*
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No env given</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_env'>env</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_check_env'>check_env</span> <span class='id identifier rubyid_env'>env</span>
+
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.input</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>InputWrapper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.input</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>ErrorWrapper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+  <span class='comment'>## and returns an Array of exactly three values:
+</span>  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='ivar'>@body</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='comment'>## The *status*,
+</span>  <span class='id identifier rubyid_check_status'>check_status</span> <span class='id identifier rubyid_status'>status</span>
+  <span class='comment'>## the *headers*,
+</span>  <span class='id identifier rubyid_check_headers'>check_headers</span> <span class='id identifier rubyid_headers'>headers</span>
+
+  <span class='id identifier rubyid_check_hijack_response'>check_hijack_response</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span>
+
+  <span class='comment'>## and the *body*.
+</span>  <span class='id identifier rubyid_check_content_type'>check_content_type</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span>
+  <span class='id identifier rubyid_check_content_length'>check_content_length</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span>
+  <span class='ivar'>@head_request</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HEAD</span><span class='tstring_end'>&quot;</span></span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="assert-instance_method">
+  
+    - (<tt>void</tt>) <strong>assert</strong>(message, &amp;block) 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Lint/Assertion.html#assert-instance_method" title="Rack::Lint::Assertion#assert (method)">Assertion</a></span>
+    </span>
+  
+</h3>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="call-instance_method">
+  
+    - (<tt>void</tt>) <strong>call</strong>(env = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A Rack application is a Ruby object (not a class) that responds to
+<code>call</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid__call'>_call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_content_length-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_content_length</strong>(status, headers) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Content-Length</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 612</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_content_length'>check_content_length</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_headers'>headers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>content-length</span><span class='tstring_end'>'</span></span>
+      <span class='comment'>## There must not be a &lt;tt&gt;Content-Length&lt;/tt&gt; header when the
+</span>      <span class='comment'>## +Status+ is 1xx, 204, 205 or 304.
+</span>      <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length header found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_status'>status</span><span class='rbrace'>}</span><span class='tstring_content'> response, not allowed</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+        <span class='kw'>not</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='const'>STATUS_WITH_NO_ENTITY_BODY</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='rbrace'>}</span>
+      <span class='ivar'>@content_length</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='kw'>end</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_content_type-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_content_type</strong>(status, headers) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Content-Type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 598</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_content_type'>check_content_type</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_headers'>headers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='comment'>## There must not be a &lt;tt&gt;Content-Type&lt;/tt&gt;, when the +Status+ is 1xx,
+</span>    <span class='comment'>## 204, 205 or 304.
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>content-type</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Type header found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_status'>status</span><span class='rbrace'>}</span><span class='tstring_content'> response, not allowed</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+        <span class='kw'>not</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='const'>STATUS_WITH_NO_ENTITY_BODY</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='rbrace'>}</span>
+      <span class='kw'>return</span>
+    <span class='kw'>end</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_env-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_env</strong>(env) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>== The Environment</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_env'>check_env</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='comment'>## The environment must be an instance of Hash that includes
+</span>  <span class='comment'>## CGI-like headers.  The application is free to modify the
+</span>  <span class='comment'>## environment.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>env </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> is not a Hash, but </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>Hash</span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'>## The environment is required to include these variables
+</span>  <span class='comment'>## (adopted from PEP333), except when they'd be empty, but see
+</span>  <span class='comment'>## below.
+</span>
+  <span class='comment'>## &lt;tt&gt;REQUEST_METHOD&lt;/tt&gt;:: The HTTP request method, such as
+</span>  <span class='comment'>##                           &quot;GET&quot; or &quot;POST&quot;. This cannot ever
+</span>  <span class='comment'>##                           be an empty string, and so is
+</span>  <span class='comment'>##                           always required.
+</span>
+  <span class='comment'>## &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt;:: The initial portion of the request
+</span>  <span class='comment'>##                        URL's &quot;path&quot; that corresponds to the
+</span>  <span class='comment'>##                        application object, so that the
+</span>  <span class='comment'>##                        application knows its virtual
+</span>  <span class='comment'>##                        &quot;location&quot;. This may be an empty
+</span>  <span class='comment'>##                        string, if the application corresponds
+</span>  <span class='comment'>##                        to the &quot;root&quot; of the server.
+</span>
+  <span class='comment'>## &lt;tt&gt;PATH_INFO&lt;/tt&gt;:: The remainder of the request URL's
+</span>  <span class='comment'>##                      &quot;path&quot;, designating the virtual
+</span>  <span class='comment'>##                      &quot;location&quot; of the request's target
+</span>  <span class='comment'>##                      within the application. This may be an
+</span>  <span class='comment'>##                      empty string, if the request URL targets
+</span>  <span class='comment'>##                      the application root and does not have a
+</span>  <span class='comment'>##                      trailing slash. This value may be
+</span>  <span class='comment'>##                      percent-encoded when I originating from
+</span>  <span class='comment'>##                      a URL.
+</span>
+  <span class='comment'>## &lt;tt&gt;QUERY_STRING&lt;/tt&gt;:: The portion of the request URL that
+</span>  <span class='comment'>##                         follows the &lt;tt&gt;?&lt;/tt&gt;, if any. May be
+</span>  <span class='comment'>##                         empty, but is always required!
+</span>
+  <span class='comment'>## &lt;tt&gt;SERVER_NAME&lt;/tt&gt;, &lt;tt&gt;SERVER_PORT&lt;/tt&gt;:: When combined with &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt; and &lt;tt&gt;PATH_INFO&lt;/tt&gt;, these variables can be used to complete the URL. Note, however, that &lt;tt&gt;HTTP_HOST&lt;/tt&gt;, if present, should be used in preference to &lt;tt&gt;SERVER_NAME&lt;/tt&gt; for reconstructing the request URL.  &lt;tt&gt;SERVER_NAME&lt;/tt&gt; and &lt;tt&gt;SERVER_PORT&lt;/tt&gt; can never be empty strings, and so are always required.
+</span>
+  <span class='comment'>## &lt;tt&gt;HTTP_&lt;/tt&gt; Variables:: Variables corresponding to the
+</span>  <span class='comment'>##                            client-supplied HTTP request
+</span>  <span class='comment'>##                            headers (i.e., variables whose
+</span>  <span class='comment'>##                            names begin with &lt;tt&gt;HTTP_&lt;/tt&gt;). The
+</span>  <span class='comment'>##                            presence or absence of these
+</span>  <span class='comment'>##                            variables should correspond with
+</span>  <span class='comment'>##                            the presence or absence of the
+</span>  <span class='comment'>##                            appropriate HTTP header in the
+</span>  <span class='comment'>##                            request. See &lt;a href=&quot;https://tools.ietf.org/html/rfc3875#section-4.1.18&quot;&gt;
+</span>  <span class='comment'>##                            RFC3875 section 4.1.18&lt;/a&gt; for specific behavior.
+</span>
+  <span class='comment'>## In addition to this, the Rack environment must include these
+</span>  <span class='comment'>## Rack-specific variables:
+</span>
+  <span class='comment'>## &lt;tt&gt;rack.version&lt;/tt&gt;:: The Array representing this version of Rack. See Rack::VERSION, that corresponds to the version of this SPEC.
+</span>  <span class='comment'>## &lt;tt&gt;rack.url_scheme&lt;/tt&gt;:: +http+ or +https+, depending on the request URL.
+</span>  <span class='comment'>## &lt;tt&gt;rack.input&lt;/tt&gt;:: See below, the input stream.
+</span>  <span class='comment'>## &lt;tt&gt;rack.errors&lt;/tt&gt;:: See below, the error stream.
+</span>  <span class='comment'>## &lt;tt&gt;rack.multithread&lt;/tt&gt;:: true if the application object may be simultaneously invoked by another thread in the same process, false otherwise.
+</span>  <span class='comment'>## &lt;tt&gt;rack.multiprocess&lt;/tt&gt;:: true if an equivalent application object may be simultaneously invoked by another process, false otherwise.
+</span>  <span class='comment'>## &lt;tt&gt;rack.run_once&lt;/tt&gt;:: true if the server expects (but does not guarantee!) that the application will only be invoked this one time during the life of its containing process. Normally, this will only be true for a server based on CGI (or something similar).
+</span>  <span class='comment'>## &lt;tt&gt;rack.hijack?&lt;/tt&gt;:: present and true if the server supports connection hijacking. See below, hijacking.
+</span>  <span class='comment'>## &lt;tt&gt;rack.hijack&lt;/tt&gt;:: an object responding to #call that must be called at least once before using rack.hijack_io. It is recommended #call return rack.hijack_io as well as setting it in env if necessary.
+</span>  <span class='comment'>## &lt;tt&gt;rack.hijack_io&lt;/tt&gt;:: if rack.hijack? is true, and rack.hijack has received #call, this will contain an object resembling an IO. See hijacking.
+</span>  <span class='comment'>##
+</span>
+  <span class='comment'>## Additional environment specifications have approved to
+</span>  <span class='comment'>## standardized middleware APIs.  None of these are required to
+</span>  <span class='comment'>## be implemented by the server.
+</span>
+  <span class='comment'>## &lt;tt&gt;rack.session&lt;/tt&gt;:: A hash like interface for storing request session data.
+</span>  <span class='comment'>##                         The store must implement:
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.session</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='comment'>##                         store(key, value)         (aliased as []=);
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to store and []=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:store</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:[]=</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         fetch(key, default = nil) (aliased as []);
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to fetch and []</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:fetch</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:[]</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         delete(key);
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to delete</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:delete</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         clear;
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to clear</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:clear</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>## &lt;tt&gt;rack.logger&lt;/tt&gt;:: A common object interface for logging messages.
+</span>  <span class='comment'>##                        The object must implement:
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.logger</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='comment'>##                         info(message, &amp;block)
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logger </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to info</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:info</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         debug(message, &amp;block)
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logger </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to debug</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:debug</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         warn(message, &amp;block)
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logger </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to warn</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:warn</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         error(message, &amp;block)
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logger </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to error</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:error</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+
+    <span class='comment'>##                         fatal(message, &amp;block)
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logger </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> must respond to fatal</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:fatal</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>## The server or the application can store their own data in the
+</span>  <span class='comment'>## environment, too.  The keys must contain at least one dot,
+</span>  <span class='comment'>## and should be prefixed uniquely.  The prefix &lt;tt&gt;rack.&lt;/tt&gt;
+</span>  <span class='comment'>## is reserved for use with the Rack core distribution and other
+</span>  <span class='comment'>## accepted specifications and must not be used otherwise.
+</span>  <span class='comment'>##
+</span>
+  <span class='qwords_beg'>%w[</span><span class='tstring_content'>REQUEST_METHOD</span><span class='words_sep'> </span><span class='tstring_content'>SERVER_NAME</span><span class='words_sep'> </span><span class='tstring_content'>SERVER_PORT</span><span class='words_sep'>
+</span><span class='tstring_content'>     QUERY_STRING</span><span class='words_sep'>
+</span><span class='tstring_content'>     rack.version</span><span class='words_sep'> </span><span class='tstring_content'>rack.input</span><span class='words_sep'> </span><span class='tstring_content'>rack.errors</span><span class='words_sep'>
+</span><span class='tstring_content'>     rack.multithread</span><span class='words_sep'> </span><span class='tstring_content'>rack.multiprocess</span><span class='words_sep'> </span><span class='tstring_content'>rack.run_once</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_header'>header</span><span class='op'>|</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>env missing required key </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_header'>header</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>## The environment must not contain the keys
+</span>  <span class='comment'>## &lt;tt&gt;HTTP_CONTENT_TYPE&lt;/tt&gt; or &lt;tt&gt;HTTP_CONTENT_LENGTH&lt;/tt&gt;
+</span>  <span class='comment'>## (use the versions without &lt;tt&gt;HTTP_&lt;/tt&gt;).
+</span>  <span class='qwords_beg'>%w[</span><span class='tstring_content'>HTTP_CONTENT_TYPE</span><span class='words_sep'> </span><span class='tstring_content'>HTTP_CONTENT_LENGTH</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_header'>header</span><span class='op'>|</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>env contains </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='rbrace'>}</span><span class='tstring_content'>, must use </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='lbracket'>[</span><span class='int'>5</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='kw'>not</span> <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_header'>header</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>## The CGI keys (named without a period) must have String values.
+</span>  <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='kw'>next</span>  <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>   <span class='comment'># Skip extensions
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>env variable </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'> has non-string value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>String</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'>## There are the following restrictions:
+</span>
+  <span class='comment'>## * &lt;tt&gt;rack.version&lt;/tt&gt; must be an array of Integers.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.version must be an Array, was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.version</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.version</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>Array</span>
+  <span class='rbrace'>}</span>
+  <span class='comment'>## * &lt;tt&gt;rack.url_scheme&lt;/tt&gt; must either be +http+ or +https+.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.url_scheme unknown: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.url_scheme</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='qwords_beg'>%w[</span><span class='tstring_content'>http</span><span class='words_sep'> </span><span class='tstring_content'>https</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.url_scheme</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>## * There must be a valid input stream in &lt;tt&gt;rack.input&lt;/tt&gt;.
+</span>  <span class='id identifier rubyid_check_input'>check_input</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.input</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='comment'>## * There must be a valid error stream in &lt;tt&gt;rack.errors&lt;/tt&gt;.
+</span>  <span class='id identifier rubyid_check_error'>check_error</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='comment'>## * There may be a valid hijack stream in &lt;tt&gt;rack.hijack_io&lt;/tt&gt;
+</span>  <span class='id identifier rubyid_check_hijack'>check_hijack</span> <span class='id identifier rubyid_env'>env</span>
+
+  <span class='comment'>## * The &lt;tt&gt;REQUEST_METHOD&lt;/tt&gt; must be a valid token.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REQUEST_METHOD unknown: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9A-Za-z!\#$%&amp;'*+.^_`|~-]+\z</span><span class='regexp_end'>/</span></span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>## * The &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt;, if non-empty, must start with &lt;tt&gt;/&lt;/tt&gt;
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME must start with /</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='op'>!</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\/</span><span class='regexp_end'>/</span></span>
+  <span class='rbrace'>}</span>
+  <span class='comment'>## * The &lt;tt&gt;PATH_INFO&lt;/tt&gt;, if non-empty, must start with &lt;tt&gt;/&lt;/tt&gt;
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PATH_INFO must start with /</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='op'>!</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PATH_INFO</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PATH_INFO</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PATH_INFO</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\/</span><span class='regexp_end'>/</span></span>
+  <span class='rbrace'>}</span>
+  <span class='comment'>## * The &lt;tt&gt;CONTENT_LENGTH&lt;/tt&gt;, if given, must consist of digits only.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid CONTENT_LENGTH: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CONTENT_LENGTH</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='op'>!</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CONTENT_LENGTH</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CONTENT_LENGTH</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\d+\z</span><span class='regexp_end'>/</span></span>
+  <span class='rbrace'>}</span>
+
+  <span class='comment'>## * One of &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt; or &lt;tt&gt;PATH_INFO&lt;/tt&gt; must be
+</span>  <span class='comment'>##   set.  &lt;tt&gt;PATH_INFO&lt;/tt&gt; should be &lt;tt&gt;/&lt;/tt&gt; if
+</span>  <span class='comment'>##   &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt; is empty.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>One of SCRIPT_NAME or PATH_INFO must be set (make PATH_INFO '/' if SCRIPT_NAME is empty)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PATH_INFO</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+  <span class='comment'>##   &lt;tt&gt;SCRIPT_NAME&lt;/tt&gt; never should be &lt;tt&gt;/&lt;/tt&gt;, but instead be empty.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME cannot be '/', make it '' and PATH_INFO '/'</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SCRIPT_NAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_error-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_error</strong>(error) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Error Stream</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+390
+391
+392
+393
+394
+395
+396
+397</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 390</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_error'>check_error</span><span class='lparen'>(</span><span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span>
+  <span class='comment'>## The error stream must respond to +puts+, +write+ and +flush+.
+</span>  <span class='lbracket'>[</span><span class='symbol'>:puts</span><span class='comma'>,</span> <span class='symbol'>:write</span><span class='comma'>,</span> <span class='symbol'>:flush</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_method'>method</span><span class='op'>|</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.error </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='rbrace'>}</span><span class='tstring_content'> does not respond to #</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_error'>error</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_method'>method</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_headers-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_headers</strong>(header) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Headers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 559</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_headers'>check_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
+  <span class='comment'>## The header must respond to +each+, and yield values of key and value.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>headers object should respond to #each, but doesn't (got </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_content'> as headers)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+     <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:each</span>
+  <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='comment'>## Special headers starting &quot;rack.&quot; are for communicating with the
+</span>    <span class='comment'>## server, and must not be sent back to the client.
+</span>    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^rack\..+$</span><span class='regexp_end'>/</span></span>
+
+    <span class='comment'>## The header keys must be Strings.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>header key must be a string, was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>String</span>
+    <span class='rbrace'>}</span>
+    <span class='comment'>## The header must not contain a +Status+ key,
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>header must not contain Status</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>status</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+    <span class='comment'>## contain keys with &lt;tt&gt;:&lt;/tt&gt; or newlines in their name,
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>header names must not contain : or \\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[:\n]</span><span class='regexp_end'>/</span></span> <span class='rbrace'>}</span>
+    <span class='comment'>## contain keys names that end in &lt;tt&gt;-&lt;/tt&gt; or &lt;tt&gt;_&lt;/tt&gt;,
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>header names must not end in - or _</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[-_]\z</span><span class='regexp_end'>/</span></span> <span class='rbrace'>}</span>
+    <span class='comment'>## but only contain keys that consist of
+</span>    <span class='comment'>## letters, digits, &lt;tt&gt;_&lt;/tt&gt; or &lt;tt&gt;-&lt;/tt&gt; and start with a letter.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid header name: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[a-zA-Z][a-zA-Z0-9_-]*\z</span><span class='regexp_end'>/</span></span> <span class='rbrace'>}</span>
+
+    <span class='comment'>## The values of the header must be Strings,
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a header value must be a String, but the value of </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>'</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>' is a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>String</span> <span class='rbrace'>}</span>
+    <span class='comment'>## consisting of lines (for multiple header values, e.g. multiple
+</span>    <span class='comment'>## &lt;tt&gt;Set-Cookie&lt;/tt&gt; values) seperated by &quot;\n&quot;.
+</span>    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span>
+      <span class='comment'>## The lines must not contain characters below 037.
+</span>      <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid header value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+        <span class='id identifier rubyid_item'>item</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[\000-\037]</span><span class='regexp_end'>/</span></span>
+      <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_hijack-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_hijack</strong>(env) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== Hijacking</p>
+
+<p>AUTHORS: n.b. The trailing whitespace between paragraphs is important and
+should not be removed. The whitespace creates paragraphs in the RDoc
+output.</p>
+
+<p>==== Request (before status)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 455</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_hijack'>check_hijack</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack?</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='comment'>## If rack.hijack? is true then rack.hijack must respond to #call.
+</span>    <span class='id identifier rubyid_original_hijack'>original_hijack</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.hijack must respond to call</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_original_hijack'>original_hijack</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span>
+      <span class='comment'>## rack.hijack must return the io that will also be assigned (or is
+</span>      <span class='comment'>## already present, in rack.hijack_io.
+</span>      <span class='id identifier rubyid_io'>io</span> <span class='op'>=</span> <span class='id identifier rubyid_original_hijack'>original_hijack</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span>
+      <span class='const'>HijackWrapper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='rparen'>)</span>
+      <span class='comment'>## 
+</span>      <span class='comment'>## rack.hijack_io must respond to:
+</span>      <span class='comment'>## &lt;tt&gt;read, write, read_nonblock, write_nonblock, flush, close,
+</span>      <span class='comment'>## close_read, close_write, closed?&lt;/tt&gt;
+</span>      <span class='comment'>## 
+</span>      <span class='comment'>## The semantics of these IO methods must be a best effort match to
+</span>      <span class='comment'>## those of a normal ruby IO or Socket object, using standard
+</span>      <span class='comment'>## arguments and raising standard exceptions. Servers are encouraged
+</span>      <span class='comment'>## to simply pass on real IO objects, although it is recognized that
+</span>      <span class='comment'>## this approach is not directly compatible with SPDY and HTTP 2.0.
+</span>      <span class='comment'>## 
+</span>      <span class='comment'>## IO provided in rack.hijack_io should preference the
+</span>      <span class='comment'>## IO::WaitReadable and IO::WaitWritable APIs wherever supported.
+</span>      <span class='comment'>## 
+</span>      <span class='comment'>## There is a deliberate lack of full specification around
+</span>      <span class='comment'>## rack.hijack_io, as semantics will change from server to server.
+</span>      <span class='comment'>## Users are encouraged to utilize this API with a knowledge of their
+</span>      <span class='comment'>## server choice, and servers may extend the functionality of
+</span>      <span class='comment'>## hijack_io to provide additional features to users. The purpose of
+</span>      <span class='comment'>## rack.hijack is for Rack to &quot;get out of the way&quot;, as such, Rack only
+</span>      <span class='comment'>## provides the minimum of specification and support.
+</span>      <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack_io</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>HijackWrapper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack_io</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_io'>io</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='comment'>## 
+</span>    <span class='comment'>## If rack.hijack? is false, then rack.hijack should not be set.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.hijack? is false, but rack.hijack is present</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+    <span class='comment'>## 
+</span>    <span class='comment'>## If rack.hijack? is false, then rack.hijack_io should not be set.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.hijack? is false, but rack.hijack_io is present</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack_io</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_hijack_response-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_hijack_response</strong>(headers, env) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>==== Response (after headers) It is also possible to hijack a response
+after the status and headers have been sent.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 502</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_hijack_response'>check_hijack_response</span><span class='lparen'>(</span><span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+
+  <span class='comment'># this check uses headers like a hash, but the spec only requires
+</span>  <span class='comment'># headers respond to #each
+</span>  <span class='id identifier rubyid_headers'>headers</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='const'>HeaderHash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+
+  <span class='comment'>## In order to do this, an application may set the special header
+</span>  <span class='comment'>## &lt;tt&gt;rack.hijack&lt;/tt&gt; to an object that responds to &lt;tt&gt;call&lt;/tt&gt;
+</span>  <span class='comment'>## accepting an argument that conforms to the &lt;tt&gt;rack.hijack_io&lt;/tt&gt;
+</span>  <span class='comment'>## protocol.
+</span>  <span class='comment'>## 
+</span>  <span class='comment'>## After the headers have been sent, and this hijack callback has been
+</span>  <span class='comment'>## called, the application is now responsible for the remaining lifecycle
+</span>  <span class='comment'>## of the IO. The application is also responsible for maintaining HTTP
+</span>  <span class='comment'>## semantics. Of specific note, in almost all cases in the current SPEC,
+</span>  <span class='comment'>## applications will have wanted to specify the header Connection:close in
+</span>  <span class='comment'>## HTTP/1.1, and not Connection:keep-alive, as there is no protocol for
+</span>  <span class='comment'>## returning hijacked sockets to the web server. For that purpose, use the
+</span>  <span class='comment'>## body streaming API instead (progressively yielding strings via each).
+</span>  <span class='comment'>## 
+</span>  <span class='comment'>## Servers must ignore the &lt;tt&gt;body&lt;/tt&gt; part of the response tuple when
+</span>  <span class='comment'>## the &lt;tt&gt;rack.hijack&lt;/tt&gt; response API is in use.
+</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack?</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack header must respond to #call</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:call</span>
+    <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_original_hijack'>original_hijack</span> <span class='op'>=</span> <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_io'>io</span><span class='op'>|</span>
+      <span class='id identifier rubyid_original_hijack'>original_hijack</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='const'>HijackWrapper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='comment'>## 
+</span>    <span class='comment'>## The special response header &lt;tt&gt;rack.hijack&lt;/tt&gt; must only be set
+</span>    <span class='comment'>## if the request env has &lt;tt&gt;rack.hijack?&lt;/tt&gt; &lt;tt&gt;true&lt;/tt&gt;.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack header must not be present if server does not support hijacking</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.hijack</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_input-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_input</strong>(input) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Input Stream</p>
+
+<p>The input stream is an IO-like object which contains the raw HTTP POST
+data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 278</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_input'>check_input</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span>
+  <span class='comment'>## When applicable, its external encoding must be &quot;ASCII-8BIT&quot; and it
+</span>  <span class='comment'>## must be opened in binary mode, for Ruby 1.9 compatibility.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.input </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_input'>input</span><span class='rbrace'>}</span><span class='tstring_content'> does not have ASCII-8BIT as its external encoding</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_external_encoding'>external_encoding</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ASCII-8BIT</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:external_encoding</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.input </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_input'>input</span><span class='rbrace'>}</span><span class='tstring_content'> is not opened in binary mode</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_binmode?'>binmode?</span>
+  <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:binmode?</span><span class='rparen'>)</span>
+
+  <span class='comment'>## The input stream must respond to +gets+, +each+, +read+ and +rewind+.
+</span>  <span class='lbracket'>[</span><span class='symbol'>:gets</span><span class='comma'>,</span> <span class='symbol'>:each</span><span class='comma'>,</span> <span class='symbol'>:read</span><span class='comma'>,</span> <span class='symbol'>:rewind</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_method'>method</span><span class='op'>|</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.input </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_input'>input</span><span class='rbrace'>}</span><span class='tstring_content'> does not respond to #</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_method'>method</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_status-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_status</strong>(status) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Status</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+552
+553
+554
+555
+556</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 552</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_status'>check_status</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span><span class='rparen'>)</span>
+  <span class='comment'>## This is an HTTP status. When parsed as integer (+to_i+), it must be
+</span>  <span class='comment'>## greater than or equal to 100.
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Status must be &gt;=100 seen as integer</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&gt;=</span> <span class='int'>100</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="close-instance_method">
+  
+    - (<tt>void</tt>) <strong>close</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+685
+686
+687
+688</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 685</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_close'>close</span>
+  <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span>  <span class='kw'>if</span> <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:close</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each-instance_method">
+  
+    - (<tt>void</tt>) <strong>each</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>=== The Body</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 638</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
+  <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>=</span> <span class='int'>0</span>
+
+  <span class='comment'>## The Body must respond to +each+
+</span>  <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Response body must respond to each</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:each</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_part'>part</span><span class='op'>|</span>
+    <span class='comment'>## and must only yield String values.
+</span>    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Body yielded non-string value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_part'>part</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_part'>part</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'>String</span>
+    <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>+=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='id identifier rubyid_part'>part</span><span class='rparen'>)</span>
+    <span class='kw'>yield</span> <span class='id identifier rubyid_part'>part</span>
+  <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_verify_content_length'>verify_content_length</span><span class='lparen'>(</span><span class='id identifier rubyid_bytes'>bytes</span><span class='rparen'>)</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'>## The Body itself should not be an instance of String, as this will
+</span>  <span class='comment'>## break in Ruby 1.9.
+</span>  <span class='comment'>##
+</span>  <span class='comment'>## If the Body responds to +close+, it will be called after iteration. If
+</span>  <span class='comment'>## the body is replaced by a middleware after action, the original body
+</span>  <span class='comment'>## must be closed first, if it repsonds to close.
+</span>  <span class='comment'># XXX howto: assert(&quot;Body has not been closed&quot;) { @closed }
+</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'>## If the Body responds to +to_path+, it must return a String
+</span>  <span class='comment'>## identifying the location of a file whose contents are identical
+</span>  <span class='comment'>## to that produced by calling +each+; this may be used by the
+</span>  <span class='comment'>## server as an alternative, possibly more efficient way to
+</span>  <span class='comment'>## transport the response.
+</span>
+  <span class='kw'>if</span> <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_path</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The file identified by body.to_path does not exist</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='ivar'>@body</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'>## The Body commonly is an Array of Strings, the application
+</span>  <span class='comment'>## instance itself, or a File-like object.
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify_content_length-instance_method">
+  
+    - (<tt>void</tt>) <strong>verify_content_length</strong>(bytes) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/lint.rb', line 625</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verify_content_length'>verify_content_length</span><span class='lparen'>(</span><span class='id identifier rubyid_bytes'>bytes</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@head_request</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Response body was given for HEAD request, but should be empty</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>==</span> <span class='int'>0</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@content_length</span>
+    <span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length header was </span><span class='embexpr_beg'>#{</span><span class='ivar'>@content_length</span><span class='rbrace'>}</span><span class='tstring_content'>, but should be </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_bytes'>bytes</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+      <span class='ivar'>@content_length</span> <span class='op'>==</span> <span class='id identifier rubyid_bytes'>bytes</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Feb 14 16:37:55 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

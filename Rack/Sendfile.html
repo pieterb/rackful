@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Rack::Sendfile
+  
+    &mdash; Lucipher
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Rack.html" title="Rack (module)">Rack</a></span></span>
+     &raquo; 
+    <span class="title">Sendfile</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Rack::Sendfile
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Rack::Sendfile</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">rack/rack/sendfile.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>= Sendfile</p>
+
+<p>The Sendfile middleware intercepts responses whose body is being served
+from a file and replaces it with a server specific X-Sendfile header. The
+web server is then responsible for writing the file contents to the client.
+This can dramatically reduce the amount of work required by the Ruby
+backend and takes advantage of the web server's optimized file delivery
+code.</p>
+
+<p>In order to take advantage of this middleware, the response body must
+respond to <code>to_path</code> and the request must include an
+X-Sendfile-Type header. Rack::File and other components implement
+<code>to_path</code> so there's rarely anything you need to do in your
+application. The X-Sendfile-Type header is typically set in your web
+servers configuration. The following sections attempt to document</p>
+
+<p>=== Nginx</p>
+
+<p>Nginx supports the X-Accel-Redirect header. This is similar to X-Sendfile
+but requires parts of the filesystem to be mapped into a private URL
+hierarachy.</p>
+
+<p>The following example shows the Nginx configuration required to create a
+private "/files/" area, enable X-Accel-Redirect, and pass the special
+X-Sendfile-Type and X-Accel-Mapping headers to the backend:</p>
+
+<p>location ~ /files/(.*) {  internal;  alias /var/www/$1;  }</p>
+
+<p>location / {  proxy_redirect off;</p>
+
+<pre class="code ruby"><code class="ruby">proxy_set_header   Host                $host;
+proxy_set_header   X-Real-IP           $remote_addr;
+proxy_set_header   X-Forwarded-For     $proxy_add_x_forwarded_for;
+
+proxy_set_header   X-Sendfile-Type     X-Accel-Redirect;
+proxy_set_header   X-Accel-Mapping     /var/www/=/files/;
+
+proxy_pass         http://127.0.0.1:8080/;</code></pre>
+
+<p>}</p>
+
+<p>Note that the X-Sendfile-Type header must be set exactly as shown above.
+The X-Accel-Mapping header should specify the location on the file system,
+followed by an equals sign (=), followed name of the private URL pattern
+that it maps to. The middleware performs a simple substitution on the
+resulting path.</p>
+
+<p>See Also: <a
+href="http://wiki.codemongers.com/NginxXSendfile">wiki.codemongers.com/NginxXSendfile</a></p>
+
+<p>=== lighttpd</p>
+
+<p>Lighttpd has supported some variation of the X-Sendfile header for some
+time, although only recent version support X-Sendfile in a reverse proxy
+configuration.</p>
+
+<p>$<a href="http://"host"">HTTP</a> == "example.com" {  proxy-core.protocol =
+"http"  proxy-core.balancer = "round-robin"  proxy-core.backends = ( 
+"127.0.0.1:8000",  "127.0.0.1:8001",  ...  )</p>
+
+<pre class="code ruby"><code class="ruby"> proxy-core.allow-x-sendfile = &quot;enable&quot;
+ proxy-core.rewrite-request = (
+   &quot;X-Sendfile-Type&quot; =&gt; (&quot;.*&quot; =&gt; &quot;X-Sendfile&quot;)
+ )
+</code></pre>
+
+<p>}</p>
+
+<p>See Also: <a
+href="http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModProxyCore">redmine.lighttpd.net/wiki/lighttpd/Docs:ModProxyCore</a></p>
+
+<p>=== Apache</p>
+
+<p>X-Sendfile is supported under Apache 2.x using a separate module:</p>
+
+<p><a href="https://tn123.org/mod_xsendfile">tn123.org/mod_xsendfile</a>/</p>
+
+<p>Once the module is compiled and installed, you can enable it using
+XSendFile config directive:</p>
+
+<p>RequestHeader Set X-Sendfile-Type X-Sendfile  ProxyPassReverse / <a
+href="http://localhost:8001">localhost:8001</a>/  XSendFile on</p>
+
+<p>=== Mapping parameter</p>
+
+<p>The third parameter allows for an overriding extension of the
+X-Accel-Mapping header. Mappings should be provided in tuples of internal
+to external. The internal values may contain regular expression syntax,
+they will be matched with case indifference.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="F-constant" class="">F =
+          
+        </dt>
+        <dd><pre class="code"><span class='op'>::</span><span class='const'>File</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#call-instance_method" title="#call (instance method)">- (void) <strong>call</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Sendfile) <strong>initialize</strong>(app, variation = nil, mappings = []) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Sendfile.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Rack::Sendfile (class)">Sendfile</a></span></tt>) <strong>initialize</strong>(app, variation = nil, mappings = []) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Sendfile</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105
+106
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/sendfile.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='comma'>,</span> <span class='id identifier rubyid_variation'>variation</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_mappings'>mappings</span><span class='op'>=</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
+  <span class='ivar'>@variation</span> <span class='op'>=</span> <span class='id identifier rubyid_variation'>variation</span>
+  <span class='ivar'>@mappings</span> <span class='op'>=</span> <span class='id identifier rubyid_mappings'>mappings</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_internal'>internal</span><span class='comma'>,</span> <span class='id identifier rubyid_external'>external</span><span class='op'>|</span>
+    <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_internal'>internal</span><span class='rbrace'>}</span><span class='regexp_end'>/i</span></span><span class='comma'>,</span> <span class='id identifier rubyid_external'>external</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="call-instance_method">
+  
+    - (<tt>void</tt>) <strong>call</strong>(env) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/sendfile.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_path</span><span class='rparen'>)</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_variation'>variation</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X-Accel-Redirect</span><span class='tstring_end'>'</span></span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='const'>F</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_map_accel_path'>map_accel_path</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0</span><span class='tstring_end'>'</span></span>
+        <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span>
+        <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:close</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>X-Accel-Mapping header missing</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X-Sendfile</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X-Lighttpd-Send-File</span><span class='tstring_end'>'</span></span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='const'>F</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0</span><span class='tstring_end'>'</span></span>
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span>
+      <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:close</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>nil</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown x-sendfile variation: '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_variation'>variation</span><span class='rbrace'>}</span><span class='tstring_content'>'.\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Feb 14 16:37:28 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

@@ -6,13 +6,13 @@
 <title>
   Exception: Rackful::HTTP415UnsupportedMediaType
   
-    &mdash; Rackful
+    &mdash; Lucipher
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -98,50 +98,123 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rackful_http_status.rb</dd>
+    <dd class="r2 last">lib/rackful/httpstatus.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#headers-instance_method" title="#headers (instance method)">- (void) <strong>headers</strong> </a>
     
 
-  </div>
-</div>
-<div class="tags">
+    
+  </span>
   
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div>
-
-
-
-
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="HTTPStatus.html" title="Rackful::HTTPStatus (class)">HTTPStatus</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="HTTPStatus.html#headers-instance_method" title="Rackful::HTTPStatus#headers (method)">#headers</a></span>, <span class='object_link'><a href="HTTPStatus.html#status-instance_method" title="Rackful::HTTPStatus#status (method)">#status</a></span>, <span class='object_link'><a href="HTTPStatus.html#to_rackful-instance_method" title="Rackful::HTTPStatus#to_rackful (method)">#to_rackful</a></span></p>
-
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="HTTPStatus.html#headers-instance_method" title="Rackful::HTTPStatus#headers (method)">HTTPStatus</a></span>
+    </span>
   
   
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Resource.html" title="Rackful::Resource (module)">Resource</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Resource.html#get_etag-instance_method" title="Rackful::Resource#get_etag (method)">#get_etag</a></span>, <span class='object_link'><a href="Resource.html#get_last_modified-instance_method" title="Rackful::Resource#get_last_modified (method)">#get_last_modified</a></span>, <span class='object_link'><a href="Resource.html#path-instance_method" title="Rackful::Resource#path (method)">#path</a></span></p>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute headers.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#status-instance_method" title="#status (instance method)">- (void) <strong>status</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="HTTPStatus.html#status-instance_method" title="Rackful::HTTPStatus#status (method)">HTTPStatus</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute status.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_rackful-instance_method" title="#to_rackful (instance method)">- (void) <strong>to_rackful</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="HTTPStatus.html#to_rackful-instance_method" title="Rackful::HTTPStatus#to_rackful (method)">HTTPStatus</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute to_rackful.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
 
 
   
@@ -171,7 +244,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of HTTP415UnsupportedMediaType.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of HTTP415UnsupportedMediaType.</p>
 </div></span>
   
 </li>
@@ -182,22 +256,6 @@
 
 
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Resource.html" title="Rackful::Resource (module)">Resource</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Resource.html#default_headers-instance_method" title="Rackful::Resource#default_headers (method)">#default_headers</a></span>, <span class='object_link'><a href="Resource.html#destroy-instance_method" title="Rackful::Resource#destroy (method)">#destroy</a></span>, <span class='object_link'><a href="Resource.html#do_METHOD-instance_method" title="Rackful::Resource#do_METHOD (method)">#do_METHOD</a></span>, <span class='object_link'><a href="Resource.html#empty%3F-instance_method" title="Rackful::Resource#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="Resource.html#http_HEAD-instance_method" title="Rackful::Resource#http_HEAD (method)">#http_HEAD</a></span>, <span class='object_link'><a href="Resource.html#http_OPTIONS-instance_method" title="Rackful::Resource#http_OPTIONS (method)">#http_OPTIONS</a></span>, <span class='object_link'><a href="Resource.html#included-class_method" title="Rackful::Resource.included (method)">included</a></span>, <span class='object_link'><a href="Resource.html#requested%3F-instance_method" title="Rackful::Resource#requested? (method)">#requested?</a></span>, <span class='object_link'><a href="Resource.html#serializer-instance_method" title="Rackful::Resource#serializer (method)">#serializer</a></span>, <span class='object_link'><a href="Resource.html#title-instance_method" title="Rackful::Resource#title (method)">#title</a></span>, <span class='object_link'><a href="Resource.html#to_rackful-instance_method" title="Rackful::Resource#to_rackful (method)">#to_rackful</a></span>, <span class='object_link'><a href="Resource.html#to_struct-instance_method" title="Rackful::Resource#to_struct (method)">#to_struct</a></span></p>
-
   
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
@@ -213,28 +271,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>A new instance of HTTP415UnsupportedMediaType</p>
+    
+<p>Returns a new instance of HTTP415UnsupportedMediaType</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -242,17 +286,15 @@
       <pre class="lines">
 
 
-271
-272
-273
-274</pre>
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_http_status.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/httpstatus.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_media_types'>media_types</span>
-  <span class='kw'>super</span> <span class='int'>405</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-        <span class='symbol'>:Supported media-type(s):</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_media_types'>media_types</span>
+  <span class='kw'>super</span><span class='lparen'>(</span> <span class='int'>415</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:Supported media-type(s):</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_media_types'>media_types</span> <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -261,13 +303,108 @@
   
 </div>
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="headers-instance_method">
+  
+    - (<tt>void</tt>) <strong>headers</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="HTTPStatus.html#headers-instance_method" title="Rackful::HTTPStatus#headers (method)">HTTPStatus</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute headers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="status-instance_method">
+  
+    - (<tt>void</tt>) <strong>status</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="HTTPStatus.html#status-instance_method" title="Rackful::HTTPStatus#status (method)">HTTPStatus</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute status</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="to_rackful-instance_method">
+  
+    - (<tt>void</tt>) <strong>to_rackful</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="HTTPStatus.html#to_rackful-instance_method" title="Rackful::HTTPStatus#to_rackful (method)">HTTPStatus</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute to_rackful</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+  </div>
+
 
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 11 17:54:32 2012 by
+  Generated on Fri Feb 14 16:37:22 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.2).
+  0.8.7.3 (ruby-1.9.3).
 </div>
 
   </body>

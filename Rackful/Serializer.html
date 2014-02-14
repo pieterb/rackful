@@ -6,13 +6,13 @@
 <title>
   Class: Rackful::Serializer
   
-    &mdash; Rackful
+    &mdash; Lucipher
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -98,7 +98,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/rackful_serializer.rb</dd>
+    <dd class="r1 last">lib/rackful/serializer.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -107,40 +107,37 @@
   <div class="discussion">
     <div class="note abstract">
   <strong>This class is abstract.</strong>
-  <div class='inline'><p>Subclasses must implement method <code>#each</code> end define constant
+  <div class='inline'>
+<p>Subclasses must implement method <code>#each</code> end define constant
 <code>CONTENT_TYPES</code></p>
 </div>
 </div>
+
 <p>Base class for all serializers.</p>
 
-<p>The default serializers defined in this library (<span class='object_link'><a href="XHTML.html" title="Rackful::XHTML (class)">XHTML</a></span> and <span class='object_link'><a href="JSON.html" title="Rackful::JSON (class)">JSON</a></span>)
-depend on the availability of method Resource#to_rackful.</p>
+<p>The serializers <span class='object_link'><a href="Serializer/XHTML.html" title="Rackful::Serializer::XHTML (class)">XHTML</a></span> and <span class='object_link'><a href="Serializer/JSON.html" title="Rackful::Serializer::JSON (class)">JSON</a></span> defined in this
+library depend on the presence of method <span class='object_link'><a href="Resource.html#to_rackful-instance_method" title="Rackful::Resource#to_rackful (method)">resource.to_rackful</a></span>.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="JSON.html" title="Rackful::JSON (class)">JSON</a></span>, <span class='object_link'><a href="XHTML.html" title="Rackful::XHTML (class)">XHTML</a></span></p>
+  <p class="children"><span class='object_link'><a href="Serializer/JSON.html" title="Rackful::Serializer::JSON (class)">JSON</a></span>, <span class='object_link'><a href="Serializer/XHTML.html" title="Rackful::Serializer::XHTML (class)">XHTML</a></span></p>
 </div>
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Serializer/JSON.html" title="Rackful::Serializer::JSON (class)">JSON</a></span>, <span class='object_link'><a href="Serializer/XHTML.html" title="Rackful::Serializer::XHTML (class)">XHTML</a></span>
+    
+  
+</p>
 
 
 
@@ -151,7 +148,36 @@ depend on the availability of method Resource#to_rackful.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#content_type-instance_method" title="#content_type (instance method)">- (void) <strong>content_type</strong> </a>
+      <a href="#content_type-instance_method" title="#content_type (instance method)">- (String) <strong>content_type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The content type to be served by this Serializer.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request-instance_method" title="#request (instance method)">- (Request) <strong>request</strong> </a>
     
 
     
@@ -178,7 +204,7 @@ depend on the availability of method Resource#to_rackful.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#resource-instance_method" title="#resource (instance method)">- (void) <strong>resource</strong> </a>
+      <a href="#resource-instance_method" title="#resource (instance method)">- (Resource) <strong>resource</strong> </a>
     
 
     
@@ -218,7 +244,7 @@ depend on the availability of method Resource#to_rackful.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each-instance_method" title="#each (instance method)">- (void) <strong>each</strong> {|data| ... }</a>
+      <a href="#each-instance_method" title="#each (instance method)">- (void) <strong>each</strong> {|block| ... }</a>
     
 
     
@@ -232,7 +258,30 @@ depend on the availability of method Resource#to_rackful.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Every serializer must implement this method.</p>
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#headers-instance_method" title="#headers (instance method)">- (Hash) <strong>headers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  <span class="abstract note title">abstract</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extra response headers that a serializer likes to return.</p>
 </div></span>
   
 </li>
@@ -241,7 +290,7 @@ depend on the availability of method Resource#to_rackful.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Serializer) <strong>initialize</strong>(resource, content_type) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Serializer) <strong>initialize</strong>(request, resource, content_type) </a>
     
 
     
@@ -257,7 +306,8 @@ depend on the availability of method Resource#to_rackful.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of Serializer.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Serializer.</p>
 </div></span>
   
 </li>
@@ -273,7 +323,7 @@ depend on the availability of method Resource#to_rackful.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Rackful::Serializer (class)">Serializer</a></span></tt>) <strong>initialize</strong>(resource, content_type) 
+    - (<tt><span class='object_link'><a href="" title="Rackful::Serializer (class)">Serializer</a></span></tt>) <strong>initialize</strong>(request, resource, content_type) 
   
 
   
@@ -281,28 +331,51 @@ depend on the availability of method Resource#to_rackful.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>A new instance of Serializer</p>
+    
+<p>Returns a new instance of Serializer</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-<p class="tag_title">Since:</p>
-<ul class="since">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
     <li>
       
+        <span class='name'>request</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Request.html" title="Rackful::Request (class)">Request</a></span></tt>)</span>
       
       
       
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
+    </li>
+  
+    <li>
+      
+        <span class='name'>resource</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Resource.html" title="Rackful::Resource (class)">Resource</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>content_type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
       
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -310,15 +383,17 @@ depend on the availability of method Resource#to_rackful.</p>
       <pre class="lines">
 
 
-31
-32
-33</pre>
+34
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 34</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
-  <span class='ivar'>@resource</span><span class='comma'>,</span> <span class='ivar'>@content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='ivar'>@request</span><span class='comma'>,</span> <span class='ivar'>@resource</span><span class='comma'>,</span> <span class='ivar'>@content_type</span> <span class='op'>=</span>
+    <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -335,7 +410,138 @@ depend on the availability of method Resource#to_rackful.</p>
       <div class="method_details first">
   <h3 class="signature first" id="content_type-instance_method">
   
-    - (<tt>void</tt>) <strong>content_type</strong>  <span class="extras">(readonly)</span>
+    - (<tt>String</tt>) <strong>content_type</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The content type to be served by this Serializer. This will always
+be one of the content types listed in constant <code>CONTENT_TYPES</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The content type to be served by this Serializer. This will always be one
+of the content types listed in constant <code>CONTENT_TYPES</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 22</span>
+
+<span class='kw'>class</span> <span class='const'>Serializer</span>
+
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request</span><span class='comma'>,</span> <span class='symbol'>:resource</span><span class='comma'>,</span> <span class='symbol'>:content_type</span>
+
+
+  <span class='comment'># @param request [Request]
+</span>  <span class='comment'># @param resource [Resource]
+</span>  <span class='comment'># @param content_type [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+    <span class='ivar'>@request</span><span class='comma'>,</span> <span class='ivar'>@resource</span><span class='comma'>,</span> <span class='ivar'>@content_type</span> <span class='op'>=</span>
+      <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='kw'>end</span>
+
+
+  <span class='comment'># @!method headers()
+</span>  <span class='comment'>#   Extra response headers that a serializer likes to return.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   You don't have to include the `Content-Type` header, as this is done
+</span>  <span class='comment'>#   _for_ you.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   This method is optional.
+</span>  <span class='comment'>#   @return [Hash]
+</span>  <span class='comment'>#   @abstract
+</span>
+
+  <span class='comment'># @abstract Every serializer must implement this method.
+</span>  <span class='comment'># @yieldparam block [String] (part of) the entity body
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span>
+  <span class='kw'>end</span>
+
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="request-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Request.html" title="Rackful::Request (class)">Request</a></span></tt>) <strong>request</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -349,17 +555,15 @@ depend on the availability of method Resource#to_rackful.</p>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
     <li>
       
       
+        <span class='type'>(<tt><span class='object_link'><a href="Request.html" title="Rackful::Request (class)">Request</a></span></tt>)</span>
       
       
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
       
     </li>
   
@@ -371,15 +575,83 @@ depend on the availability of method Resource#to_rackful.</p>
       <pre class="lines">
 
 
+22
+23
+24
+25
+26
+27
 28
 29
-30</pre>
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_content_type'>content_type</span>
-  <span class='ivar'>@content_type</span>
+<span class='kw'>class</span> <span class='const'>Serializer</span>
+
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request</span><span class='comma'>,</span> <span class='symbol'>:resource</span><span class='comma'>,</span> <span class='symbol'>:content_type</span>
+
+
+  <span class='comment'># @param request [Request]
+</span>  <span class='comment'># @param resource [Resource]
+</span>  <span class='comment'># @param content_type [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+    <span class='ivar'>@request</span><span class='comma'>,</span> <span class='ivar'>@resource</span><span class='comma'>,</span> <span class='ivar'>@content_type</span> <span class='op'>=</span>
+      <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='kw'>end</span>
+
+
+  <span class='comment'># @!method headers()
+</span>  <span class='comment'>#   Extra response headers that a serializer likes to return.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   You don't have to include the `Content-Type` header, as this is done
+</span>  <span class='comment'>#   _for_ you.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   This method is optional.
+</span>  <span class='comment'>#   @return [Hash]
+</span>  <span class='comment'>#   @abstract
+</span>
+
+  <span class='comment'># @abstract Every serializer must implement this method.
+</span>  <span class='comment'># @yieldparam block [String] (part of) the entity body
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span>
+  <span class='kw'>end</span>
+
+
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -391,7 +663,7 @@ depend on the availability of method Resource#to_rackful.</p>
       <div class="method_details ">
   <h3 class="signature " id="resource-instance_method">
   
-    - (<tt>void</tt>) <strong>resource</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="Resource.html" title="Rackful::Resource (class)">Resource</a></span></tt>) <strong>resource</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -405,17 +677,15 @@ depend on the availability of method Resource#to_rackful.</p>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
     <li>
       
       
+        <span class='type'>(<tt><span class='object_link'><a href="Resource.html" title="Rackful::Resource (class)">Resource</a></span></tt>)</span>
       
       
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
       
     </li>
   
@@ -427,15 +697,83 @@ depend on the availability of method Resource#to_rackful.</p>
       <pre class="lines">
 
 
+22
+23
+24
+25
+26
+27
 28
 29
-30</pre>
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_resource'>resource</span>
-  <span class='ivar'>@resource</span>
+<span class='kw'>class</span> <span class='const'>Serializer</span>
+
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request</span><span class='comma'>,</span> <span class='symbol'>:resource</span><span class='comma'>,</span> <span class='symbol'>:content_type</span>
+
+
+  <span class='comment'># @param request [Request]
+</span>  <span class='comment'># @param resource [Resource]
+</span>  <span class='comment'># @param content_type [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+    <span class='ivar'>@request</span><span class='comma'>,</span> <span class='ivar'>@resource</span><span class='comma'>,</span> <span class='ivar'>@content_type</span> <span class='op'>=</span>
+      <span class='id identifier rubyid_request'>request</span><span class='comma'>,</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span>
+  <span class='kw'>end</span>
+
+
+  <span class='comment'># @!method headers()
+</span>  <span class='comment'>#   Extra response headers that a serializer likes to return.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   You don't have to include the `Content-Type` header, as this is done
+</span>  <span class='comment'>#   _for_ you.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   This method is optional.
+</span>  <span class='comment'>#   @return [Hash]
+</span>  <span class='comment'>#   @abstract
+</span>
+
+  <span class='comment'># @abstract Every serializer must implement this method.
+</span>  <span class='comment'># @yieldparam block [String] (part of) the entity body
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span>
+  <span class='kw'>end</span>
+
+
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -452,7 +790,7 @@ depend on the availability of method Resource#to_rackful.</p>
       <div class="method_details first">
   <h3 class="signature first" id="each-instance_method">
   
-    - (<tt>void</tt>) <strong>each</strong> {|data| ... }
+    - (<tt>void</tt>) <strong>each</strong> {|block| ... }
   
 
   
@@ -462,27 +800,31 @@ depend on the availability of method Resource#to_rackful.</p>
   <div class="discussion">
     <div class="note abstract">
   <strong>This method is abstract.</strong>
-  <div class='inline'></div>
-</div>
+  <div class='inline'>
 <p>Every serializer must implement this method.</p>
+</div>
+</div>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Yields:</p>
-<ul class="yield">
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
   
     <li>
       
+        <span class='name'>block</span>
       
-        <span class='type'>(<tt>data</tt>)</span>
+      
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>the entity body</p>
+        <div class='inline'>
+<p>(part of) the entity body</p>
 </div>
       
     </li>
@@ -494,24 +836,9 @@ depend on the availability of method Resource#to_rackful.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP500InternalServerError</tt>)</span>
+        <span class='type'>(<tt>NotImplementedError</tt>)</span>
       
       
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
       
     </li>
   
@@ -523,16 +850,75 @@ depend on the availability of method Resource#to_rackful.</p>
       <pre class="lines">
 
 
-41
-42
-43</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_serializer.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP500InternalServerError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Class </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't implement #each().</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="headers-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>headers</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This method is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+<p>Extra response headers that a serializer likes to return.</p>
+
+<p>You don't have to include the <code>Content-Type</code> header, as this is
+done <em>for</em> you.</p>
+
+<p>This method is optional.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful/serializer.rb', line 40</span>
+
+</pre>
     </td>
   </tr>
 </table>
@@ -543,9 +929,9 @@ depend on the availability of method Resource#to_rackful.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 11 17:54:31 2012 by
+  Generated on Fri Feb 14 16:37:22 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.2).
+  0.8.7.3 (ruby-1.9.3).
 </div>
 
   </body>

@@ -6,13 +6,13 @@
 <title>
   Class: Rackful::Request
   
-    &mdash; Rackful
+    &mdash; Lucipher
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -73,12 +73,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName">Rack::Request</span>
+      <span class="inheritName"><span class='object_link'><a href="../Rack/Request.html" title="Rack::Request (class)">Rack::Request</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">Rack::Request</li>
+            <li class="next"><span class='object_link'><a href="../Rack/Request.html" title="Rack::Request (class)">Rack::Request</a></span></li>
           
             <li class="next">Rackful::Request</li>
           
@@ -96,61 +96,52 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rackful_request.rb</dd>
+    <dd class="r2 last">lib/rackful/request.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Subclass of Rack::Request, augmented for Rackful requests.</p>
+    
+<p>Subclass of <span class='object_link'><a href="../Rack/Request.html" title="Rack::Request (class)">Rack::Request</a></span>, augmented for Rackful requests.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div>
-
-
-
-
-
-
+  <h2>Constant Summary</h2>
   
-    <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
 
-    <ul class="summary">
-      
-        <li class="public ">
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
   <span class="summary_signature">
     
-      <a href="#current-class_method" title="current (class method)">+ (Request) <strong>current</strong> </a>
+      <a href="#env-instance_method" title="#env (instance method)">- (void) <strong>env</strong> </a>
     
 
     
   </span>
   
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="../Rack/Request.html#env-instance_method" title="Rack::Request#env (method)">Rack::Request</a></span>
+    </span>
   
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
   
   
   
@@ -158,13 +149,18 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The request currently being processed in the current thread.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>The environment of the request.</p>
 </div></span>
   
 </li>
 
-      
-    </ul>
+    
+  </ul>
+
+
+
+
   
     <h2>
       Instance Method Summary
@@ -173,7 +169,7 @@
 
     <ul class="summary">
       
-        <li class="public ">
+        <li class="public deprecated">
   <span class="summary_signature">
     
       <a href="#accept-instance_method" title="#accept (instance method)">- (Hash{media_type =&gt; quality}) <strong>accept</strong> </a>
@@ -186,11 +182,12 @@
   
   
   
-  
+  <span class="deprecated note title">deprecated</span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Hash of acceptable media types and their qualities.</p>
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Use <span class='object_link'><a href="#q_values-instance_method" title="Rackful::Request#q_values (method)">#q_values</a></span> instead</p>
 </div></span>
   
 </li>
@@ -213,7 +210,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Assert all <tt>If-*</tt> request headers.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Assert all If-* request headers.</p>
 </div></span>
   
 </li>
@@ -222,7 +220,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#base_path-instance_method" title="#base_path (instance method)">- (void) <strong>base_path</strong> </a>
+      <a href="#canonical_uri-instance_method" title="#canonical_uri (instance method)">- (URI::Generic) <strong>canonical_uri</strong> </a>
     
 
     
@@ -236,29 +234,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#content_path-instance_method" title="#content_path (instance method)">- (Path) <strong>content_path</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Similar to the HTTP/1.1 <code>Content-Location:</code> header.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Similar to the HTTP/1.1 <code>Content-Location:</code> header.</p>
 </div></span>
   
 </li>
@@ -267,7 +244,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#content_path%3D-instance_method" title="#content_path= (instance method)">- (Path) <strong>content_path=</strong>(bp) </a>
+      <a href="#canonical_uri%3D-instance_method" title="#canonical_uri= (instance method)">- (URI::Generic, String) <strong>canonical_uri=</strong>(uri) </a>
     
 
     
@@ -281,7 +258,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Set by <span class='object_link'><a href="Server.html#call%21-instance_method" title="Rackful::Server#call! (method)">Server#call!</a></span>.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>The canonical url of the requested resource.</p>
 </div></span>
   
 </li>
@@ -304,7 +282,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Parses the HTTP/1.1 <code>If-Match:</code> header.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Parses the HTTP/1.1 <code>If-Match:</code> header.</p>
 </div></span>
   
 </li>
@@ -349,7 +328,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Parses the HTTP/1.1 <code>If-None-Match:</code> header.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Parses the HTTP/1.1 <code>If-None-Match:</code> header.</p>
 </div></span>
   
 </li>
@@ -380,7 +360,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Request) <strong>initialize</strong>(resource_factory, *args) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Request) <strong>initialize</strong>(*args) </a>
     
 
     
@@ -396,7 +376,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of Request.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Request.</p>
 </div></span>
   
 </li>
@@ -405,7 +386,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#path-instance_method" title="#path (instance method)">- (Path) <strong>path</strong> </a>
+      <a href="#q_values-instance_method" title="#q_values (instance method)">- (Array&lt;Array(type, quality)&gt;) <strong>q_values</strong> </a>
     
 
     
@@ -419,7 +400,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Shortcut to <span class='object_link'><a href="../Rack/Utils.html#q_values-class_method" title="Rack::Utils.q_values (method)">Rack::Utils.q_values</a></span>.</p>
+</div></span>
   
 </li>
 
@@ -427,7 +410,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#resource_factory-instance_method" title="#resource_factory (instance method)">- (#[]) <strong>resource_factory</strong> </a>
+      <a href="#resource_at-instance_method" title="#resource_at (instance method)">- (Resource) <strong>resource_at</strong>(*args) </a>
     
 
     
@@ -441,7 +424,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The resource factory for the current request.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Shortcut to <span class='object_link'><a href="Server.html#resource_at-instance_method" title="Rackful::Server#resource_at (method)">Server#resource_at</a></span>.</p>
 </div></span>
   
 </li>
@@ -464,7 +448,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Does any of the tags in <code>etags</code> match <code>etag</code>?.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Does any of the tags in <code>etags</code> match <code>etag</code>?.</p>
 </div></span>
   
 </li>
@@ -474,13 +459,14 @@
   
 
 
+  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Rackful::Request (class)">Request</a></span></tt>) <strong>initialize</strong>(resource_factory, *args) 
+    - (<tt><span class='object_link'><a href="" title="Rackful::Request (class)">Request</a></span></tt>) <strong>initialize</strong>(*args) 
   
 
   
@@ -488,28 +474,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>A new instance of Request</p>
+    
+<p>Returns a new instance of Request</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -517,17 +489,15 @@
       <pre class="lines">
 
 
-50
-51
-52
-53</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_resource_factory'>resource_factory</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span>
   <span class='kw'>super</span><span class='lparen'>(</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span> <span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.resource_factory</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_factory'>resource_factory</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -536,84 +506,41 @@
   
 </div>
 
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
     
+      
+      <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="current-class_method">
+  <h3 class="signature first" id="env-instance_method">
   
-    + (<tt><span class='object_link'><a href="" title="Rackful::Request (class)">Request</a></span></tt>) <strong>current</strong> 
+    - (<tt>void</tt>) <strong>env</strong>  <span class="extras">(readonly)</span>
+  
+
   
 
   
-
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="../Rack/Request.html#env-instance_method" title="Rack::Request#env (method)">Rack::Request</a></span>
+    </span>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The request currently being processed in the current thread.</p>
-
-<p>In a multi-threaded server, multiple requests can be handled at one time.
-This method returns the request object, created (and registered) by
-<span class='object_link'><a href="Server.html#call%21-instance_method" title="Rackful::Server#call! (method)">Server#call!</a></span></p>
+    
+<p>The environment of the request.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Rackful::Request (class)">Request</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
+
 </div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-65
-66
-67</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 65</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span>
-  <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:rackful_request</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
 </div>
     
   </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -630,10 +557,14 @@ This method returns the request object, created (and registered) by
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Hash of acceptable media types and their qualities.</p>
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Use <span class='object_link'><a href="#q_values-instance_method" title="Rackful::Request#q_values (method)">#q_values</a></span> instead</p>
+</div></div>
 
-<p>This method parses the HTTP/1.1 <code>Accept:</code> header. If no acceptable media
-types are provided, an empty Hash is returned.</p>
+<p>Hash of acceptable media types and their qualities.</p>
+
+<p>This method parses the HTTP/1.1 <code>Accept:</code> header. If no
+acceptable media types are provided, an empty Hash is returned.</p>
 
 
   </div>
@@ -653,21 +584,6 @@ types are provided, an empty Hash is returned.</p>
     </li>
   
 </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -675,31 +591,31 @@ types are provided, an empty Hash is returned.</p>
       <pre class="lines">
 
 
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166</pre>
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_accept'>accept</span>
-  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.accept</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='kw'>begin</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.accept</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='kw'>begin</span>
     <span class='const'>Hash</span><span class='lbracket'>[</span>
-      <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_ACCEPT</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>,</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_ACCEPT</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>,</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span>
         <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
         <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>;</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
         <span class='id identifier rubyid_quality'>quality</span> <span class='op'>=</span> <span class='int'>1</span>
@@ -732,11 +648,13 @@ types are provided, an empty Hash is returned.</p>
     
   <div class="note todo">
     <strong>TODO:</strong>
-    <div class='inline'><p>Implement support for the <code>If-Range:</code> header.</p>
+    <div class='inline'>
+<p>Implement support for the <code>If-Range:</code> header.</p>
 </div>
   </div>
 
-<p class="note returns_void">This method returns an undefined value.</p><p>Assert all <tt>If-*</tt> request headers.</p>
+<p class="note returns_void">This method returns an undefined value.</p>
+<p>Assert all <code>If-*</code> request headers.</p>
 
 
   </div>
@@ -754,16 +672,19 @@ types are provided, an empty Hash is returned.</p>
       
       
         &mdash;
-        <div class='inline'><p>with the following meanings:</p>
-
-<ul>
-<li>  <code>304 Not Modified</code></li>
-<li>  <code>400 Bad Request</code> Couldn&#39;t parse one or more <tt>If-*</tt> headers, or a
-weak validator comparison was requested for methods other than <code>GET</code> or
-<code>HEAD</code>.</li>
-<li>  <code>404 Not Found</code></li>
-<li>  <code>412 Precondition Failed</code></li>
-</ul>
+        <div class='inline'>
+<p>with the following meanings:</p>
+<ul><li>
+<p><code>304 Not Modified</code></p>
+</li><li>
+<p><code>400 Bad Request</code> Couldn't parse one or more <code>If-*</code>
+headers, or a weak validator comparison was requested for methods other
+than <code>GET</code> or <code>HEAD</code>.</p>
+</li><li>
+<p><code>404 Not Found</code></p>
+</li><li>
+<p><code>412 Precondition Failed</code></p>
+</li></ul>
 </div>
       
     </li>
@@ -776,21 +697,6 @@ weak validator comparison was requested for methods other than <code>GET</code> 
       <li><a href="http://tools.ietf.org/html/rfc2616#section-13.3.3" target="_parent" title="RFC2616, section 13.3.3 for details about weak and strong validator comparison.">RFC2616, section 13.3.3 for details about weak and strong validator comparison.</a></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -798,6 +704,23 @@ weak validator comparison was requested for methods other than <code>GET</code> 
       <pre class="lines">
 
 
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
 87
 88
 89
@@ -837,27 +760,14 @@ weak validator comparison was requested for methods other than <code>GET</code> 
 123
 124
 125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assert_if_headers'>assert_if_headers</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='comment'>#raise HTTP501NotImplemented, 'If-Range: request header is not supported.' \
-</span>  <span class='comment'>#  if @env.key? 'HTTP_IF_RANGE'
+</span>  <span class='comment'>#  if env.key? 'HTTP_IF_RANGE'
 </span>  <span class='id identifier rubyid_empty'>empty</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
   <span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span>
     <span class='kw'>if</span> <span class='op'>!</span> <span class='id identifier rubyid_empty'>empty</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:get_etag</span><span class='rparen'>)</span>
@@ -888,7 +798,11 @@ weak validator comparison was requested for methods other than <code>GET</code> 
     <span class='kw'>end</span>
   <span class='kw'>else</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_cond'>cond</span><span class='lbracket'>[</span><span class='symbol'>:none_match</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_validate_etag'>validate_etag</span><span class='lparen'>(</span> <span class='id identifier rubyid_etag'>etag</span><span class='comma'>,</span> <span class='id identifier rubyid_cond'>cond</span><span class='lbracket'>[</span><span class='symbol'>:none_match</span><span class='rbracket'>]</span> <span class='rparen'>)</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP412PreconditionFailed</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>If-None-Match</span><span class='tstring_end'>'</span></span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_allow_weak'>allow_weak</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP304NotModified</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP412PreconditionFailed</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>If-None-Match</span><span class='tstring_end'>'</span></span>
+      <span class='kw'>end</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_cond'>cond</span><span class='lbracket'>[</span><span class='symbol'>:match</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_validate_etag'>validate_etag</span><span class='lparen'>(</span> <span class='id identifier rubyid_etag'>etag</span><span class='comma'>,</span> <span class='id identifier rubyid_cond'>cond</span><span class='lbracket'>[</span><span class='symbol'>:match</span><span class='rbracket'>]</span> <span class='rparen'>)</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='const'>HTTP412PreconditionFailed</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>If-Match</span><span class='tstring_end'>'</span></span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_cond'>cond</span><span class='lbracket'>[</span><span class='symbol'>:unmodified_since</span><span class='rbracket'>]</span>
@@ -914,9 +828,9 @@ weak validator comparison was requested for methods other than <code>GET</code> 
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="base_path-instance_method">
+  <h3 class="signature " id="canonical_uri-instance_method">
   
-    - (<tt>void</tt>) <strong>base_path</strong> 
+    - (<tt><span class='object_link'><a href="../URI/Generic.html" title="URI::Generic (class)">URI::Generic</a></span></tt>) <strong>canonical_uri</strong> 
   
 
   
@@ -925,22 +839,27 @@ weak validator comparison was requested for methods other than <code>GET</code> 
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Similar to the HTTP/1.1 <code>Content-Location:</code> header. Contains the
+canonical url of the requested resource, which may differ from <span class='object_link'><a href="../Rack/Request.html#url-instance_method" title="Rack::Request#url (method)">Rack::Request#url</a></span>.</p>
+
+<p>If parameter <code>full_path</code> is provided, than this is used instead
+of the current request’s full path (which is the path plus optional query
+string).</p>
+
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Since:</p>
-<ul class="since">
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
     <li>
       
       
+        <span class='type'>(<tt><span class='object_link'><a href="../URI/Generic.html" title="URI::Generic (class)">URI::Generic</a></span></tt>)</span>
       
       
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
       
     </li>
   
@@ -952,23 +871,15 @@ weak validator comparison was requested for methods other than <code>GET</code> 
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
-28
-29</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 35</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_base_path'>base_path</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.base_path</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='kw'>begin</span>
-    <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_path'>content_path</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
-    <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>[^/]*\z</span><span class='regexp_end'>}</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
-    <span class='id identifier rubyid_r'>r</span>
-  <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_canonical_uri'>canonical_uri</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.canonical_uri</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>URI</span><span class='lparen'>(</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_normalize'>normalize</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -976,9 +887,9 @@ weak validator comparison was requested for methods other than <code>GET</code> 
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="content_path-instance_method">
+  <h3 class="signature " id="canonical_uri=-instance_method">
   
-    - (<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>) <strong>content_path</strong> 
+    - (<tt><span class='object_link'><a href="../URI/Generic.html" title="URI::Generic (class)">URI::Generic</a></span></tt>, <tt>String</tt>) <strong>canonical_uri=</strong>(uri) 
   
 
   
@@ -986,101 +897,50 @@ weak validator comparison was requested for methods other than <code>GET</code> 
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Similar to the HTTP/1.1 <code>Content-Location:</code> header. Contains the canonical path
-to the requested resource, which may differ from <span class='object_link'><a href="#path-instance_method" title="Rackful::Request#path (method)">#path</a></span></p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-36</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 36</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_content_path'>content_path</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.content_path</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="content_path=-instance_method">
-  
-    - (<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>) <strong>content_path=</strong>(bp) 
-  
+  <div class="note todo">
+    <strong>TODO:</strong>
+    <div class='inline'>
+<p>Change URI::Generic into URI::HTTP</p>
+</div>
+  </div>
 
-  
 
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Set by <span class='object_link'><a href="Server.html#call%21-instance_method" title="Rackful::Server#call! (method)">Server#call!</a></span></p>
+<p>The canonical url of the requested resource. This may differ from <span class='object_link'><a href="../Rack/Request.html#url-instance_method" title="Rack::Request#url (method)">Rack::Request#url</a></span>.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
     <li>
       
+        <span class='name'>uri</span>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>)</span>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../URI/Generic.html" title="URI::Generic (class)">URI::Generic</a></span></tt>, <tt>String</tt>)</span>
       
       
       
     </li>
   
 </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
     <li>
       
       
+        <span class='type'>(<tt><span class='object_link'><a href="../URI/Generic.html" title="URI::Generic (class)">URI::Generic</a></span></tt>, <tt>String</tt>)</span>
       
       
-        
-        <div class='inline'><p>0.1.0</p>
+      
+        &mdash;
+        <div class='inline'>
+<p><code>uri</code></p>
 </div>
       
     </li>
@@ -1093,12 +953,20 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-42</pre>
+47
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 47</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_content_path='>content_path=</span> <span class='id identifier rubyid_bp'>bp</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.content_path</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bp'>bp</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_canonical_uri='>canonical_uri=</span><span class='lparen'>(</span> <span class='id identifier rubyid_uri'>uri</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.canonical_uri</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span>
+    <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span> <span class='const'>URI</span><span class='op'>::</span><span class='const'>Generic</span> <span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>URI</span><span class='lparen'>(</span> <span class='id identifier rubyid_uri'>uri</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_normalize'>normalize</span>
+  <span class='id identifier rubyid_uri'>uri</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1107,7 +975,7 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <div class="method_details ">
   <h3 class="signature " id="if_match-instance_method">
   
-    - (<tt>nil</tt>, <tt>Array&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>if_match</strong> 
+    - (<tt>nil</tt>, <tt>Array&lt;String&gt;</tt>) <strong>if_match</strong> 
   
 
   
@@ -1115,7 +983,8 @@ to the requested resource, which may differ from <span class='object_link'><a hr
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Parses the HTTP/1.1 <code>If-Match:</code> header.</p>
+    
+<p>Parses the HTTP/1.1 <code>If-Match:</code> header.</p>
 
 
   </div>
@@ -1128,7 +997,7 @@ to the requested resource, which may differ from <span class='object_link'><a hr
     <li>
       
       
-        <span class='type'>(<tt>nil</tt>, <tt>Array&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+        <span class='type'>(<tt>nil</tt>, <tt>Array&lt;String&gt;</tt>)</span>
       
       
       
@@ -1157,21 +1026,6 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <li><span class='object_link'><a href="#if_none_match-instance_method" title="Rackful::Request#if_none_match (method)">#if_none_match</a></span></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1179,23 +1033,23 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187</pre>
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_if_match'>if_match</span> <span class='id identifier rubyid_none'>none</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='id identifier rubyid_header'>header</span> <span class='op'>=</span> <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HTTP_IF_</span><span class='embexpr_beg'>#{</span> <span class='id identifier rubyid_none'>none</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>NONE_</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'>MATCH</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_header'>header</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HTTP_IF_</span><span class='embexpr_beg'>#{</span> <span class='id identifier rubyid_none'>none</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>NONE_</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'>MATCH</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_header'>header</span>
   <span class='id identifier rubyid_envkey'>envkey</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rackful.if_</span><span class='embexpr_beg'>#{</span> <span class='id identifier rubyid_none'>none</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>none_</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'>match</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>if</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>\A\s*\*\s*\z</span><span class='regexp_end'>}</span></span> <span class='op'>===</span> <span class='id identifier rubyid_header'>header</span>
@@ -1249,21 +1103,6 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <li><span class='object_link'><a href="#if_unmodified_since-instance_method" title="Rackful::Request#if_unmodified_since (method)">#if_unmodified_since</a></span></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1271,22 +1110,22 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_if_modified_since'>if_modified_since</span> <span class='id identifier rubyid_unmodified'>unmodified</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='id identifier rubyid_header'>header</span> <span class='op'>=</span> <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HTTP_IF_</span><span class='embexpr_beg'>#{</span> <span class='id identifier rubyid_unmodified'>unmodified</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>UN</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'>MODIFIED_SINCE</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_header'>header</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HTTP_IF_</span><span class='embexpr_beg'>#{</span> <span class='id identifier rubyid_unmodified'>unmodified</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>UN</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'>MODIFIED_SINCE</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_header'>header</span>
   <span class='kw'>begin</span>
     <span class='id identifier rubyid_header'>header</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_httpdate'>httpdate</span><span class='lparen'>(</span> <span class='id identifier rubyid_header'>header</span> <span class='rparen'>)</span>
@@ -1303,7 +1142,7 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <div class="method_details ">
   <h3 class="signature " id="if_none_match-instance_method">
   
-    - (<tt>nil</tt>, <tt>Array&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>if_none_match</strong> 
+    - (<tt>nil</tt>, <tt>Array&lt;String&gt;</tt>) <strong>if_none_match</strong> 
   
 
   
@@ -1311,7 +1150,8 @@ to the requested resource, which may differ from <span class='object_link'><a hr
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Parses the HTTP/1.1 <code>If-None-Match:</code> header.</p>
+    
+<p>Parses the HTTP/1.1 <code>If-None-Match:</code> header.</p>
 
 
   </div>
@@ -1324,7 +1164,7 @@ to the requested resource, which may differ from <span class='object_link'><a hr
     <li>
       
       
-        <span class='type'>(<tt>nil</tt>, <tt>Array&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+        <span class='type'>(<tt>nil</tt>, <tt>Array&lt;String&gt;</tt>)</span>
       
       
       
@@ -1340,21 +1180,6 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <li><span class='object_link'><a href="#if_match-instance_method" title="Rackful::Request#if_match (method)">#if_match</a></span></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1362,12 +1187,12 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-197
-198
-199</pre>
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_if_none_match'>if_none_match</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_if_match'>if_match</span> <span class='kw'>true</span>
@@ -1416,21 +1241,6 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <li><span class='object_link'><a href="#if_modified_since-instance_method" title="Rackful::Request#if_modified_since (method)">#if_modified_since</a></span></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1438,12 +1248,12 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-227
-228
-229</pre>
+269
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 269</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_if_unmodified_since'>if_unmodified_since</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_if_modified_since'>if_modified_since</span> <span class='kw'>true</span>
@@ -1454,9 +1264,9 @@ to the requested resource, which may differ from <span class='object_link'><a hr
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="path-instance_method">
+  <h3 class="signature " id="q_values-instance_method">
   
-    - (<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>) <strong>path</strong> 
+    - (<tt>Array&lt;Array(type, quality)&gt;</tt>) <strong>q_values</strong> 
   
 
   
@@ -1465,69 +1275,8 @@ to the requested resource, which may differ from <span class='object_link'><a hr
 </h3><div class="docstring">
   <div class="discussion">
     
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Path.html" title="Rackful::Path (class)">Path</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.1.0</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-47</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 47</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span><span class='semicolon'>;</span> <span class='kw'>super</span><span class='period'>.</span><span class='id identifier rubyid_to_path'>to_path</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="resource_factory-instance_method">
-  
-    - (<tt>#[]</tt>) <strong>resource_factory</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>The resource factory for the current request.</p>
+<p>Shortcut to <span class='object_link'><a href="../Rack/Utils.html#q_values-class_method" title="Rack::Utils.q_values (method)">Rack::Utils.q_values</a></span>. Well, actually, we reimplemented it
+because the implementation in <span class='object_link'><a href="../Rack/Utils.html" title="Rack::Utils (module)">Rack::Utils</a></span> seems incomplete.</p>
 
 
   </div>
@@ -1540,7 +1289,7 @@ to the requested resource, which may differ from <span class='object_link'><a hr
     <li>
       
       
-        <span class='type'>(<tt>#[]</tt>)</span>
+        <span class='type'>(<tt>Array&lt;Array(type, quality)&gt;</tt>)</span>
       
       
       
@@ -1551,20 +1300,96 @@ to the requested resource, which may differ from <span class='object_link'><a hr
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="Server.html#initialize-instance_method" title="Rackful::Server#initialize (method)">Server#initialize</a></span></li>
+      <li><span class='object_link'><a href="../Rack/Utils.html#q_values-class_method" title="Rack::Utils.q_values (method)">Rack::Utils.q_values</a></span></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_q_values'>q_values</span>
+  <span class='comment'># This would be the “shortcut” implementation:
+</span>  <span class='comment'>#env['rackful.q_values'] ||= Rack::Utils.q_values(env['HTTP_ACCEPT'])
+</span>  <span class='comment'># But here’s a full (and better) implementation:
+</span>  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.q_values</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_ACCEPT</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\s*,\s*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span>
+    <span class='op'>|</span><span class='id identifier rubyid_part'>part</span><span class='op'>|</span>
+    <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_parameters'>parameters</span> <span class='op'>=</span> <span class='id identifier rubyid_part'>part</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\s*;\s*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_quality'>quality</span> <span class='op'>=</span> <span class='float'>1.0</span>
+    <span class='id identifier rubyid_parameters'>parameters</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+      <span class='id identifier rubyid_quality'>quality</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>q=</span><span class='tstring_end'>'</span></span>
+    <span class='kw'>end</span>
+    <span class='lbracket'>[</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_quality'>quality</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resource_at-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Resource.html" title="Rackful::Resource (class)">Resource</a></span></tt>) <strong>resource_at</strong>(*args) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Shortcut to <span class='object_link'><a href="Server.html#resource_at-instance_method" title="Rackful::Server#resource_at (method)">Server#resource_at</a></span>.</p>
+
+<p>(see Server#resource_at)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
     <li>
       
       
+        <span class='type'>(<tt><span class='object_link'><a href="Resource.html" title="Rackful::Resource (class)">Resource</a></span></tt>)</span>
       
       
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="HTTP404NotFound.html" title="Rackful::HTTP404NotFound (class)">HTTP404NotFound</a></span></tt>)</span>
+      
+      
       
     </li>
   
@@ -1576,12 +1401,16 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_resource_factory'>resource_factory</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.resource_factory</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_resource_at'>resource_at</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rackful.server</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_resource_at'>resource_at</span><span class='lparen'>(</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span> <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1598,7 +1427,8 @@ to the requested resource, which may differ from <span class='object_link'><a hr
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Does any of the tags in <code>etags</code> match <code>etag</code>?</p>
+    
+<p>Does any of the tags in <code>etags</code> match <code>etag</code>?</p>
 
 
   </div>
@@ -1609,10 +1439,10 @@ to the requested resource, which may differ from <span class='object_link'><a hr
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&quot;foo&quot;</span><span class='tstring_end'>'</span></span>
+      <pre class="example code"><code><span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&quot;foo&quot;</span><span class='tstring_end'>'</span></span>
 <span class='id identifier rubyid_etags'>etags</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>W/&quot;foo&quot;</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&quot;bar&quot;</span><span class='tstring_end'>'</span></span> <span class='rbracket'>]</span>
 <span class='id identifier rubyid_validate_etag'>validate_etag</span> <span class='id identifier rubyid_etag'>etag</span><span class='comma'>,</span> <span class='id identifier rubyid_etags'>etags</span>
-<span class='comment'>#&gt; true</span></pre>
+<span class='comment'>#&gt; true</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1662,21 +1492,6 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <li><a href="http://tools.ietf.org/html/rfc2616#section-13.3.3" target="_parent" title="RFC2616 section 13.3.3 for details about weak and strong validator comparison.">RFC2616 section 13.3.3 for details about weak and strong validator comparison.</a></li>
     
   </ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1684,27 +1499,27 @@ to the requested resource, which may differ from <span class='object_link'><a hr
       <pre class="lines">
 
 
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263</pre>
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rackful_request.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/rackful/request.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_etag'>validate_etag</span> <span class='id identifier rubyid_etag'>etag</span><span class='comma'>,</span> <span class='id identifier rubyid_etags'>etags</span>
   <span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span> <span class='id identifier rubyid_etag'>etag</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -1734,9 +1549,9 @@ to the requested resource, which may differ from <span class='object_link'><a hr
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 11 17:54:30 2012 by
+  Generated on Fri Feb 14 16:37:19 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.2).
+  0.8.7.3 (ruby-1.9.3).
 </div>
 
   </body>
