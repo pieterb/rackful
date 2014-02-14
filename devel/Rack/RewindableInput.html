@@ -192,6 +192,28 @@ IO oject.</p>
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#filesystem_has_posix_semantics%3F-instance_method" title="#filesystem_has_posix_semantics? (instance method)">- (Boolean) <strong>filesystem_has_posix_semantics?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -236,6 +258,28 @@ IO oject.</p>
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of RewindableInput.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#make_rewindable-instance_method" title="#make_rewindable (instance method)">- (void) <strong>make_rewindable</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -435,6 +479,58 @@ calls.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="filesystem_has_posix_semantics?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>filesystem_has_posix_semantics?</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/rewindable_input.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filesystem_has_posix_semantics?'>filesystem_has_posix_semantics?</span>
+  <span class='const'>RUBY_PLATFORM</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(mswin|mingw|cygwin|java)</span><span class='regexp_end'>/</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="gets-instance_method">
   
     - (<tt>void</tt>) <strong>gets</strong> 
@@ -460,6 +556,90 @@ calls.</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_gets'>gets</span>
   <span class='id identifier rubyid_make_rewindable'>make_rewindable</span> <span class='kw'>unless</span> <span class='ivar'>@rewindable_io</span>
   <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_gets'>gets</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="make_rewindable-instance_method">
+  
+    - (<tt>void</tt>) <strong>make_rewindable</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/rewindable_input.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_make_rewindable'>make_rewindable</span>
+  <span class='comment'># Buffer all data into a tempfile. Since this tempfile is private to this
+</span>  <span class='comment'># RewindableInput object, we chmod it so that nobody else can read or write
+</span>  <span class='comment'># it. On POSIX filesystems we also unlink the file so that it doesn't
+</span>  <span class='comment'># even have a file entry on the filesystem anymore, though we can still
+</span>  <span class='comment'># access it because we have the file handle open.
+</span>  <span class='ivar'>@rewindable_io</span> <span class='op'>=</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>RackRewindableInput</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_chmod'>chmod</span><span class='lparen'>(</span><span class='int'>0000</span><span class='rparen'>)</span>
+  <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_set_encoding'>set_encoding</span><span class='lparen'>(</span><span class='const'>Encoding</span><span class='op'>::</span><span class='const'>BINARY</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:set_encoding</span><span class='rparen'>)</span>
+  <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_binmode'>binmode</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_filesystem_has_posix_semantics?'>filesystem_has_posix_semantics?</span>
+    <span class='comment'># Use ::File.unlink as 1.9.1 Tempfile has a bug where unlink closes the file!
+</span>    <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_unlink'>unlink</span> <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Unlink failed. IO closed.</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_closed?'>closed?</span>
+    <span class='ivar'>@unlinked</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_buffer'>buffer</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>while</span> <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='int'>1024</span> <span class='op'>*</span> <span class='int'>4</span><span class='comma'>,</span> <span class='id identifier rubyid_buffer'>buffer</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_entire_buffer_written_out'>entire_buffer_written_out</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='kw'>while</span> <span class='op'>!</span><span class='id identifier rubyid_entire_buffer_written_out'>entire_buffer_written_out</span>
+      <span class='id identifier rubyid_written'>written</span> <span class='op'>=</span> <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_buffer'>buffer</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_entire_buffer_written_out'>entire_buffer_written_out</span> <span class='op'>=</span> <span class='id identifier rubyid_written'>written</span> <span class='op'>==</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='id identifier rubyid_buffer'>buffer</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_entire_buffer_written_out'>entire_buffer_written_out</span>
+        <span class='id identifier rubyid_buffer'>buffer</span><span class='period'>.</span><span class='id identifier rubyid_slice!'>slice!</span><span class='lparen'>(</span><span class='int'>0</span> <span class='op'>..</span> <span class='id identifier rubyid_written'>written</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@rewindable_io</span><span class='period'>.</span><span class='id identifier rubyid_rewind'>rewind</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -535,7 +715,7 @@ calls.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:26 2014 by
+  Generated on Fri Feb 14 16:57:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

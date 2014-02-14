@@ -508,6 +508,72 @@
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load%21-instance_method" title="#load! (instance method)">- (void) <strong>load!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_for_read%21-instance_method" title="#load_for_read! (instance method)">- (void) <strong>load_for_read!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_for_write%21-instance_method" title="#load_for_write! (instance method)">- (void) <strong>load_for_write!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -564,6 +630,28 @@
   
   
   
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#stringify_keys-instance_method" title="#stringify_keys (instance method)">- (void) <strong>stringify_keys</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
   
   
   
@@ -1273,6 +1361,100 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="load!-instance_method">
+  
+    - (<tt>void</tt>) <strong>load!</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 150</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load!'>load!</span>
+  <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='ivar'>@store</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:load_session</span><span class='comma'>,</span> <span class='ivar'>@env</span><span class='rparen'>)</span>
+  <span class='ivar'>@data</span> <span class='op'>=</span> <span class='id identifier rubyid_stringify_keys'>stringify_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_for_read!-instance_method">
+  
+    - (<tt>void</tt>) <strong>load_for_read!</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 142</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_for_read!'>load_for_read!</span>
+  <span class='id identifier rubyid_load!'>load!</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_loaded?'>loaded?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_exists?'>exists?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_for_write!-instance_method">
+  
+    - (<tt>void</tt>) <strong>load_for_write!</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_for_write!'>load_for_write!</span>
+  <span class='id identifier rubyid_load!'>load!</span> <span class='kw'>unless</span> <span class='id identifier rubyid_loaded?'>loaded?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="loaded?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>loaded?</strong> 
@@ -1387,6 +1569,44 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="stringify_keys-instance_method">
+  
+    - (<tt>void</tt>) <strong>stringify_keys</strong>(other)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 156</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stringify_keys'>stringify_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_hash'>hash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="to_hash-instance_method">
   
     - (<tt>void</tt>) <strong>to_hash</strong> 
@@ -1489,7 +1709,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:27 2014 by
+  Generated on Fri Feb 14 16:57:35 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

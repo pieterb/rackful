@@ -262,6 +262,57 @@ use.</p>
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#commit_session-instance_method" title="#commit_session (instance method)">- (void) <strong>commit_session</strong>(env, status, headers, body) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Acquires the session from the environment and the session id from the
+session options and passes them to #set_session.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#commit_session%3F-instance_method" title="#commit_session? (instance method)">- (Boolean) <strong>commit_session?</strong>(env, session, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Session should be commited if it was loaded, any of specific options like
+:renew, :drop or :expire_after was given and the security permissions
+match.</p>
+</div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -280,6 +331,170 @@ use.</p>
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#current_session_id-instance_method" title="#current_session_id (instance method)">- (void) <strong>current_session_id</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the current session id from the SessionHash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_session-instance_method" title="#destroy_session (instance method)">- (void) <strong>destroy_session</strong>(env, sid, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All thread safety and session destroy proceedures should occur here.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#extract_session_id-instance_method" title="#extract_session_id (instance method)">- (void) <strong>extract_session_id</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extract session id from request object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#force_options%3F-instance_method" title="#force_options? (instance method)">- (Boolean) <strong>force_options?</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#forced_session_update%3F-instance_method" title="#forced_session_update? (instance method)">- (Boolean) <strong>forced_session_update?</strong>(session, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#generate_sid-instance_method" title="#generate_sid (instance method)">- (void) <strong>generate_sid</strong>(secure = @sid_secure) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate a new session id using Ruby #rand.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#get_session-instance_method" title="#get_session (instance method)">- (void) <strong>get_session</strong>(env, sid) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All thread safety and session retrival proceedures should occur here.</p>
+</div></span>
   
 </li>
 
@@ -305,6 +520,218 @@ use.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of ID.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_sid-instance_method" title="#initialize_sid (instance method)">- (void) <strong>initialize_sid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_session-instance_method" title="#load_session (instance method)">- (void) <strong>load_session</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extracts the session id from provided cookies and passes it and the
+environment to #get_session.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#loaded_session%3F-instance_method" title="#loaded_session? (instance method)">- (Boolean) <strong>loaded_session?</strong>(session) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#prepare_session-instance_method" title="#prepare_session (instance method)">- (void) <strong>prepare_session</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the lazy session at 'rack.session' and places options and session
+metadata into 'rack.session.options'.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#security_matches%3F-instance_method" title="#security_matches? (instance method)">- (Boolean) <strong>security_matches?</strong>(env, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#session_class-instance_method" title="#session_class (instance method)">- (void) <strong>session_class</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allow subclasses to prepare_session for different Session classes.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#session_exists%3F-instance_method" title="#session_exists? (instance method)">- (Boolean) <strong>session_exists?</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check if the session exists or not.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#set_cookie-instance_method" title="#set_cookie (instance method)">- (void) <strong>set_cookie</strong>(env, headers, cookie) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the cookie back to the client with session id.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#set_session-instance_method" title="#set_session (instance method)">- (void) <strong>set_session</strong>(env, sid, session, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All thread safety and session storage proceedures should occur here.</p>
 </div></span>
   
 </li>
@@ -494,6 +921,166 @@ use.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="commit_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>commit_session</strong>(env, status, headers, body)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Acquires the session from the environment and the session id from the
+session options and passes them to #set_session. If successful and the
+:defer option is not true, a cookie will be added to the response with the
+session's id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 327</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_commit_session'>commit_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_KEY</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:drop</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:renew</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_session_id'>session_id</span> <span class='op'>=</span> <span class='id identifier rubyid_destroy_session'>destroy_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>||</span> <span class='id identifier rubyid_generate_sid'>generate_sid</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_session_id'>session_id</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_commit_session?'>commit_session?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:load!</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_loaded_session?'>loaded_session?</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session_id'>session_id</span> <span class='op'>||=</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+  <span class='id identifier rubyid_session_data'>session_data</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_set_session'>set_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_session_data'>session_data</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Warning! </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> failed to save session. Content dropped.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:defer</span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='kw'>not</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:renew</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rack.errors</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Defering cookie for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session_id'>session_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cookie'>cookie</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='id identifier rubyid_cookie'>cookie</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span>
+    <span class='id identifier rubyid_cookie'>cookie</span><span class='lbracket'>[</span><span class='symbol'>:expires</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>+</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:expire_after</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:expire_after</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_set_cookie'>set_cookie</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_cookie'>cookie</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="commit_session?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>commit_session?</strong>(env, session, options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Session should be commited if it was loaded, any of specific options like
+:renew, :drop or :expire_after was given and the security permissions
+match. Skips if skip is given.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+295
+296
+297
+298
+299
+300
+301
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 295</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_commit_session?'>commit_session?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:skip</span><span class='rbracket'>]</span>
+    <span class='kw'>false</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_has_session'>has_session</span> <span class='op'>=</span> <span class='id identifier rubyid_loaded_session?'>loaded_session?</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_forced_session_update?'>forced_session_update?</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_has_session'>has_session</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_security_matches?'>security_matches?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="context-instance_method">
   
     - (<tt>void</tt>) <strong>context</strong>(env, app = @app) 
@@ -527,12 +1114,768 @@ use.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="current_session_id-instance_method">
+  
+    - (<tt>void</tt>) <strong>current_session_id</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the current session id from the SessionHash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+281
+282
+283</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 281</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_current_session_id'>current_session_id</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_KEY</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="destroy_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>destroy_session</strong>(env, sid, options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All thread safety and session destroy proceedures should occur here. Should
+return a new session id or nil if <a href="http://:drop">options</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+392
+393
+394</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 392</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_destroy_session'>destroy_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_sid'>sid</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>#destroy_session not implemented</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract_session_id-instance_method">
+  
+    - (<tt>void</tt>) <strong>extract_session_id</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extract session id from request object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+272
+273
+274
+275
+276
+277</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 272</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_extract_session_id'>extract_session_id</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sid'>sid</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='ivar'>@key</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_sid'>sid</span> <span class='op'>||=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='ivar'>@key</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@cookie_only</span>
+  <span class='id identifier rubyid_sid'>sid</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="force_options?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>force_options?</strong>(options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 312</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_force_options?'>force_options?</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_values_at'>values_at</span><span class='lparen'>(</span><span class='symbol'>:renew</span><span class='comma'>,</span> <span class='symbol'>:drop</span><span class='comma'>,</span> <span class='symbol'>:defer</span><span class='comma'>,</span> <span class='symbol'>:expire_after</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="forced_session_update?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>forced_session_update?</strong>(session, options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 308</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_forced_session_update?'>forced_session_update?</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_force_options?'>force_options?</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_session'>session</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_sid-instance_method">
+  
+    - (<tt>void</tt>) <strong>generate_sid</strong>(secure = @sid_secure)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate a new session id using Ruby #rand. The size of the session id is
+controlled by the :sidbits option. Monkey patch this to use custom methods
+for session id generation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+241
+242
+243
+244
+245
+246
+247
+248
+249</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 241</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_sid'>generate_sid</span><span class='lparen'>(</span><span class='id identifier rubyid_secure'>secure</span> <span class='op'>=</span> <span class='ivar'>@sid_secure</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_secure'>secure</span>
+    <span class='id identifier rubyid_secure'>secure</span><span class='period'>.</span><span class='id identifier rubyid_hex'>hex</span><span class='lparen'>(</span><span class='ivar'>@sid_length</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%0</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sid_length</span><span class='rbrace'>}</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>2</span><span class='op'>**</span><span class='ivar'>@sidbits</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>rescue</span> <span class='const'>NotImplementedError</span>
+  <span class='id identifier rubyid_generate_sid'>generate_sid</span><span class='lparen'>(</span><span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>get_session</strong>(env, sid)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All thread safety and session retrival proceedures should occur here.
+Should return [session_id, session]. If nil is provided as the session id,
+generation of a new valid id should occur within.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+377
+378
+379</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 377</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_session'>get_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_sid'>sid</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>#get_session not implemented.</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialize_sid-instance_method">
+  
+    - (<tt>void</tt>) <strong>initialize_sid</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 231</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize_sid'>initialize_sid</span>
+  <span class='ivar'>@sidbits</span> <span class='op'>=</span> <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:sidbits</span><span class='rbracket'>]</span>
+  <span class='ivar'>@sid_secure</span> <span class='op'>=</span> <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:secure_random</span><span class='rbracket'>]</span>
+  <span class='ivar'>@sid_length</span> <span class='op'>=</span> <span class='ivar'>@sidbits</span> <span class='op'>/</span> <span class='int'>4</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>load_session</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extracts the session id from provided cookies and passes it and the
+environment to #get_session.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 264</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_session'>load_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sid'>sid</span> <span class='op'>=</span> <span class='id identifier rubyid_current_session_id'>current_session_id</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sid'>sid</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_get_session'>get_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_sid'>sid</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_sid'>sid</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="loaded_session?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>loaded_session?</strong>(session)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 304</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_loaded_session?'>loaded_session?</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='id identifier rubyid_session_class'>session_class</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_loaded?'>loaded?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prepare_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>prepare_session</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the lazy session at 'rack.session' and places options and session
+metadata into 'rack.session.options'.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+254
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 254</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prepare_session'>prepare_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session_was'>session_was</span>                  <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_KEY</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_KEY</span><span class='rbracket'>]</span>         <span class='op'>=</span> <span class='id identifier rubyid_session_class'>session_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_OPTIONS_KEY</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@default_options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='const'>ENV_SESSION_KEY</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span> <span class='id identifier rubyid_session_was'>session_was</span> <span class='kw'>if</span> <span class='id identifier rubyid_session_was'>session_was</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="security_matches?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>security_matches?</strong>(env, options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+316
+317
+318
+319
+320</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 316</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_security_matches?'>security_matches?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:secure</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_ssl?'>ssl?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="session_class-instance_method">
+  
+    - (<tt>void</tt>) <strong>session_class</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allow subclasses to prepare_session for different Session classes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+368
+369
+370</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 368</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_session_class'>session_class</span>
+  <span class='const'>SessionHash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="session_exists?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>session_exists?</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check if the session exists or not.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 287</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_session_exists?'>session_exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_current_session_id'>current_session_id</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_cookie-instance_method">
+  
+    - (<tt>void</tt>) <strong>set_cookie</strong>(env, headers, cookie)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the cookie back to the client with session id. We skip the cookie
+setting if the value didn't change (sid is the same) or expires was given.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+359
+360
+361
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 359</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_cookie'>set_cookie</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_cookie'>cookie</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='ivar'>@key</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='id identifier rubyid_cookie'>cookie</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_cookie'>cookie</span><span class='lbracket'>[</span><span class='symbol'>:expires</span><span class='rbracket'>]</span>
+    <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_set_cookie_header!'>set_cookie_header!</span><span class='lparen'>(</span><span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='ivar'>@key</span><span class='comma'>,</span> <span class='id identifier rubyid_cookie'>cookie</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_session-instance_method">
+  
+    - (<tt>void</tt>) <strong>set_session</strong>(env, sid, session, options)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All thread safety and session storage proceedures should occur here. Must
+return the session id if the session was saved successfully, or false if
+the session could not be saved.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+385
+386
+387</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/session/abstract/id.rb', line 385</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_session'>set_session</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_sid'>sid</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>#set_session not implemented.</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:27 2014 by
+  Generated on Fri Feb 14 16:57:36 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

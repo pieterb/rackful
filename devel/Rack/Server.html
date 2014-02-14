@@ -253,6 +253,116 @@
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#build_app-instance_method" title="#build_app (instance method)">- (void) <strong>build_app</strong>(app) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#build_app_and_options_from_config-instance_method" title="#build_app_and_options_from_config (instance method)">- (void) <strong>build_app_and_options_from_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#build_app_from_string-instance_method" title="#build_app_from_string (instance method)">- (void) <strong>build_app_from_string</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#check_pid%21-instance_method" title="#check_pid! (instance method)">- (void) <strong>check_pid!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#daemonize_app-instance_method" title="#daemonize_app (instance method)">- (void) <strong>daemonize_app</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -325,6 +435,72 @@ selects the middleware that will be wrapped around your application.</p>
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#opt_parser-instance_method" title="#opt_parser (instance method)">- (void) <strong>opt_parser</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_options-instance_method" title="#parse_options (instance method)">- (void) <strong>parse_options</strong>(args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#pidfile_process_status-instance_method" title="#pidfile_process_status (instance method)">- (void) <strong>pidfile_process_status</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -359,6 +535,50 @@ selects the middleware that will be wrapped around your application.</p>
   
   
   
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#wrapped_app-instance_method" title="#wrapped_app (instance method)">- (void) <strong>wrapped_app</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#write_pid-instance_method" title="#write_pid (instance method)">- (void) <strong>write_pid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
   
   
   
@@ -647,6 +867,212 @@ example:</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="build_app-instance_method">
+  
+    - (<tt>void</tt>) <strong>build_app</strong>(app)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+303
+304
+305
+306
+307
+308
+309
+310
+311</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 303</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_app'>build_app</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_middleware'>middleware</span><span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:environment</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_reverse_each'>reverse_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_middleware'>middleware</span><span class='op'>|</span>
+    <span class='id identifier rubyid_middleware'>middleware</span> <span class='op'>=</span> <span class='id identifier rubyid_middleware'>middleware</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_middleware'>middleware</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_middleware'>middleware</span>
+    <span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='id identifier rubyid_middleware'>middleware</span>
+    <span class='id identifier rubyid_app'>app</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_app'>app</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="build_app_and_options_from_config-instance_method">
+  
+    - (<tt>void</tt>) <strong>build_app_and_options_from_config</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+272
+273
+274
+275
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 272</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_app_and_options_from_config'>build_app_and_options_from_config</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_abort'>abort</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> not found</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_app'>app</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Builder</span><span class='period'>.</span><span class='id identifier rubyid_parse_file'>parse_file</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opt_parser'>opt_parser</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='id identifier rubyid_app'>app</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="build_app_from_string-instance_method">
+  
+    - (<tt>void</tt>) <strong>build_app_from_string</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 282</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_app_from_string'>build_app_from_string</span>
+  <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Builder</span><span class='period'>.</span><span class='id identifier rubyid_new_from_string'>new_from_string</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:builder</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_pid!-instance_method">
+  
+    - (<tt>void</tt>) <strong>check_pid!</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+339
+340
+341
+342
+343
+344
+345
+346
+347</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 339</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_pid!'>check_pid!</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_pidfile_process_status'>pidfile_process_status</span>
+  <span class='kw'>when</span> <span class='symbol'>:running</span><span class='comma'>,</span> <span class='symbol'>:not_owned</span>
+    <span class='gvar'>$stderr</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A server is already running. Check </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='symbol'>:dead</span>
+    <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="daemonize_app-instance_method">
+  
+    - (<tt>void</tt>) <strong>daemonize_app</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 317</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_daemonize_app'>daemonize_app</span>
+  <span class='kw'>if</span> <span class='const'>RUBY_VERSION</span> <span class='op'>&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.9</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_exit'>exit</span> <span class='kw'>if</span> <span class='id identifier rubyid_fork'>fork</span>
+    <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_setsid'>setsid</span>
+    <span class='id identifier rubyid_exit'>exit</span> <span class='kw'>if</span> <span class='id identifier rubyid_fork'>fork</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>STDIN</span><span class='period'>.</span><span class='id identifier rubyid_reopen'>reopen</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/dev/null</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>STDOUT</span><span class='period'>.</span><span class='id identifier rubyid_reopen'>reopen</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/dev/null</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>STDERR</span><span class='period'>.</span><span class='id identifier rubyid_reopen'>reopen</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/dev/null</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_daemon'>daemon</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="default_options-instance_method">
   
     - (<tt>void</tt>) <strong>default_options</strong> 
@@ -714,6 +1140,130 @@ example:</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_middleware'>middleware</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_middleware'>middleware</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="opt_parser-instance_method">
+  
+    - (<tt>void</tt>) <strong>opt_parser</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_opt_parser'>opt_parser</span>
+  <span class='const'>Options</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_options-instance_method">
+  
+    - (<tt>void</tt>) <strong>parse_options</strong>(args)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 286</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_options'>parse_options</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_default_options'>default_options</span>
+
+  <span class='comment'># Don't evaluate CGI ISINDEX parameters.
+</span>  <span class='comment'># http://www.meb.uni-bonn.de/docs/cgi/cl.html
+</span>  <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_clear'>clear</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span> <span class='id identifier rubyid_opt_parser'>opt_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RACK_ENV</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:environment</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_options'>options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pidfile_process_status-instance_method">
+  
+    - (<tt>void</tt>) <strong>pidfile_process_status</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 349</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pidfile_process_status'>pidfile_process_status</span>
+  <span class='kw'>return</span> <span class='symbol'>:exited</span> <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_kill'>kill</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_pid'>pid</span><span class='rparen'>)</span>
+  <span class='symbol'>:running</span>
+<span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>ESRCH</span>
+  <span class='symbol'>:dead</span>
+<span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EPERM</span>
+  <span class='symbol'>:not_owned</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -856,12 +1406,80 @@ example:</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="wrapped_app-instance_method">
+  
+    - (<tt>void</tt>) <strong>wrapped_app</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 313</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wrapped_app'>wrapped_app</span>
+  <span class='ivar'>@wrapped_app</span> <span class='op'>||=</span> <span class='id identifier rubyid_build_app'>build_app</span> <span class='id identifier rubyid_app'>app</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_pid-instance_method">
+  
+    - (<tt>void</tt>) <strong>write_pid</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+331
+332
+333
+334
+335
+336
+337</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/server.rb', line 331</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_pid'>write_pid</span>
+  <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>CREAT</span> <span class='op'>|</span> <span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>EXCL</span> <span class='op'>|</span> <span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>WRONLY</span> <span class='rparen'>)</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_pid'>pid</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_at_exit'>at_exit</span> <span class='lbrace'>{</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:pid</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EEXIST</span>
+  <span class='id identifier rubyid_check_pid!'>check_pid!</span>
+  <span class='kw'>retry</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:21 2014 by
+  Generated on Fri Feb 14 16:57:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

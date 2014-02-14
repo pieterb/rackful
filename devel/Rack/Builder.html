@@ -242,6 +242,28 @@ in a convenient way.</p>
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#generate_map-instance_method" title="#generate_map (instance method)">- (void) <strong>generate_map</strong>(default_app, mapping) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -572,6 +594,40 @@ Rack response.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="generate_map-instance_method">
+  
+    - (<tt>void</tt>) <strong>generate_map</strong>(default_app, mapping)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+143
+144
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/builder.rb', line 143</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_map'>generate_map</span><span class='lparen'>(</span><span class='id identifier rubyid_default_app'>default_app</span><span class='comma'>,</span> <span class='id identifier rubyid_mapping'>mapping</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mapped'>mapped</span> <span class='op'>=</span> <span class='id identifier rubyid_default_app'>default_app</span> <span class='op'>?</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_default_app'>default_app</span><span class='rbrace'>}</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_mapping'>mapping</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='comma'>,</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span> <span class='id identifier rubyid_mapped'>mapped</span><span class='lbracket'>[</span><span class='id identifier rubyid_r'>r</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_default_app'>default_app</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='const'>URLMap</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_mapped'>mapped</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="map-instance_method">
   
     - (<tt>void</tt>) <strong>map</strong>(path, &amp;block) 
@@ -781,7 +837,7 @@ if required.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:21 2014 by
+  Generated on Fri Feb 14 16:57:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

@@ -106,6 +106,15 @@
 
   <h2>Constant Summary</h2>
   
+    <dl class="constants">
+      
+        <dt id="AUTHORIZATION_KEYS-constant" class="">AUTHORIZATION_KEYS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_AUTHORIZATION</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X-HTTP_AUTHORIZATION</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X_HTTP_AUTHORIZATION</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
 
 
 
@@ -120,6 +129,28 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#authorization_key-instance_method" title="#authorization_key (instance method)">- (void) <strong>authorization_key</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -312,7 +343,37 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="params-instance_method">
+  <h3 class="signature first" id="authorization_key-instance_method">
+  
+    - (<tt>void</tt>) <strong>authorization_key</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/auth/abstract/request.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_authorization_key'>authorization_key</span>
+  <span class='ivar'>@authorization_key</span> <span class='op'>||=</span> <span class='const'>AUTHORIZATION_KEYS</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span> <span class='ivar'>@env</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="params-instance_method">
   
     - (<tt>void</tt>) <strong>params</strong> 
   
@@ -488,7 +549,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:27 2014 by
+  Generated on Fri Feb 14 16:57:36 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

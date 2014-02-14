@@ -126,6 +126,116 @@
 
     <ul class="summary">
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#fast_forward_to_first_boundary-instance_method" title="#fast_forward_to_first_boundary (instance method)">- (void) <strong>fast_forward_to_first_boundary</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#full_boundary-instance_method" title="#full_boundary (instance method)">- (void) <strong>full_boundary</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#get_current_head_and_filename_and_content_type_and_name_and_body-instance_method" title="#get_current_head_and_filename_and_content_type_and_name_and_body (instance method)">- (void) <strong>get_current_head_and_filename_and_content_type_and_name_and_body</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#get_data-instance_method" title="#get_data (instance method)">- (void) <strong>get_data</strong>(filename, body, content_type, name, head) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#get_filename-instance_method" title="#get_filename (instance method)">- (void) <strong>get_filename</strong>(head) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -164,6 +274,50 @@
   
   
   
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#rx-instance_method" title="#rx (instance method)">- (void) <strong>rx</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_parse-instance_method" title="#setup_parse (instance method)">- (void) <strong>setup_parse</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
   
   
   
@@ -229,7 +383,333 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="parse-instance_method">
+  <h3 class="signature first" id="fast_forward_to_first_boundary-instance_method">
+  
+    - (<tt>void</tt>) <strong>fast_forward_to_first_boundary</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fast_forward_to_first_boundary'>fast_forward_to_first_boundary</span>
+  <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'>BUFSIZE</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>EOFError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bad content body</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_content'>content</span>
+    <span class='ivar'>@buf</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_content'>content</span>
+
+    <span class='kw'>while</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A([^\n]*\n)</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_read_buffer'>read_buffer</span> <span class='op'>=</span> <span class='backref'>$1</span>
+      <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_read_buffer'>read_buffer</span> <span class='op'>==</span> <span class='id identifier rubyid_full_boundary'>full_boundary</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>EOFError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bad content body</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='ivar'>@buf</span><span class='rparen'>)</span> <span class='op'>&gt;=</span> <span class='const'>BUFSIZE</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="full_boundary-instance_method">
+  
+    - (<tt>void</tt>) <strong>full_boundary</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 63</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_full_boundary'>full_boundary</span>
+  <span class='ivar'>@boundary</span> <span class='op'>+</span> <span class='const'>EOL</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_current_head_and_filename_and_content_type_and_name_and_body-instance_method">
+  
+    - (<tt>void</tt>) <strong>get_current_head_and_filename_and_content_type_and_name_and_body</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_current_head_and_filename_and_content_type_and_name_and_body'>get_current_head_and_filename_and_content_type_and_name_and_body</span>
+  <span class='id identifier rubyid_head'>head</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+  <span class='kw'>until</span> <span class='id identifier rubyid_head'>head</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@buf</span> <span class='op'>=~</span> <span class='id identifier rubyid_rx'>rx</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_head'>head</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='const'>EOL</span><span class='op'>+</span><span class='const'>EOL</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_head'>head</span> <span class='op'>=</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_slice!'>slice!</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>+</span><span class='int'>2</span><span class='rparen'>)</span> <span class='comment'># First \r\n
+</span>
+      <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_slice!'>slice!</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>2</span><span class='rparen'>)</span>          <span class='comment'># Second \r\n
+</span>
+      <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_head'>head</span><span class='lbracket'>[</span><span class='const'>MULTIPART_CONTENT_TYPE</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_head'>head</span><span class='lbracket'>[</span><span class='const'>MULTIPART_CONTENT_DISPOSITION</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_head'>head</span><span class='lbracket'>[</span><span class='const'>MULTIPART_CONTENT_ID</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
+
+      <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='id identifier rubyid_get_filename'>get_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_head'>head</span><span class='rparen'>)</span>
+
+      <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span>
+        <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RackMultipart</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_binmode'>binmode</span>  <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:binmode</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+
+      <span class='kw'>next</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Save the read body part.
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_head'>head</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='ivar'>@boundary_size</span><span class='op'>+</span><span class='int'>4</span> <span class='op'>&lt;</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_body'>body</span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_slice!'>slice!</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='ivar'>@buf</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='ivar'>@boundary_size</span><span class='op'>+</span><span class='int'>4</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='ivar'>@content_length</span> <span class='op'>&amp;&amp;</span> <span class='const'>BUFSIZE</span> <span class='op'>&gt;=</span> <span class='ivar'>@content_length</span> <span class='op'>?</span> <span class='ivar'>@content_length</span> <span class='op'>:</span> <span class='const'>BUFSIZE</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>EOFError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bad content body</span><span class='tstring_end'>&quot;</span></span>  <span class='kw'>if</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+    <span class='ivar'>@buf</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_content'>content</span>
+    <span class='ivar'>@content_length</span> <span class='op'>-=</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='kw'>if</span> <span class='ivar'>@content_length</span>
+  <span class='kw'>end</span>
+
+  <span class='lbracket'>[</span><span class='id identifier rubyid_head'>head</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_data-instance_method">
+  
+    - (<tt>void</tt>) <strong>get_data</strong>(filename, body, content_type, name, head)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_data'>get_data</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_head'>head</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># filename is blank which means no file has been selected
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_filename'>filename</span>
+    <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_rewind'>rewind</span>
+
+    <span class='comment'># Take the basename of the upload's original filename.
+</span>    <span class='comment'># This handles the full Windows paths given by Internet Explorer
+</span>    <span class='comment'># (and perhaps other broken user agents) without affecting
+</span>    <span class='comment'># those which give the lone filename.
+</span>    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[\/\\]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:filename</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='symbol'>:type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span>
+            <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:tempfile</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='symbol'>:head</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_head'>head</span><span class='rbrace'>}</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_filename'>filename</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>IO</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_rewind'>rewind</span>
+
+    <span class='comment'># Generic multipart cases, not coming from a form
+</span>    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span>
+            <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:tempfile</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='symbol'>:head</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_head'>head</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_body'>body</span>
+  <span class='kw'>end</span>
+
+  <span class='lbracket'>[</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_filename-instance_method">
+  
+    - (<tt>void</tt>) <strong>get_filename</strong>(head)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_filename'>get_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_head'>head</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_head'>head</span> <span class='op'>=~</span> <span class='const'>RFC2183</span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_head'>head</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='const'>DISPPARM</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>filename</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='backref'>$1</span> <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span> <span class='kw'>and</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^&quot;(.*)&quot;$</span><span class='regexp_end'>/</span></span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_head'>head</span> <span class='op'>=~</span> <span class='const'>BROKEN_QUOTED</span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='backref'>$1</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_head'>head</span> <span class='op'>=~</span> <span class='const'>BROKEN_UNQUOTED</span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='backref'>$1</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>%.?.?</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>%[0-9a-fA-F]{2}</span><span class='regexp_end'>/</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_unescape'>unescape</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\\[^\\&quot;]</span><span class='regexp_end'>/</span></span>
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\\(.)</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>\1</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_filename'>filename</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse-instance_method">
   
     - (<tt>void</tt>) <strong>parse</strong> 
   
@@ -310,12 +790,104 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="rx-instance_method">
+  
+    - (<tt>void</tt>) <strong>rx</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rx'>rx</span>
+  <span class='ivar'>@rx</span> <span class='op'>||=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(?:</span><span class='embexpr_beg'>#{</span><span class='const'>EOL</span><span class='rbrace'>}</span><span class='tstring_content'>)?</span><span class='embexpr_beg'>#{</span><span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_quote'>quote</span><span class='lparen'>(</span><span class='ivar'>@boundary</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='const'>EOL</span><span class='rbrace'>}</span><span class='tstring_content'>|--)</span><span class='regexp_end'>/n</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_parse-instance_method">
+  
+    - (<tt>void</tt>) <strong>setup_parse</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/multipart/parser.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_setup_parse'>setup_parse</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>CONTENT_TYPE</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>MULTIPART</span>
+
+  <span class='ivar'>@boundary</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--</span><span class='embexpr_beg'>#{</span><span class='backref'>$1</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='ivar'>@buf</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@params</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='op'>::</span><span class='const'>KeySpaceConstrainedParams</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+
+  <span class='ivar'>@io</span> <span class='op'>=</span> <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.input</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_rewind'>rewind</span>
+
+  <span class='ivar'>@boundary_size</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span><span class='lparen'>(</span><span class='ivar'>@boundary</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'>EOL</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@content_length</span> <span class='op'>=</span> <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>CONTENT_LENGTH</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='ivar'>@content_length</span> <span class='op'>=</span> <span class='ivar'>@content_length</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='ivar'>@content_length</span> <span class='op'>-=</span> <span class='ivar'>@boundary_size</span>
+  <span class='kw'>end</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:26 2014 by
+  Generated on Fri Feb 14 16:57:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

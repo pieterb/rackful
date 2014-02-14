@@ -158,6 +158,50 @@ href="https://github.com/wycats/merb/blob/master/merb-core/lib/merb-core/rack/mi
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#etag_matches%3F-instance_method" title="#etag_matches? (instance method)">- (Boolean) <strong>etag_matches?</strong>(none_match, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#fresh%3F-instance_method" title="#fresh? (instance method)">- (Boolean) <strong>fresh?</strong>(env, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -180,6 +224,50 @@ href="https://github.com/wycats/merb/blob/master/merb-core/lib/merb-core/rack/mi
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of ConditionalGet.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#modified_since%3F-instance_method" title="#modified_since? (instance method)">- (Boolean) <strong>modified_since?</strong>(modified_since, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#to_rfc2822-instance_method" title="#to_rfc2822 (instance method)">- (void) <strong>to_rfc2822</strong>(since) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -294,12 +382,218 @@ href="https://github.com/wycats/merb/blob/master/merb-core/lib/merb-core/rack/mi
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="etag_matches?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>etag_matches?</strong>(none_match, headers)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/conditionalget.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_etag_matches?'>etag_matches?</span><span class='lparen'>(</span><span class='id identifier rubyid_none_match'>none_match</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span> <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ETag</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id identifier rubyid_etag'>etag</span> <span class='op'>==</span> <span class='id identifier rubyid_none_match'>none_match</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fresh?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>fresh?</strong>(env, headers)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/conditionalget.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fresh?'>fresh?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_modified_since'>modified_since</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_IF_MODIFIED_SINCE</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_none_match'>none_match</span>     <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_IF_NONE_MATCH</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_modified_since'>modified_since</span> <span class='op'>||</span> <span class='id identifier rubyid_none_match'>none_match</span>
+
+  <span class='id identifier rubyid_success'>success</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_success'>success</span> <span class='op'>&amp;&amp;=</span> <span class='id identifier rubyid_modified_since?'>modified_since?</span><span class='lparen'>(</span><span class='id identifier rubyid_to_rfc2822'>to_rfc2822</span><span class='lparen'>(</span><span class='id identifier rubyid_modified_since'>modified_since</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_modified_since'>modified_since</span>
+  <span class='id identifier rubyid_success'>success</span> <span class='op'>&amp;&amp;=</span> <span class='id identifier rubyid_etag_matches?'>etag_matches?</span><span class='lparen'>(</span><span class='id identifier rubyid_none_match'>none_match</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_none_match'>none_match</span>
+  <span class='id identifier rubyid_success'>success</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="modified_since?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>modified_since?</strong>(modified_since, headers)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/conditionalget.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_modified_since?'>modified_since?</span><span class='lparen'>(</span><span class='id identifier rubyid_modified_since'>modified_since</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_last_modified'>last_modified</span> <span class='op'>=</span> <span class='id identifier rubyid_to_rfc2822'>to_rfc2822</span><span class='lparen'>(</span><span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Last-Modified</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>and</span>
+    <span class='id identifier rubyid_modified_since'>modified_since</span> <span class='kw'>and</span>
+    <span class='id identifier rubyid_modified_since'>modified_since</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_last_modified'>last_modified</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_rfc2822-instance_method">
+  
+    - (<tt>void</tt>) <strong>to_rfc2822</strong>(since)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'rack/rack/conditionalget.rb', line 63</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_rfc2822'>to_rfc2822</span><span class='lparen'>(</span><span class='id identifier rubyid_since'>since</span><span class='rparen'>)</span>
+  <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_rfc2822'>rfc2822</span><span class='lparen'>(</span><span class='id identifier rubyid_since'>since</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Feb 14 16:51:25 2014 by
+  Generated on Fri Feb 14 16:57:33 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>
