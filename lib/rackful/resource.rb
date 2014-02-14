@@ -8,14 +8,15 @@ module Rackful
 # @see Server
 # @todo better documentation
 # @abstract Realizations must implement…
-class Resource
+module Resource
 
-  class << self
+  module ClassMethods
 
 
   # Meta-programmer method.
   # @example Have your resource rendered in XML and JSON
   #   class MyResource
+  #     include Rackful::Resource
   #     add_serializer MyResource2XML
   #     add_serializer MyResource2JSON, 0.5
   #   end
@@ -115,14 +116,20 @@ class Resource
   end # module ClassMethods
 
 
+  # This callback includes all methods of {ClassMethods} into all classes that
+  # include {Resource}, to make them available as a tiny DSL.
+  # @api private
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+
+  def initialize uri
+    self.uri = uri
+  end
+
   extend Forwardable
   def_delegators 'self.class', :parsers, :serializers, :all_parsers, :all_serializers
-
-
-  def initialize( uri )
-    @uri = uri.kind_of?( URI::Generic ) ? uri.dup : URI(uri.to_s).normalize
-    #self.uri = uri
-  end
 
 
 =begin markdown
@@ -180,11 +187,14 @@ The best media type for the response body, given the current HTTP request.
 =end
 
 
-=begin markdown
-The canonical path of this resource.
-@return [URI]
-=end
+  # The canonical path of this resource.
+  # @return [URI]
   attr_reader :uri
+
+
+  def uri=( uri )
+    @uri = URI(uri).normalize
+  end
 
 
   def title

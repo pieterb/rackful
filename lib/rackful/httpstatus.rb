@@ -12,41 +12,28 @@ Exception which represents an HTTP Status response.
 =end
 class HTTPStatus < RuntimeError
 
+  include Resource
+  
+  class XHTML < Serializer::XHTML
 
-  class Resource < ::Rackful::Resource
-    class XHTML < Serializer::XHTML
 
-
-      def header
-        retval = super
-        retval += "<h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>\n"
-        unless resource.message.empty?
-          retval += "<div id=\"rackful-description\">#{resource.message}</div>\n"
-        end
-        retval
+    def header
+      retval = super
+      retval += "<h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>\n"
+      unless resource.message.empty?
+        retval += "<div id=\"rackful-description\">#{resource.message}</div>\n"
       end
-
-
-      def headers; self.resource.headers; end
-
-
-    end # class Rackful::HTTPStatus::XHTML
-
-
-    add_serializer XHTML, 1.0
-
-    extend Forwardable
-    def_delegators :@http_status_object, :headers, :to_rackful, :title, :message
-
-
-    def initialize(uri, http_status_object)
-      super(uri)
-      @http_status_object = http_status_object
+      retval
     end
 
 
-  end # class Rackful::HTTPStatus::Resource
+    def headers; self.resource.headers; end
 
+
+  end # class Rackful::HTTPStatus::XHTML
+
+
+  add_serializer XHTML, 1.0
 
   attr_reader :status, :headers, :to_rackful
 
@@ -86,11 +73,17 @@ class HTTPStatus < RuntimeError
     end
     super message
   end
-  
+
+  # The best serializer for this HTTPStatus object, given the current request.
+  # @param request [Request]
+  # @return [Serializer]
   def serializer request
-    Resource.new( request.url, self ).serializer( request )
+    uri = request.url
+    super( request )
   end
 
+
+  # @api private
   def title
     "#{status} #{Rack::Utils::HTTP_STATUS_CODES[status]}"
   end
