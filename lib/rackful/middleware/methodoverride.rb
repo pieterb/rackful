@@ -30,7 +30,7 @@ require 'set'
 # *   When a `POST` request is converted to a `GET` request, the entire request
 #     body is loaded into memory, which creates an attack surface for
 #     DoS-attacks. Hence, the maximum request body size is limited (see
-#     {DEFAULT_QUERY_STRING_MAX_LENGTH} and {#initialize}). You should choose this
+#     {POST_TO_GET_REQUEST_BODY_MAX_SIZE} and {#initialize}). You should choose this
 #     limit carefully, and/or include this middleware *after* your security
 #     middlewares.
 #

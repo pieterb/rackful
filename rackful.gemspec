@@ -20,6 +20,7 @@ EOS
   s.license     = 'Apache License 2.0'
   s.homepage    = 'http://github.com/pieterb/Rackful'
 
-  s.add_runtime_dependency 'rack', '>= 1.4'
+  s.add_runtime_dependency 'rack',     '~> 1.5'
+  s.add_runtime_dependency 'nokogiri', '~> 1.6'
 
 end

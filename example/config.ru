@@ -7,11 +7,10 @@ require 'rackful/middleware'
 require 'digest/md5'
 
 # The class of the object we're going to serve:
-class Root
-  include Rackful::Resource
+class Root < Rackful::Resource
   attr_reader :to_rackful
-  def initialize uri
-    self.uri = uri
+  def initialize
+    super( 'http://localhost:9292/hallo_wereld' )
     @to_rackful = {
       :a => 'Hello',
       :b => Time.now,
@@ -35,10 +34,5 @@ use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
 
 run Rackful::Server.new { |uri|
-  case uri.path
-    when '/' then $root_resource ||= Root.new(uri)
-    else raise Rackful::HTTP404NotFound
-    end
-
-
+  $root_resource ||= Root.new
 }

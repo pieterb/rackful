@@ -13,7 +13,39 @@ Exception which represents an HTTP Status response.
 class HTTPStatus < RuntimeError
 
 
-  include Resource
+  class Resource < ::Rackful::Resource
+    class XHTML < Serializer::XHTML
+
+
+      def header
+        retval = super
+        retval += "<h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>\n"
+        unless resource.message.empty?
+          retval += "<div id=\"rackful-description\">#{resource.message}</div>\n"
+        end
+        retval
+      end
+
+
+      def headers; self.resource.headers; end
+
+
+    end # class Rackful::HTTPStatus::XHTML
+
+
+    add_serializer XHTML, 1.0
+
+    extend Forwardable
+    def_delegators :@http_status_object, :headers, :to_rackful, :title, :message
+
+
+    def initialize(uri, http_status_object)
+      super(uri)
+      @http_status_object = http_status_object
+    end
+
+
+  end # class Rackful::HTTPStatus::Resource
 
 
   attr_reader :status, :headers, :to_rackful
@@ -23,8 +55,8 @@ class HTTPStatus < RuntimeError
 @param status [Symbol, Integer] e.g. `404` or `:not_found`
 @param message [String] XHTML
 @param info [ { Symbol => Object, String => String } ]
-    *   {Object}s indexed by {Symbol}s are returned in the response body.
-    *   {String}s indexed by {String}s are returned as response headers.
+    *   **Objects** indexed by **Symbols** are returned in the response body.
+    *   **Strings** indexed by **Strings** are returned as response headers.
 =end
   def initialize status, message = nil, info = {}
     @status = Rack::Utils.status_code status
@@ -54,33 +86,17 @@ class HTTPStatus < RuntimeError
     end
     super message
   end
-
+  
+  def serializer request
+    Resource.new( request.url, self ).serializer( request )
+  end
 
   def title
     "#{status} #{Rack::Utils::HTTP_STATUS_CODES[status]}"
   end
 
 
-  class XHTML < Serializer::XHTML
-
-
-    def header
-      super + <<EOS
-<h1>HTTP/1.1 #{Rack::Utils.escape_html(resource.title)}</h1>
-<div id="rackful-description">#{resource.message}</div>
-EOS
-    end
-
-
-    def headers; self.resource.headers; end
-
-
-  end # class XHTML
-
-
-  add_serializer XHTML, 1.0
-
-
+ 
 end # class Rackful::HTTPStatus
 
 

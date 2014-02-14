@@ -9,8 +9,8 @@ class Server
   # This generic server class has no knowledge, and makes no presumptions,
   # about your URI namespace. It depends on the code block you provide here
   # to produce the {Resource} object which lives at a certain URI.
-  # This block will be called with a {::URI::Generic#normalize! normalized}
-  # {::URI::HTTP URI}, and must return a {Resource}, or `nil` if there’s no
+  # This block will be called with a {URI::Generic#normalize! normalized}
+  # URI, and must return a {Resource}, or `nil` if there’s no
   # resource at the given URI.
   #
   # If there’s no resource at the given URI, but you’d still like to respond to
@@ -18,7 +18,7 @@ class Server
   # {Resource#empty? empty resource}.
   #
   # The provided code block must be thread-safe and reentrant.
-  # @yieldparam uri [::URI::Generic] The {::URI::Generic::normalize normalized}
+  # @yieldparam uri [URI::Generic] The {URI::Generic::normalize! normalized}
   #   URI of the requested resource.
   # @yieldreturn [Resource] A (possibly {Resource#empty? empty}) resource, or nil.
   def initialize( &resource_registry )
@@ -71,12 +71,10 @@ class Server
         resource.http_method request, response
       end
     rescue HTTPStatus => e
-      e.uri = request.url
-      content_type = request.best_content_type( e, false )
+      serializer = e.serializer(request)
       response = Rack::Response.new
-      response['Content-Type'] = content_type
+      response['Content-Type'] = serializer.content_type
       response.status = e.status
-      serializer = e.serializer(request, content_type)
       if serializer.respond_to? :headers
         response.headers.merge!( serializer.headers )
       end

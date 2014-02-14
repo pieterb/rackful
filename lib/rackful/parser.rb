@@ -20,8 +20,8 @@ class Parser
 
 
 =begin markdown
-@const MEDIA_TYPES
-  @return [Array<String>] An array of media type strings.
+  An array of media type strings.
+  @!parse MEDIA_TYPES = [ 'example/type1', 'example/type2' ]
 =end
 
 

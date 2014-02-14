@@ -4,6 +4,7 @@ rackful*.gem
 *~
 .DS_Store
 /.project
+*.bak
 /rack
 /Gemfile
 /Gemfile.lock

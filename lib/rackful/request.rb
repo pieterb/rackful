@@ -46,7 +46,7 @@ The canonical url of the requested resource. This may differ from {#url}.
 =end
   def canonical_uri=( uri )
     env['rackful.canonical_uri'] =
-      uri.kind_of?( URI::Generic ) ? uri : URI(uri).normalize
+      uri.kind_of?( URI::Generic ) ? URI(uri) : URI( uri ).normalize
     uri
   end
 
@@ -166,7 +166,7 @@ The best media type to represent a resource, given the current HTTP request.
     matches = []
     q_values.each {
       |accept_media_type, accept_quality|
-      resource.class.all_serializers.each_pair {
+      resource.all_serializers.each_pair {
         |content_type, v|
         quality = v[1]
         media_type = content_type.split(';').first.strip
@@ -192,7 +192,7 @@ The best media type to represent a resource, given the current HTTP request.
   # This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
   # types are provided, an empty Hash is returned.
   # @return [Hash{media_type => quality}]
-  # @deprecate Use {#q_values} instead
+  # @deprecated Use {#q_values} instead
   def accept
     env['rackful.accept'] ||= begin
       Hash[

@@ -69,7 +69,17 @@ class Serializer::XHTML < Serializer
     'text/html; charset=UTF-8',
     'application/xhtml+xml; charset=UTF-8',
   ]
-
+  
+  # @api private
+  # @return [URI::HTTP]
+  def html_base_uri
+    @html_base_uri ||= begin
+      retval = self.request.canonical_uri.dup
+      retval.path = retval.path.sub( %r{[^/]+\z}, '' )
+      retval.query = nil
+      retval
+    end
+  end
 
   # @yieldparam xhtml [String]
   def each &block
@@ -84,8 +94,8 @@ EOS
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <head>
-<title>#{ Rack::Utils.escape_html(resource.title) }</title>
-<base href="#{self.request.canonical_uri}"/>
+<title>#{ Rack::Utils.escape_html(self.resource.title) }</title>
+<base href="#{self.html_base_uri}"/>
 EOS
     unless '/' == self.request.canonical_uri.path
       tmp += <<EOS
@@ -161,7 +171,7 @@ EOS
 
     # A URI:
     elsif p.kind_of?( URI )
-      rel_path = p.route_from self.request.canonical_uri
+      rel_path = p.relative? ? p : p.route_from( self.html_base_uri )
       yield "<a href=\"#{rel_path}\">" +
         Rack::Utils.escape_html( Rack::Utils.unescape( rel_path.to_s ) ) + '</a>'
 

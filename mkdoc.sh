@@ -4,4 +4,5 @@
 cd "`dirname "${BASH_SOURCE[0]}"`"
 
 rm -rf doc/* .yardoc/
-exec yard "$@"
+yard --yardopts .yardopts.user
+yard --yardopts .yardopts.devel

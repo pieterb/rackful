@@ -13,12 +13,12 @@ Overview
 
 Confronted with the task of implementing a ReSTful web service in Ruby, I
 checked out a number of existing libraries and frameworks, including
-Ruby-on-Rails, and then decided to brew my own, the reason being that I couldn't
+Ruby-on-Rails, and then decided to brew my own, the reason being that I couldn’t
 find a library or framework with all of the following properties:
 
 *   **Small** Some of these frameworks are really big. I need to get a job done in
     time. If understanding the framework takes more time than writing my own, I
-    must at least feel confident that the framework I'm learning is more powerful
+    must at least feel confident that the framework I’m learning is more powerful
     that what I can come up with by myself. Ruby-on-Rails is probably the biggest
     framework out there, and it still lacks many features that are essential to
     ReSTful web service programming.
@@ -35,7 +35,7 @@ find a library or framework with all of the following properties:
     meta-programming.
 
 *   **Full support for conditional requests** using `If-*:` request headers. Most
-    libraries' support is limited to `If-None-Match:` and `If-Modified-Since:`
+    libraries’ support is limited to `If-None-Match:` and `If-Modified-Since:`
     headers, and only for `GET` and `HEAD` requests. For ReSTful web services,
     the `If-Match:` and `If-Unmodified-Since:` headers are at least as important,
     particularly for unsafe methods like `PUT`, `POST`, `PATCH`, and `DELETE`.
@@ -54,7 +54,7 @@ find a library or framework with all of the following properties:
 Hello World!
 ------------
 
-Here's a working example of a simple ReSTful server:
+Here’s a working example of a simple ReSTful server:
 
 {include:file:example/config.ru}
 
@@ -69,7 +69,7 @@ something like this:
 
 Go with your browser to {http://localhost:9292/} and be greeted.
 
-In this example, we implement `GET` and `PUT` requests for the resource at '/'. but
+In this example, we implement `GET` and `PUT` requests for the resource at “/”. but
 we get a few things for free:
 
 ### Free `OPTIONS` response:
@@ -87,14 +87,14 @@ Response:
 
 As you can see, the server accurately reports all available methods for the
 resource. Notice the availability of the `HEAD` method; if you implement the
-`GET` method, you'll get `HEAD` for free. It's still a good idea to explicitly
+`GET` method, you’ll get `HEAD` for free. It’s still a good idea to explicitly
 implement your own `HEAD` request handler, especially for expensive resources,
 when responding to a `HEAD` request should be much more efficient than generating
 a full `GET` response, and strip off the response body.
 
 ### Free conditional request handling:
 
-Let's first get the current state of the resource, with this request:
+Let’s first get the current state of the resource, with this request:
 
     GET / HTTP/1.1
     Host: localhost:9292
@@ -109,8 +109,8 @@ Response:
 
     Hello world!
 
-Now, we'd like to change the state of the resource, but only if it's still in
-the state we last saw, to avoid the "lost update problem". To do that, we
+Now, we’d like to change the state of the resource, but only if it’s still in
+the state we last saw, to avoid the “lost update problem”. To do that, we
 produce an `If-Match:` header, with the entity tag of our last version:
 
     PUT / HTTP/1.1
@@ -165,7 +165,7 @@ Some conventions used throughout the code and documentation:
 
 Licensing
 =========
-Copyright ©2011-2012 Pieter van Beek <pieter@djinnit.com>
+Copyright ©2011-2014 Pieter van Beek <pieter@djinnit.com>
 
 Licensed under the {file:LICENSE.md Apache License 2.0}. You should have received a copy of the
 license as part of this distribution.

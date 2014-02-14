@@ -1,0 +1,17 @@
+--private
+#--no-private
+#--hide-api private
+--protected
+--main RACKFUL.md
+--output-dir doc/devel
+--charset UTF-8
+--locale en_US.UTF-8
+--embed-mixins
+--title Lucipher
+--markup markdown
+--default-return void
+--hide-void-return
+lib/*.rb lib/**/*.rb rack/*.rb rack/**/*.rb
+-
+LICENSE.md
+CHANGES.md

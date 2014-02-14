@@ -1,7 +1,8 @@
 #--private
 --no-private
+--hide-api private
 --protected
---main README.md
+--main RACKFUL.md
 --output-dir doc
 --charset UTF-8
 --locale en_US.UTF-8
@@ -10,9 +11,7 @@
 --markup markdown
 --default-return void
 --hide-void-return
---hide-api private
-lib/**/*.rb gems/rack-*/lib/**/*.rb
+lib/*.rb lib/**/*.rb rack/*.rb rack/**/*.rb
 -
 LICENSE.md
-RACKFUL.md
 CHANGES.md

@@ -1,29 +1,16 @@
 # encoding: utf-8
+
+require 'forwardable'
+
 module Rackful
 
 # Abstract superclass for resources served by {Server}.
 # @see Server
 # @todo better documentation
 # @abstract Realizations must implement…
-module Resource
+class Resource
 
-
-
-  def initialize( uri = nil )
-    self.uri = uri
-  end
-
-
-  # This callback includes all methods of {ClassMethods} into all subclasses of
-  # {Resource}, to make them available as a tiny DSL.
-  # @api private
-  def self.included(base)
-    base.extend ClassMethods
-  end
-
-
-  # @see Resource::included
-  module ClassMethods
+  class << self
 
 
   # Meta-programmer method.
@@ -72,6 +59,7 @@ module Resource
   #   indexed by HTTP method.
   # @api private
   def parsers
+    # The single '@' on the following line is on purpose!
     @rackful_resource_parsers ||= {}
   end
 
@@ -127,12 +115,24 @@ module Resource
   end # module ClassMethods
 
 
+  extend Forwardable
+  def_delegators 'self.class', :parsers, :serializers, :all_parsers, :all_serializers
+
+
+  def initialize( uri )
+    @uri = uri.kind_of?( URI::Generic ) ? uri.dup : URI(uri.to_s).normalize
+    #self.uri = uri
+  end
+
+
 =begin markdown
 @param request [Request]
-@param content_type [String]
+@param content_type [String, nil] If omitted, you get the best serializer
+  available, which may not be acceptable by the client.
 @return [Serializer]
 =end
-  def serializer request, content_type
+  def serializer request, content_type = nil
+    content_type ||= request.best_content_type( self, false )
     self.class.all_serializers[content_type][0].new( request, self, content_type )
   end
 
@@ -185,15 +185,6 @@ The canonical path of this resource.
 @return [URI]
 =end
   attr_reader :uri
-
-
-=begin markdown
-@param uri [String, URI]
-=end
-  def uri= uri
-    @uri = uri.kind_of?( URI::Generic ) ? uri : URI(uri.to_s).normalize
-    uri
-  end
 
 
   def title
@@ -346,7 +337,6 @@ Feel free to override this method at will.
     response['Content-Type'] = content_type
     response.status = Rack::Utils.status_code( :ok )
     response.headers.merge! self.default_headers
-    # May throw HTTP405MethodNotAllowed:
     serializer = self.serializer( request, content_type )
     if serializer.respond_to? :headers
       response.headers.merge!( serializer.headers )
