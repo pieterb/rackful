@@ -1,7 +1,8 @@
-.yardoc
-.yardopts
-doc
-rackful*.gem
+/gh_pages
+/.yardoc
+/.yardopts
+/doc
+/rackful*.gem
 *~
 .DS_Store
 /.project
