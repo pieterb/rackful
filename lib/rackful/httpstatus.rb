@@ -1,15 +1,24 @@
 # encoding: utf-8
+
 # Required for parsing:
+require 'rackful/global.rb'
 require 'rackful/resource.rb'
 require 'rackful/serializer.rb'
 
+# Required for running:
 
 module Rackful
 
-=begin markdown
-Exception which represents an HTTP Status response.
-@abstract
-=end
+# Groups together class {HTTPStatus} and its many subclasses into one namespace.
+#
+# For code brevity and legibility, this module is included in {Rackful},
+# {Resource}, {Serializer}, and {Parser}. So class
+# {HTTP404NotFound Rackful::StatusCodes::HTTP404NotFound}
+# can also be addressed as {HTTP404NotFound} in any of those contexts.
+module StatusCodes
+
+  # Exception which represents an HTTP Status response.
+  # @abstract
 class HTTPStatus < RuntimeError
 
   include Resource
@@ -30,21 +39,20 @@ class HTTPStatus < RuntimeError
     def headers; self.resource.headers; end
 
 
-  end # class Rackful::HTTPStatus::XHTML
+  end # class Rackful::StatusCodes::HTTPStatus::XHTML
 
 
   add_serializer XHTML, 1.0
+  add_serializer Serializer::JSON, 0.5
 
   attr_reader :status, :headers, :to_rackful
 
 
-=begin markdown
-@param status [Symbol, Integer] e.g. `404` or `:not_found`
-@param message [String] XHTML
-@param info [ { Symbol => Object, String => String } ]
-    *   **Objects** indexed by **Symbols** are returned in the response body.
-    *   **Strings** indexed by **Strings** are returned as response headers.
-=end
+  # @param status [Symbol, Integer] e.g. `404` or `:not_found`
+  # @param message [String] XHTML
+  # @param info [ { Symbol => Object, String => String } ]
+  #     *   **Objects** indexed by **Symbols** are returned in the response body.
+  #     *   **Strings** indexed by **Strings** are returned as response headers.
   def initialize status, message = nil, info = {}
     @status = Rack::Utils.status_code status
     raise "Wrong status: #{status}" if 0 === @status
@@ -74,14 +82,6 @@ class HTTPStatus < RuntimeError
     super message
   end
 
-  # The best serializer for this HTTPStatus object, given the current request.
-  # @param request [Request]
-  # @return [Serializer]
-  def serializer request
-    uri = request.url
-    super( request )
-  end
-
 
   # @api private
   def title
@@ -90,13 +90,11 @@ class HTTPStatus < RuntimeError
 
 
  
-end # class Rackful::HTTPStatus
+end # class Rackful::StatusCodes::HTTPStatus
 
 
-=begin markdown
-@abstract Base class for HTTP status codes with only a simple text message, or
-  no message at all.
-=end
+  # @abstract Base class for HTTP status codes with only a simple text message, or
+  #   no message at all.
 class HTTPSimpleStatus < HTTPStatus
 
   def initialize message = nil
@@ -110,9 +108,12 @@ end
 
 class HTTP201Created < HTTPStatus
 
+  # @param locations [URI::Generic, String, Array<URI::Generic, String>]
   def initialize locations
     locations = [ locations ] unless locations.kind_of? Array
-    locations = locations.collect { |l| URI(l) }
+    locations = locations.collect do |location|
+      location.kind_of?( URI::Generic ) ? location : URI(location).normalize
+    end
     if locations.size > 1
       super( 201, 'New resources were created:', :locations => locations )
     else
@@ -129,9 +130,10 @@ end
 
 class HTTP202Accepted < HTTPStatus
 
+  # @param location [URI::Generic, String]
   def initialize location = nil
     if location
-      location = URI(location)
+      location = location.kind_of?( URI::Generic ) ? location : URI(location).normalize
       super(
         202, "The request body you sent has been accepted for processing.",
         :"Job status location:" => location, 'Location' => location
@@ -146,8 +148,9 @@ end
 
 class HTTP301MovedPermanently < HTTPStatus
 
+  # @param location [URI::Generic, String]
   def initialize location
-    location = URI(location)
+    location = location.kind_of?( URI::Generic ) ? location : URI(location).normalize
     super( 301, '', :'New location:' => location, 'Location' => location )
   end
 
@@ -156,8 +159,9 @@ end
 
 class HTTP303SeeOther < HTTPStatus
 
+  # @param location [URI::Generic, String]
   def initialize location
-    location = URI(location)
+    location = location.kind_of?( URI::Generic ) ? location : URI(location).normalize
     super( 303, '', :'See:' => location, 'Location' => location )
   end
 
@@ -175,8 +179,9 @@ end
 
 class HTTP307TemporaryRedirect < HTTPStatus
 
+  # @param location [URI::Generic, String]
   def initialize location
-    location = URI(location)
+    location = location.kind_of?( URI::Generic ) ? location : URI(location).normalize
     super( 301, '', :'Current location:' => location, 'Location' => location )
   end
 
@@ -240,4 +245,5 @@ class HTTP501NotImplemented < HTTPSimpleStatus; end
 
 class HTTP503ServiceUnavailable < HTTPSimpleStatus; end
 
+end # module Rackful::StatusCodes
 end # module Rackful

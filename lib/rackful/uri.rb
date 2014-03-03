@@ -1,3 +1,11 @@
+# encoding: utf-8
+# This file is required by `src/global.rb`.
+
+# Required for parsing:
+require 'uri'
+
+# Required for running:
+
 # Extension and monkeypatch of Ruby’s StdLib URI::Generic class.
 class URI::Generic
 

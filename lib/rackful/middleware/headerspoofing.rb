@@ -1,9 +1,14 @@
 # encoding: utf-8
+
 # Required for parsing:
+
+# This requirement is only made explicit in source files that aren’t
+# included in the rackful “core”.
 require 'rackful'
 
 # Required for running:
 
+module Rackful
 
 # Rack middleware that provides header spoofing.
 #
@@ -18,7 +23,7 @@ require 'rackful'
 # @example Using this middleware
 #   require 'rackful/middleware/header_spoofing'
 #   use Rackful::HeaderSpoofing
-class Rackful::HeaderSpoofing
+class HeaderSpoofing
 
 def initialize app
   @app = app
@@ -47,3 +52,4 @@ def call env
 end
 
 end # Rackful::HeaderSpoofing
+end # module Rackful

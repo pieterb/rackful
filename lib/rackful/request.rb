@@ -1,76 +1,99 @@
 # encoding: utf-8
 
+# Required for parsing:
+require 'rackful/global.rb'
+
+# Required for running:
 
 module Rackful
 
 # Subclass of {Rack::Request}, augmented for Rackful requests.
+#
+# This class mixes in module `StatusCodes` for convenience, as explained in the
+# {StatusCodes StatusCodes documentation}.
 class Request < Rack::Request
 
+  include StatusCodes
 
   def initialize *args
     super( *args )
   end
 
 
-=begin markdown
-Shortcut to {Server#resource_at}.
+  # Calls the code block passed to the {#initialize constructor}.
+  # @param uri [URI::HTTP, String]
+  # @return [Resource]
+  # @raise [HTTP404NotFound]
+  def resource_at( uri )
+    uri = uri.kind_of?( URI::Generic ) ? uri.dup : URI(uri).normalize
+    uri.query = nil
+    retval = env['rackful.resource_registry'].call( uri )
+    raise HTTP404NotFound unless retval
+    retval
+  end
 
-(see Server#resource_at)
-@return (see Server#resource_at)
-@raise (see Server#resource_at)
-=end
-  def resource_at *args
-    env['rackful.server'].resource_at( *args )
+  # The current request’s main resource.
+  #
+  # As a side effect, {#canonical_uri} can be changed.
+  # @return [Resource]
+  # @raise [HTTP404NotFound] from {#resource_at}
+  def resource
+    @rackful_request_resource ||= begin
+      c = URI(url).normalize
+      retval = resource_at(c)
+      c += retval.uri
+      c.query = query_string unless query_string.empty?
+      env['rackful.canonical_uri'] = c
+      retval
+    end
   end
 
 
-=begin markdown
-Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical url
-of the requested resource, which may differ from {#url}.
-
-If parameter +full_path+ is provided, than this is used instead of the current
-request’s full path (which is the path plus optional query string).
-@return [URI::Generic]
-=end
+  # Similar to the HTTP/1.1 `Content-Location:` header. Contains the canonical url
+  # of the requested resource, which may differ from {#url}.
+  # 
+  # If parameter +full_path+ is provided, than this is used instead of the current
+  # request’s full path (which is the path plus optional query string).
+  # @return [URI::Generic]
   def canonical_uri
-    env['rackful.canonical_uri'] ||= URI( self.url ).normalize
+    env['rackful.canonical_uri'] || URI( self.url ).normalize
   end
 
 
-=begin markdown
-The canonical url of the requested resource. This may differ from {#url}.
-
-@todo Change URI::Generic into URI::HTTP
-@param uri [URI::Generic, String]
-@return [URI::Generic, String] `uri`
-=end
-  def canonical_uri=( uri )
-    env['rackful.canonical_uri'] =
-      uri.kind_of?( URI::Generic ) ? URI(uri) : URI( uri ).normalize
-    uri
-  end
+  # The canonical url of the requested resource. This may differ from {#url}.
+  # 
+  # @todo Change URI::Generic into URI::HTTP
+  # @param uri [URI::Generic, String]
+  # @return [URI::Generic, String] `uri`
+  #   def canonical_uri=( uri )
+  #     env['rackful.canonical_uri'] =
+  #       uri.kind_of?( URI::Generic ) ? uri.dup : URI( uri ).normalize
+  #     uri
+  #   end
 
 
-=begin markdown
-Assert all <tt>If-*</tt> request headers.
-@return [void]
-@raise [HTTP304NotModified, HTTP400BadRequest, HTTP404NotFound, HTTP412PreconditionFailed]
-  with the following meanings:
-
-  -   `304 Not Modified`
-  -   `400 Bad Request` Couldn't parse one or more <tt>If-*</tt> headers, or a
-      weak validator comparison was requested for methods other than `GET` or
-      `HEAD`.
-  -   `404 Not Found`
-  -   `412 Precondition Failed`
-@see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3
-  for details about weak and strong validator comparison.
-@todo Implement support for the `If-Range:` header.
-=end
-  def assert_if_headers resource
+  # Assert all <tt>If-*</tt> request headers.
+  # @return [void]
+  # @raise [HTTP304NotModified, HTTP400BadRequest, HTTP404NotFound, HTTP412PreconditionFailed]
+  #   with the following meanings:
+  # 
+  #   -   `304 Not Modified`
+  #   -   `400 Bad Request` Couldn't parse one or more <tt>If-*</tt> headers, or a
+  #       weak validator comparison was requested for methods other than `GET` or
+  #       `HEAD`.
+  #   -   `404 Not Found`
+  #   -   `412 Precondition Failed`
+  # @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3
+  #   for details about weak and strong validator comparison.
+  # @todo Implement support for the `If-Range:` header.
+  def assert_if_headers
     #raise HTTP501NotImplemented, 'If-Range: request header is not supported.' \
     #  if env.key? 'HTTP_IF_RANGE'
-    empty = resource.empty?
+    begin
+      empty = resource.empty?
+    rescue HTTP404NotFound => e
+      empty = true
+    end
     etag =
       if ! empty && resource.respond_to?(:get_etag)
         resource.get_etag
@@ -146,47 +169,6 @@ Assert all <tt>If-*</tt> request headers.
   end
 
 
-=begin markdown
-The best media type to represent a resource, given the current HTTP request.
-@param resource [Resource] the resource to represent
-@param require_match [Boolean] this flag determines what must happen if the
-  client sent an `Accept:` header, and we cannot serve any of the acceptable
-  media types. **`TRUE`** means that an {HTTP406NotAcceptable} exception is
-  raised. **`FALSE`** means that the content-type with the highest quality is
-  returned.
-@return [String] content-type
-@raise [HTTP406NotAcceptable]
-@api private
-=end
-  def best_content_type( resource, require_match = true )
-    q_values = self.q_values
-    if q_values.empty?
-      return resource.all_serializers.values.sort_by(&:last).last[0]::CONTENT_TYPES[0]
-    end
-    matches = []
-    q_values.each {
-      |accept_media_type, accept_quality|
-      resource.all_serializers.each_pair {
-        |content_type, v|
-        quality = v[1]
-        media_type = content_type.split(';').first.strip
-        if File.fnmatch( accept_media_type, media_type )
-          matches << [ content_type, accept_quality * quality ]
-        end
-      }
-    }
-    if matches.empty?
-      if require_match
-        raise( HTTP406NotAcceptable, resource.all_serializers.keys() )
-      else
-        return resource.all_serializers.values.sort_by(&:last).
-          last.first::CONTENT_TYPES.first
-      end
-    end
-    matches.sort_by(&:last).last.first
-  end
-
-
   # Hash of acceptable media types and their qualities.
   #
   # This method parses the HTTP/1.1 `Accept:` header. If no acceptable media
@@ -212,13 +194,11 @@ The best media type to represent a resource, given the current HTTP request.
   end # def accept
 
 
-=begin markdown
-@!method if_match()
-Parses the HTTP/1.1 `If-Match:` header.
-@return [nil, Array<String>]
-@see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
-@see #if_none_match
-=end
+  # @!method if_match()
+  # Parses the HTTP/1.1 `If-Match:` header.
+  # @return [nil, Array<String>]
+  # @see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
+  # @see #if_none_match
   def if_match none = false
     header = env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
     return nil unless header
@@ -232,23 +212,19 @@ Parses the HTTP/1.1 `If-Match:` header.
   end
 
 
-=begin markdown
-Parses the HTTP/1.1 `If-None-Match:` header.
-@return [nil, Array<String>]
-@see http://tools.ietf.org/html/rfc2616#section-14.26 RFC2616, section 14.26
-@see #if_match
-=end
+  # Parses the HTTP/1.1 `If-None-Match:` header.
+  # @return [nil, Array<String>]
+  # @see http://tools.ietf.org/html/rfc2616#section-14.26 RFC2616, section 14.26
+  # @see #if_match
   def if_none_match
     self.if_match true
   end
 
 
-=begin markdown
-@!method if_modified_since()
-@return [nil, Time]
-@see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
-@see #if_unmodified_since
-=end
+  # @!method if_modified_since()
+  # @return [nil, Time]
+  # @see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
+  # @see #if_unmodified_since
   def if_modified_since unmodified = false
     header = env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
     return nil unless header
@@ -261,29 +237,25 @@ Parses the HTTP/1.1 `If-None-Match:` header.
   end
 
 
-=begin markdown
-@return [nil, Time]
-@see http://tools.ietf.org/html/rfc2616#section-14.28 RFC2616, section 14.28
-@see #if_modified_since
-=end
+  # @return [nil, Time]
+  # @see http://tools.ietf.org/html/rfc2616#section-14.28 RFC2616, section 14.28
+  # @see #if_modified_since
   def if_unmodified_since
     self.if_modified_since true
   end
 
 
-=begin markdown
-Does any of the tags in `etags` match `etag`?
-@param etag [#to_s]
-@param etags [#to_a]
-@example
-  etag = '"foo"'
-  etags = [ 'W/"foo"', '"bar"' ]
-  validate_etag etag, etags
-  #> true
-@return [Boolean]
-@see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616 section 13.3.3
-  for details about weak and strong validator comparison.
-=end
+  # Does any of the tags in `etags` match `etag`?
+  # @param etag [#to_s]
+  # @param etags [#to_a]
+  # @example
+  #   etag = '"foo"'
+  #   etags = [ 'W/"foo"', '"bar"' ]
+  #   validate_etag etag, etags
+  #   #> true
+  # @return [Boolean]
+  # @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616 section 13.3.3
+  #   for details about weak and strong validator comparison.
   def validate_etag etag, etags
     etag = etag.to_s
     match = etags.to_a.detect do
@@ -304,6 +276,5 @@ Does any of the tags in `etags` match `etag`?
   end
 
 
-end # class Request
-
+end # class Rackful::Request
 end # module Rackful

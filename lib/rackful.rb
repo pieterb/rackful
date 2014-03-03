@@ -1,4 +1,6 @@
-require 'uri'
+# encoding: utf-8
+
+# External requirements:
 require 'nokogiri'
 require 'rack'
 require 'rack/utils'
@@ -6,10 +8,12 @@ require 'base64'
 require 'time'
 require 'json'
 
-require 'rackful/uri.rb'
-require 'rackful/request.rb'
-require 'rackful/serializer.rb'
-require 'rackful/parser.rb'
-require 'rackful/resource.rb'
+# Internal “core” files, in alphabetic order:
+require 'rackful/global.rb'
 require 'rackful/httpstatus.rb'
+require 'rackful/parser.rb'
+require 'rackful/request.rb'
+require 'rackful/resource.rb'
+require 'rackful/serializer.rb'
 require 'rackful/server.rb'
+require 'rackful/uri.rb'

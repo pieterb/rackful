@@ -1,9 +1,14 @@
 # encoding: utf-8
+
 # Required for parsing:
+
+# This requirement is only made explicit in source files that aren’t
+# included in the rackful “core”.
 require 'rackful'
 
 # Required for running:
-require 'set'
+
+module Rackful
 
 
 # Middleware that provides method spoofing, like {Rack::MethodOverride}.
@@ -47,7 +52,7 @@ require 'set'
 # @example Using this middleware
 #   require 'rackful/middleware/method_override'
 #   use Rackful::MethodOverride
-class Rackful::MethodOverride
+class MethodOverride
 
   METHOD_OVERRIDE_PARAM_KEY = '_method'.freeze
   
@@ -134,3 +139,4 @@ class Rackful::MethodOverride
   end
 
 end # Rackful::MethodOverride
+end # module Rackful

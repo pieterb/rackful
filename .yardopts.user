@@ -11,7 +11,7 @@
 --markup markdown
 --default-return void
 --hide-void-return
-lib/*.rb lib/**/*.rb rack/*.rb rack/**/*.rb
+lib/**/*.rb rack/**/*.rb
 -
 LICENSE.md
 CHANGES.md

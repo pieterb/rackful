@@ -1,17 +1,26 @@
 # encoding: utf-8
 
+# Required for parsing:
+require 'rackful/global.rb'
+
+# Required for running:
+
 
 module Rackful
-
-
 
 # Base class for all serializers.
 #
 # The serializers {Serializer::XHTML} and {Serializer::JSON} defined in this
 # library depend on the presence of method
 # {Rackful::Resource#to_rackful resource.to_rackful}.
-# @abstract Subclasses must implement method `#each` end define constant
-#   `CONTENT_TYPES`
+# @abstract Subclasses must implement method `#each` and call {::produces}
+# @example Create a new Serializer subclass:
+#   class MySerializer < Rackful::Serializer
+#     produces 'text/plain'
+#     def each
+#       yield 'Hello world!'
+#     end
+#   end
 # @!attribute [r] request
 #   @return [Request]
 # @!attribute [r] resource
@@ -22,7 +31,35 @@ module Rackful
 class Serializer
 
 
+  class << self
+    def content_types
+      @content_types ||= begin
+        retval = rackful_serializer_content_types
+        if superclass.respond_to?(:content_types)
+          retval += superclass.content_types
+        end
+        retval.uniq
+      end
+    end
+    
+    # @overload parses( media_type, ... )
+    #   @param media_type [String]
+    def produces *args
+      rackful_serializer_content_types.unshift(
+        *( args.map { |ct| ct.to_s }.reverse )
+      )
+      rackful_serializer_content_types.uniq!
+      self
+    end
+    
+    private
+    def rackful_serializer_content_types
+      @rackful_serializer_content_types ||= []
+    end
+  end # class << self # Rackful::Serializer
+
   include Enumerable
+  include StatusCodes
 
 
   attr_reader :request, :resource, :content_type
@@ -63,12 +100,10 @@ class Serializer::XHTML < Serializer
 
   # The content types served by this serializer.
   # @see Serializer::CONTENT_TYPES
-  CONTENT_TYPES = [
-    'application/xml; charset=UTF-8',
-    'text/xml; charset=UTF-8',
-    'text/html; charset=UTF-8',
-    'application/xhtml+xml; charset=UTF-8',
-  ]
+  produces  'application/xml; charset=UTF-8',
+            'text/xml; charset=UTF-8',
+            'text/html; charset=UTF-8',
+            'application/xhtml+xml; charset=UTF-8'
   
   # @api private
   # @return [URI::HTTP]
@@ -86,9 +121,7 @@ class Serializer::XHTML < Serializer
     tmp = ''
     # The XML header is only sent for XML media types:
     if /xml/ === self.content_type
-      tmp += <<EOS
-<?xml version="1.0" encoding="UTF-8"?>
-EOS
+      tmp += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
     end
     tmp += <<EOS
 <!DOCTYPE html>
@@ -271,10 +304,7 @@ end # class Serializer::XHTML
 class Serializer::JSON < Serializer
 
 
-  CONTENT_TYPES = [
-    'application/json',
-    'application/x-json'
-  ]
+  produces 'application/json', 'application/x-json'
 
 
   # @yield [json]
@@ -311,6 +341,5 @@ class Serializer::JSON < Serializer
 
 
 end # class Serializer::JSON
-
 
 end # module Rackful
