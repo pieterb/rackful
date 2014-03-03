@@ -88,7 +88,7 @@ class Rackful::Server
       end
       # Make sure the Location: response header contains an absolute URI:
       if  response['Location'] and response['Location'][0] == ?/
-        response['Location'] = request.canonical_uri + response['Location']
+        response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
       end
     rescue HTTP404NotFound => e
     end
