@@ -71,7 +71,7 @@ class MethodOverride
   #       `POST` request that is converted to a `GET` request.
   def initialize( app, options = {} )
     @app = app
-    @max_size = options[:max_size]
+    @max_size = options[:max_size] || POST_TO_GET_REQUEST_BODY_MAX_SIZE
   end
 
 
