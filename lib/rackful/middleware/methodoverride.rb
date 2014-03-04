@@ -111,10 +111,10 @@ class MethodOverride
               env['rack.input'].rewind
               env['rackful.method_override.input'] = env['rack.input']
           end
-          env.delete 'rack.input'
+          env['rack.input'] = StringIO.new
         end
         env.delete 'CONTENT_TYPE'
-        env.delete 'CONTENT_LENGTH'
+        env['CONTENT_LENGTH'] = 0
         update_env( env, new_method, new_query_string )
       elsif ALLOWED_OVERRIDES[env['REQUEST_METHOD']].include?( new_method )
         update_env( env, new_method )
