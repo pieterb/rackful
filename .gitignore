@@ -11,3 +11,4 @@
 /Gemfile
 /Gemfile.lock
 attic
+*.log
