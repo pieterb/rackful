@@ -96,14 +96,14 @@ class MethodOverride
       else
         true
       end
-    }.
-    join('&')
+    }.join('&')
     if new_method
       if  'GET' == new_method &&
           'POST' == env['REQUEST_METHOD']
-        raise HTTP415
-          'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
-          env['CONTENT_LENGTH'].to_i <= @max_size
+        unless 'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
+               env['CONTENT_LENGTH'].to_i <= @max_size
+          raise HTTP415UnsupportedMediaType
+        end
         if env.key?('rack.input')
           new_query_string += '&' unless new_query_string.empty?
           new_query_string += env['rack.input'].read
