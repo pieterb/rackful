@@ -182,7 +182,7 @@ class HTTP307TemporaryRedirect < HTTPStatus
   # @param location [URI::Generic, String]
   def initialize location
     location = location.kind_of?( URI::Generic ) ? location : URI(location).normalize
-    super( 301, '', :'Current location:' => location, 'Location' => location )
+    super( 307, '', :'Current location:' => location, 'Location' => location )
   end
 
 end
