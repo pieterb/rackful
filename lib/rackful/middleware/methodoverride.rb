@@ -53,6 +53,9 @@ module Rackful
 #   require 'rackful/middleware/method_override'
 #   use Rackful::MethodOverride
 class MethodOverride
+  # This class mixes in module `StatusCodes` for convenience, as explained in the
+  # {StatusCodes StatusCodes documentation}.
+  include StatusCodes
 
   METHOD_OVERRIDE_PARAM_KEY = '_method'.freeze
   
@@ -102,7 +105,7 @@ class MethodOverride
           'POST' == env['REQUEST_METHOD']
         unless 'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
                env['CONTENT_LENGTH'].to_i <= @max_size
-          raise HTTP415UnsupportedMediaType
+          raise HTTP415UnsupportedMediaType, 'application/x-www-form-urlencoded'
         end
         if env.key?('rack.input')
           new_query_string += '&' unless new_query_string.empty?
