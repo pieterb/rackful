@@ -78,8 +78,7 @@ class MethodOverride
 
 
   def call env
-    before_call( env )
-    @app.call( env )
+    before_call( env ) || @app.call( env )
   end
 
   private
@@ -87,11 +86,10 @@ class MethodOverride
 
   # @return [nil, Array(status, headers, body)]
   def before_call env
-    return unless ['GET', 'POST'].include? env['REQUEST_METHOD']
+    return nil unless ['GET', 'POST'].include? env['REQUEST_METHOD']
     new_method = nil
-    new_query_string = env['QUERY_STRING'].
-    split('&', -1).
-    select { |p|
+    new_query_string = env['QUERY_STRING'].split('&', -1).select do
+      |p|
       p = p.split('=', 2)
       if new_method.nil? && METHOD_OVERRIDE_PARAM_KEY == p[0]
         new_method = p[1].upcase
@@ -99,14 +97,16 @@ class MethodOverride
       else
         true
       end
-    }.join('&')
+    end.join('&')
     if new_method
       if  'GET' == new_method &&
           'POST' == env['REQUEST_METHOD']
-        unless 'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
-               env['CONTENT_LENGTH'].to_i <= @max_size
-          raise HTTP415UnsupportedMediaType, 'application/x-www-form-urlencoded'
-        end
+        return [ 415, {'Content-Type' => 'text/plain'},
+                 ["Unsupported Media Type; try application/x-www-form-urlencoded."] ] \
+          unless 'application/x-www-form-urlencoded' == env['CONTENT_TYPE']
+        return [ 413, {'Content-Type' => 'text/plain'},
+                 ["Request Entity Too Large (>#{POST_TO_GET_REQUEST_BODY_MAX_SIZE} bytes)"] ] \
+          unless env['CONTENT_LENGTH'].to_i <= @max_size
         if env.key?('rack.input')
           new_query_string += '&' unless new_query_string.empty?
           new_query_string += env['rack.input'].read

@@ -6,4 +6,3 @@
 require 'rackful.rb'
 require 'rackful/middleware/methodoverride.rb'
 require 'rackful/middleware/headerspoofing.rb'
-require 'rackful/middleware/conditional.rb'

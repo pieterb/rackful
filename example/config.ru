@@ -37,10 +37,9 @@ class MyResource
 end
 
 use Rack::Reloader
-use Rackful::Required do |uri|
-  $root_resource ||= MyResource.new
-end
 use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
-use Rackful::Conditional
-run Rackful::Server.new
+run Rackful::Server.new {
+  |uri|
+  $root_resource ||= MyResource.new
+}
