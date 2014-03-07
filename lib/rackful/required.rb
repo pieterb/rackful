@@ -46,9 +46,15 @@ class Required
     begin
       retval = @app.call env
     rescue StatusCodes::HTTPStatus => e
-      serializer = e.serializer(request, false)
-      retval = [ e.status, { 'Content-Type' => serializer.content_type }, serializer ]
-      retval[1].merge!( serializer.headers ) if serializer.respond_to? :headers
+      # According to Lint, a status 304 shouldn’t be accompanied by a
+      # Content-Type header or body:
+      if 304 === e.status
+        retval = [ e.status, {}, [] ]
+      else
+        retval = [ e.status, {}, e.serializer(request, false) ]
+        retval[1]['Content-Type'] = retval[2].content_type
+        retval[1].merge!( serializer.headers ) if serializer.respond_to? :headers
+      end
     end
     # The next line fixes a small peculiarity in RFC2616: the response body of
     # a `HEAD` request _must_ be empty, even for responses outside 2xx.

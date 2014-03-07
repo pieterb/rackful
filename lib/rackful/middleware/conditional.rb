@@ -52,10 +52,10 @@ class Conditional
     last_modified = resource.get_last_modified \
       if ! empty && resource.respond_to?(:get_last_modified)
     cond = {
-      :match => if_match,
-      :none_match => if_none_match,
-      :modified_since => if_modified_since,
-      :unmodified_since => if_unmodified_since
+      :match => if_match(request),
+      :none_match => if_none_match(request),
+      :modified_since => if_modified_since(request),
+      :unmodified_since => if_unmodified_since(request)
     }
     allow_weak = ['GET', 'HEAD'].include? request.request_method
     if empty
@@ -98,11 +98,11 @@ class Conditional
   private
 
 
-  # @!method if_match()
-  # Parses the HTTP/1.1 `If-Match:` header.
-  # @return [nil, Array<String>]
-  # @see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
-  # @see #if_none_match
+  # @overload if_match( request )
+  #   Parses the HTTP/1.1 `If-Match:` header.
+  #   @return [nil, Array<String>]
+  #   @see http://tools.ietf.org/html/rfc2616#section-14.24 RFC2616, section 14.24
+  #   @see #if_none_match
   def if_match request, none = false
     header = request.env["HTTP_IF_#{ none ? 'NONE_' : '' }MATCH"]
     return nil unless header
@@ -116,6 +116,7 @@ class Conditional
 
 
   # Parses the HTTP/1.1 `If-None-Match:` header.
+  # @param request [Rackful::Request]
   # @return [nil, Array<String>]
   # @see http://tools.ietf.org/html/rfc2616#section-14.26 RFC2616, section 14.26
   # @see #if_match
@@ -124,10 +125,11 @@ class Conditional
   end
 
 
-  # @!method if_modified_since()
-  # @return [nil, Time]
-  # @see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
-  # @see #if_unmodified_since
+  # @overload if_modified_since( request )
+  #   @param request [Rackful::Request]
+  #   @return [nil, Time]
+  #   @see http://tools.ietf.org/html/rfc2616#section-14.25 RFC2616, section 14.25
+  #   @see #if_unmodified_since
   def if_modified_since request, unmodified = false
     header = request.env["HTTP_IF_#{ unmodified ? 'UN' : '' }MODIFIED_SINCE"]
     return nil unless header

@@ -10,7 +10,7 @@ require 'digest/md5'
 # The class of the object we're going to serve:
 class MyResource
   include Rackful::Resource
-  attr_accessor :to_rackful
+  attr_reader :to_rackful, :get_last_modified
 
   def initialize
     self.uri = '/hello_world'
@@ -19,8 +19,14 @@ class MyResource
       :b => Time.now,
       :c => URI('http://www.example.com/some/path')
     }
+    @get_last_modified = [ Time.now, false ]
   end
 
+  def to_rackful= data
+    @to_rackful = data
+    @get_last_modified = [ Time.now, false ]
+  end
+  
   def get_etag
     '"' + Digest::MD5.new.update(to_rackful.inspect).to_s + '"'
   end
@@ -36,4 +42,5 @@ use Rackful::Required do |uri|
 end
 use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
+use Rackful::Conditional
 run Rackful::Server.new
