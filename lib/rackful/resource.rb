@@ -254,21 +254,21 @@ module Resource
   end
 
 
-
-
   # List of all HTTP/1.1 methods implemented by this resource.
   # 
   # This works by inspecting all the {#do_METHOD} methods this object implements.
   # @return [Array<Symbol>]
   # @api private
   def http_methods
-    r = []
+    r = [ :OPTIONS ]
     if self.empty?
       if self.class.all_media_types[:PUT]
         r << :PUT
       end
     else
-      r.push( :OPTIONS, :HEAD, :GET )
+      unless self.class.all_serializers.empty?
+        r.push( :GET, :HEAD )
+      end
       r << :DELETE if self.respond_to?( :destroy )
     end
     self.class.public_instance_methods.each do
@@ -303,7 +303,7 @@ module Resource
   # then strips off the response body.
   # 
   # Feel free to override this method at will.
-  # @return [self]
+  # @return [void]
   def http_HEAD request, response
     self.http_GET request, response
     response['Content-Length'] =
@@ -324,6 +324,8 @@ module Resource
   def http_GET request, response
     raise HTTP404NotFound if self.empty?
     # May throw HTTP406NotAcceptable:
+    raise HTTP405MethodNotAllowed, self.http_methods \
+      if self.class.all_serializers.empty?
     serializer = self.serializer( request )
     response['Content-Type'] = serializer.content_type
     response.status = Rack::Utils.status_code( :ok )
