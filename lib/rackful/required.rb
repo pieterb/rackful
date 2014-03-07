@@ -53,7 +53,7 @@ class Required
       else
         retval = [ e.status, {}, e.serializer(request, false) ]
         retval[1]['Content-Type'] = retval[2].content_type
-        retval[1].merge!( serializer.headers ) if serializer.respond_to? :headers
+        retval[1].merge!( retval[2].headers ) if retval[2].respond_to? :headers
       end
     end
     # The next line fixes a small peculiarity in RFC2616: the response body of
