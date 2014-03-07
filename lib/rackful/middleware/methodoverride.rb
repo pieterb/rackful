@@ -53,9 +53,6 @@ module Rackful
 #   require 'rackful/middleware/method_override'
 #   use Rackful::MethodOverride
 class MethodOverride
-  # This class mixes in module `StatusCodes` for convenience, as explained in the
-  # {StatusCodes StatusCodes documentation}.
-  include StatusCodes
 
   METHOD_OVERRIDE_PARAM_KEY = '_method'.freeze
   
@@ -79,13 +76,13 @@ class MethodOverride
 
 
   def call env
-    before_call env
-    @app.call env
+    before_call( env ) || @app.call( env )
   end
 
   private
 
 
+  # @return [nil, Array(status, headers, body)]
   def before_call env
     return unless ['GET', 'POST'].include? env['REQUEST_METHOD']
     new_method = nil
@@ -105,7 +102,11 @@ class MethodOverride
           'POST' == env['REQUEST_METHOD']
         unless 'application/x-www-form-urlencoded' == env['CONTENT_TYPE'] &&
                env['CONTENT_LENGTH'].to_i <= @max_size
-          raise HTTP415UnsupportedMediaType, 'application/x-www-form-urlencoded'
+          e = Rackful::StatusCodes::HTTP415UnsupportedMediaType.new( 'application/x-www-form-urlencoded' )
+          headers = e.headers
+          serializer = e.serializer( Rackful::Request.new(env), false )
+          headers = headers.merge( serializer.headers ) if serializer.respond_to? :headers
+          return [ e.status, headers, serializer ]
         end
         if env.key?('rack.input')
           new_query_string += '&' unless new_query_string.empty?
@@ -129,6 +130,7 @@ class MethodOverride
         STDERR << "warning: Client tried to override request method #{env['REQUEST_METHOD']} with #{new_method} (ignored).\n"
       end
     end
+    nil
   end
 
 

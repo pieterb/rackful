@@ -28,6 +28,15 @@ module Rackful
 # @!attribute [r] content_type
 #   @return [String] The content type to be served by this Serializer. This will
 #     always be one of the content types listed in constant `CONTENT_TYPES`.
+# @!method headers()
+#   Extra response headers that a serializer likes to return.
+#
+#   You don't have to include the `Content-Type` header, as this is done
+#   _for_ you.
+#
+#   This method is optional.
+#   @return [Hash]
+#   @abstract
 class Serializer
 
 
@@ -72,17 +81,6 @@ class Serializer
     @request, @resource, @content_type =
       request, resource, content_type
   end
-
-
-  # @!method headers()
-  #   Extra response headers that a serializer likes to return.
-  #
-  #   You don't have to include the `Content-Type` header, as this is done
-  #   _for_ you.
-  #
-  #   This method is optional.
-  #   @return [Hash]
-  #   @abstract
 
 
   # @abstract Every serializer must implement this method.
