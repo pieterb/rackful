@@ -3,5 +3,6 @@
 # Required for parsing:
 
 # Required for running:
-require 'rackful/middleware/headerspoofing.rb'
+require 'rackful.rb'
 require 'rackful/middleware/methodoverride.rb'
+require 'rackful/middleware/headerspoofing.rb'

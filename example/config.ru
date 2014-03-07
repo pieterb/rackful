@@ -1,6 +1,6 @@
 # Load core functionality:
 require 'rackful'
-
+require 'rackful/middleware'
 
 # Load extra middlewares: ({Rackful::MethodOverride}, {Rackful::HeaderSpoofing})
 require 'rackful/middleware'
@@ -31,9 +31,9 @@ class MyResource
 end
 
 use Rack::Reloader
+use Rackful::Required do |uri|
+  $root_resource ||= MyResource.new
+end
 use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
-
-run Rackful::Server.new { |uri|
-  $root_resource ||= MyResource.new
-}
+run Rackful::Server.new
