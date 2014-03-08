@@ -1,3 +1,5 @@
+# @title Rackful changelog
+
 0.2.x
 =====
 The 0.2.x series is a major revision, not backward compatible with 0.1.x.

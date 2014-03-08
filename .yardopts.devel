@@ -2,7 +2,7 @@
 #--no-private
 #--hide-api private
 --protected
---main RACKFUL.md
+--main README.md
 --output-dir doc/devel
 --charset UTF-8
 --locale en_US.UTF-8
