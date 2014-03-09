@@ -28,7 +28,7 @@ class Rackful::Server
   # {Resource#empty? empty resource}.
   #
   # The provided code block must be thread-safe and reentrant.
-  # @yieldparam uri [URI::Generic] The {URI::Generic::normalize! normalized}
+  # @yieldparam uri [URI::Generic] The {URI::Generic#normalize! normalized}
   #   URI of the requested resource.
   # @yieldreturn [Resource] A (possibly {Resource#empty? empty}) resource, or nil.
   def initialize &resource_registry

@@ -11,14 +11,14 @@ class URI::Generic
 
   unless method_defined? :uri_generic_normalize!
     # Copy of the original StdLib
-    # [URI::Generic::normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
+    # [URI::Generic#normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
     # method.
     alias_method :uri_generic_normalize!, :normalize!
   end
   
   unless method_defined? :uri_generic_normalize
     # Copy of the original StdLib
-    # [URI::Generic::normalize!](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize-21)
+    # [URI::Generic#normalize](http://ruby-doc.org/stdlib/libdoc/uri/rdoc/URI/Generic.html#method-i-normalize)
     # method.
     alias_method :uri_generic_normalize, :normalize
   end
