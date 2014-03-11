@@ -207,16 +207,14 @@ module Resource
            'chunked' == request.env['HTTP_TRANSFER_ENCODING']
       raise HTTP411LengthRequired
     end
-    request_media_type = request.media_type.to_s
     supported_media_types = []
     all_parsers = self.class.all_parsers[ request.request_method.to_sym ] || []
     all_parsers.each do |mt, p|
       if File.fnmatch( mt, request_media_type, File::FNM_PATHNAME )
-        return p.parse( request, response, self )
+        return p.parse( request.media_type.to_s, response, self )
       end
       supported_media_types << mt
     end
-    raise( HTTP405MethodNotAllowed, self.http_methods ) if supported_media_types.empty?
     raise( HTTP415UnsupportedMediaType, supported_media_types.uniq )
   end
 
@@ -277,7 +275,7 @@ module Resource
         r << $1.to_sym
       end
     end
-    r
+    r.uniq
   end
 
 
@@ -306,12 +304,11 @@ module Resource
   # @return [void]
   def http_HEAD request, response
     self.http_GET request, response
-    response['Content-Length'] =
+    response['Content-Length'] ||=
       response.body.reduce(0) do
         |memo, s| memo + bytesize(s)
       end.to_s
-    # Is this really necessary? Doesn't Rack automatically strip the response
-    # body for HEAD requests?
+    # Strip the response body for HEAD requests?
     response.body = []
   end
 
@@ -320,20 +317,24 @@ module Resource
   # @param request [Rackful::Request]
   # @param response [Rack::Response]
   # @return [void]
-  # @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
+  # @raise [HTTP404NotFound, HTTP405MethodNotAllowed, HTTP406NotAcceptable]
   def http_GET request, response
     raise HTTP404NotFound if self.empty?
-    # May throw HTTP406NotAcceptable:
-    raise HTTP405MethodNotAllowed, self.http_methods \
-      if self.class.all_serializers.empty?
-    serializer = self.serializer( request )
-    response['Content-Type'] = serializer.content_type
     response.status = Rack::Utils.status_code( :ok )
-    response.headers.merge! self.default_headers
-    if serializer.respond_to? :headers
-      response.headers.merge!( serializer.headers )
+    if respond_to? :do_GET
+      do_GET(request, response)
+    elsif ! self.class.all_serializers.empty?
+      # May throw HTTP406NotAcceptable:
+      serializer = self.serializer( request )
+      response['Content-Type'] = serializer.content_type
+      if serializer.respond_to? :headers
+        response.headers.merge!( serializer.headers )
+      end
+      response.body = serializer
+    else
+      raise(HTTP405MethodNotAllowed, self.http_methods)
     end
-    response.body = serializer
+    response.headers.merge! self.default_headers
   end
 
 
@@ -397,11 +398,10 @@ module Resource
   def http_PATCH request, response
     raise HTTP404NotFound if self.empty?
     response.status = :no_content
-    begin
-      parse(request, response)
-    rescue HTTP405MethodNotAllowed => e
-      raise e unless self.respond_to? :do_PATCH
+    if  self.respond_to? :do_PATCH
       self.do_PATCH( request, response )
+    else
+      parse(request, response)
     end
     response.headers.merge! self.default_headers
   end
@@ -413,11 +413,10 @@ module Resource
   #   resource doesn’t implement the `POST` method or can’t handle the provided
   #   request body media type.
   def http_POST request, response
-    begin
-      parse(request, response)
-    rescue HTTP405MethodNotAllowed => e
-      raise e unless self.respond_to? :do_POST
+    if self.respond_to? :do_POST
       self.do_POST( request, response )
+    else
+      parse(request, response)
     end
   end
 
@@ -429,11 +428,10 @@ module Resource
   #   request body media type.
   def http_PUT request, response
     response.status = Rack::Utils.status_code( self.empty? ? :created : :no_content )
-    begin
-      parse(request, response)
-    rescue HTTP405MethodNotAllowed => e
-      raise e unless self.respond_to? :do_PUT
+    if  self.respond_to? :do_PUT
       self.do_PUT( request, response )
+    else
+      parse(request, response)
     end
     response.headers.merge! self.default_headers
   end
