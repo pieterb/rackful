@@ -4,5 +4,5 @@
 
 # Required for running:
 require 'rackful.rb'
-require 'rackful/middleware/methodoverride.rb'
-require 'rackful/middleware/headerspoofing.rb'
+require 'rackful/methodoverride.rb'
+require 'rackful/headerspoofing.rb'

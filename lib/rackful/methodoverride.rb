@@ -50,7 +50,7 @@ module Rackful
 #     wasn’t handled for some reason).
 # *   Rackful::MethodOverride is documented ;-)
 # @example Using this middleware
-#   require 'rackful/middleware/method_override'
+#   require 'rackful/method_override'
 #   use Rackful::MethodOverride
 class MethodOverride
   

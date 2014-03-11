@@ -21,7 +21,7 @@ module Rackful
 #
 # This middleware won’t work well together with Digest Authentication.
 # @example Using this middleware
-#   require 'rackful/middleware/header_spoofing'
+#   require 'rackful/header_spoofing'
 #   use Rackful::HeaderSpoofing
 class HeaderSpoofing
 
