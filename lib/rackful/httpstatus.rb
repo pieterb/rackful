@@ -89,7 +89,35 @@ class HTTPStatus < RuntimeError
   end
 
 
- 
+  # @param request [Rackful::Request]
+  # @return [Rack::Response]
+  def to_response request
+    response = Rack::Response.new
+    response.status = self.status
+    # Lint requires that status 304 (Not Modified) has no body and no
+    # Content-Type response header.
+    unless 304 === self.status
+      serializer = self.serializer(request, false)
+      response['Content-Type'] = serializer.content_type
+      response.body = serializer
+      if serializer.respond_to? :headers
+        response.headers.merge!( serializer.headers )
+      end
+      # Make sure the Location: response header contains an absolute URI:
+      if response['Location'] and response['Location'][0] == ?/
+        response['Location'] = ( self.canonical_uri + response['Location'] ).to_s
+      end
+    end
+    # The next line fixes a small peculiarity in RFC2616: the response body of
+    # a `HEAD` request _must_ be empty, even for responses outside 2xx.
+    if request.head?
+      response.body = []
+      response['Content-Length'] = 0
+    end
+    response
+  end
+
+
 end # class Rackful::StatusCodes::HTTPStatus
 
 

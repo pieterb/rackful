@@ -304,10 +304,11 @@ module Resource
   # @return [void]
   def http_HEAD request, response
     self.http_GET request, response
-    response['Content-Length'] ||=
-      response.body.reduce(0) do
-        |memo, s| memo + bytesize(s)
-      end.to_s
+    response['Content-Length'] = '0'
+    #    response['Content-Length'] ||=
+    #      response.body.reduce(0) do
+    #        |memo, s| memo + s.bytesize
+    #      end.to_s
     # Strip the response body for HEAD requests?
     response.body = []
   end

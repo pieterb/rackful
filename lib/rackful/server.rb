@@ -60,44 +60,40 @@ class Rackful::Server
       else
         resource.http_method request, response
       end
-    rescue HTTPStatus => e
-      serializer = e.serializer(request, false)
-      response = Rack::Response.new
-      response.status = e.status
-      # Lint requires that status 304 (Not Modified) has no body and no
-      # Content-Type response header.
-      unless 304 === e.status
-        response['Content-Type'] = serializer.content_type
-        response.body = serializer
+      # Make sure the Location: response header contains an absolute URI:
+      if response['Location'] and response['Location'][0] == ?/
+        response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
       end
-      response.headers.merge!( serializer.headers ) if serializer.respond_to? :headers
+    rescue HTTPStatus => e
+      response = e.to_response(request)
     end
-    # The next line fixes a small peculiarity in RFC2616: the response body of
-    # a `HEAD` request _must_ be empty, even for responses outside 2xx.
-    if request.head?
-      response.body = []
-     end
     begin
       if  201 == response.status &&
           ( location = response['Location'] ) &&
           ( new_resource = request.resource_at( location ) ) &&
           ! new_resource.empty? \
-      or  ( (200...300) === response.status ||
-             304        ==  response.status ) &&
+      or  ( (200...300) === response.status ) && # <-- || 304        ==  response.status ) &&
           ! response['Location'] &&
           ( new_resource = request.resource_at( request.canonical_uri ) ) &&
           ! new_resource.empty?
         response.headers.merge! new_resource.default_headers
       end
-      # Make sure the Location: response header contains an absolute URI:
-      if  response['Location'] and response['Location'][0] == ?/
-        response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
-      end
     rescue HTTP404NotFound => e
     end
     response.finish
   end
-
+  
+  
+  private
+  
+  
+  def relative_to_absolute_location request, response
+    if  response['Location'] and response['Location'][0] == ?/
+      response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
+    end
+  end
+    
+  
 
 end # class Rackful::Server
 

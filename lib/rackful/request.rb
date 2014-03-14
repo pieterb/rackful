@@ -18,8 +18,8 @@ class Request < Rack::Request
   def initialize *args
     super( *args )
   end
-
-
+  
+  
   # Calls the code block passed to the {#initialize constructor}.
   # @param uri [URI::HTTP, String]
   # @return [Resource]
