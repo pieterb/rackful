@@ -196,14 +196,7 @@ class HTTP303SeeOther < HTTPStatus
 end
 
 
-class HTTP304NotModified < HTTPStatus
-
-  def initialize
-    super( 304 )
-  end
-
-end
-
+class HTTP304NotModified < HTTPSimpleStatus; end
 
 class HTTP307TemporaryRedirect < HTTPStatus
 
@@ -217,6 +210,19 @@ end
 
 
 class HTTP400BadRequest < HTTPSimpleStatus; end
+
+class HTTP401Unauthorized < HTTPStatus
+
+  # @example Basic Authentication
+  #     raise HTTP401Unauthorized.new('Basic', 'realm' => 'example.com')
+  def initialize scheme, params = {}
+    params = params.map { |name, value| "#{name}=\"#{value}\"" }
+    www_authenticate = scheme.to_s
+    www_authenticate += ' ' + params.join('; ') unless params.empty?
+    super( 401, nil, 'WWW-Authenticate' => www_authenticate )
+  end
+
+end
 
 class HTTP403Forbidden < HTTPSimpleStatus; end
 
@@ -258,6 +264,27 @@ class HTTP412PreconditionFailed < HTTPStatus
 end
 
 
+class HTTP413RequestEntityTooLarge < HTTPStatus
+
+  def initialize max_size = nil
+    info = max_size ? { :'Maximum entity length:' => max_size } : {}
+    super( 413, '', info )
+  end
+
+end
+#Request-URI Too Long
+
+
+class HTTP414RequestURITooLong < HTTPStatus
+
+  def initialize max_size = nil
+    info = max_size ? { :'Maximum request URI length:' => max_size } : {}
+    super( 414, '', info )
+  end
+
+end
+
+
 class HTTP415UnsupportedMediaType < HTTPStatus
 
   def initialize media_types
@@ -268,6 +295,8 @@ end
 
 
 class HTTP422UnprocessableEntity < HTTPSimpleStatus; end
+
+class HTTP428PreconditionRequired < HTTPSimpleStatus; end
 
 class HTTP501NotImplemented < HTTPSimpleStatus; end
 
