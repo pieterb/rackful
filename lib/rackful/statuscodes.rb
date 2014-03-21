@@ -125,7 +125,7 @@ end # class Rackful::StatusCodes::HTTPStatus
   #   no message at all.
 class HTTPSimpleStatus < HTTPStatus
 
-  def initialize message = nil
+  def initialize message = nil, info = {}
     /HTTP(\d\d\d)\w+\z/ === self.class.to_s
     status = $1.to_i
     super( status, message )
@@ -218,7 +218,7 @@ class HTTP401Unauthorized < HTTPStatus
   def initialize scheme, params = {}
     params = params.map { |name, value| "#{name}=\"#{value}\"" }
     www_authenticate = scheme.to_s
-    www_authenticate += ' ' + params.join('; ') unless params.empty?
+    www_authenticate += ' ' + params.join(', ') unless params.empty?
     super( 401, nil, 'WWW-Authenticate' => www_authenticate )
   end
 
