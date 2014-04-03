@@ -106,7 +106,7 @@ class URI::Generic
 
   # @return [Array<String>] Unencoded segments
   def segments( encoding = Encoding::UTF_8 )
-    r = self.path.split(%r{/+}).collect do |s|
+    r = self.path.split(%r{/+}, -1).collect do |s|
       Rack::Utils.unescape( s, encoding )
     end
     r.shift

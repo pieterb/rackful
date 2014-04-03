@@ -40,8 +40,10 @@ class Request < Rack::Request
   def resource
     @rackful_request_resource ||= begin
       c = URI(url).normalize
+      p c.to_s
       retval = resource_at(c)
       c += retval.uri
+      p c.to_s
       c.query = query_string unless query_string.empty?
       env['rackful.canonical_uri'] = c
       retval
