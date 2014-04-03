@@ -19,14 +19,13 @@ module Rackful
 #   HTTP/1.1 method handler.
 # 
 #   To handle certain HTTP/1.1 request methods, resources must implement methods
-#   called `do_<HTTP_METHOD>`.
+#   called `do_<HTTP_METHOD>`. The return value of these methods is irrelevant.
 #   @example Handling `PATCH` requests
 #     def do_PATCH request, response
 #       response['Content-Type'] = 'text/plain'
 #       response.body = [ 'Hello world!' ]
 #     end
 #   @abstract
-#   @return [void]
 #   @raise [HTTPStatus, RuntimeError]
 #
 # @!attribute [r] get_etag
@@ -287,7 +286,6 @@ module Resource
   # returned (without an entity body).
   # 
   # Feel free to override this method at will.
-  # @return [void]
   # @raise [HTTP404NotFound] `404 Not Found` if this resource is empty.
   def http_OPTIONS request, response
     response.status = Rack::Utils.status_code :no_content
@@ -301,7 +299,6 @@ module Resource
   # then strips off the response body.
   # 
   # Feel free to override this method at will.
-  # @return [void]
   def http_HEAD request, response
     self.http_GET request, response
     response['Content-Length'] = '0'
@@ -317,7 +314,6 @@ module Resource
   # @api private
   # @param request [Rackful::Request]
   # @param response [Rack::Response]
-  # @return [void]
   # @raise [HTTP404NotFound, HTTP405MethodNotAllowed, HTTP406NotAcceptable]
   def http_GET request, response
     raise HTTP404NotFound if self.empty?
@@ -378,7 +374,6 @@ module Resource
 
   # Wrapper around {#do_METHOD #do_GET}
   # @api private
-  # @return [void]
   # @raise [HTTP404NotFound, HTTP405MethodNotAllowed]
   def http_DELETE request, response
     raise HTTP404NotFound if self.empty?
@@ -392,7 +387,6 @@ module Resource
 
 
   # @api private
-  # @return [void]
   # @raise [HTTP404NotFound, HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the
   #   resource doesn’t implement the `PATCH` method or can’t handle the provided
   #   request body media type.
@@ -409,7 +403,6 @@ module Resource
 
 
   # @api private
-  # @return [void]
   # @raise [HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the
   #   resource doesn’t implement the `POST` method or can’t handle the provided
   #   request body media type.
@@ -423,7 +416,6 @@ module Resource
 
 
   # @api private
-  # @return [void]
   # @raise [HTTP415UnsupportedMediaType, HTTP405MethodNotAllowed] if the
   #   resource doesn’t implement the `PUT` method or can’t handle the provided
   #   request body media type.
@@ -440,7 +432,6 @@ module Resource
 
   # Wrapper around {#do_METHOD}
   # @api private
-  # @return [void]
   # @raise [HTTPStatus] `405 Method Not Allowed` if the resource doesn't implement
   #   the request method.
   def http_method request, response

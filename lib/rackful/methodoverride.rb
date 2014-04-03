@@ -28,6 +28,7 @@ module Rackful
 #     Content-Length: 123456789
 #      
 #     param_1=hello&param_2=world&param_3=...
+# {:.language-http}
 #
 # Caveats:
 #

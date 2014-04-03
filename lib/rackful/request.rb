@@ -118,18 +118,22 @@ class Request < Rack::Request
 
 
   # Assert all <tt>If-*</tt> request headers.
-  # @return [void]
+  # @return [self]
   # @raise [HTTP304NotModified, HTTP400BadRequest, HTTP404NotFound, HTTP412PreconditionFailed]
   #   with the following meanings:
   # 
-  #   -   `304 Not Modified`
-  #   -   `400 Bad Request` Couldn't parse one or more <tt>If-*</tt> headers, or a
-  #       weak validator comparison was requested for methods other than `GET` or
-  #       `HEAD`.
-  #   -   `404 Not Found`
-  #   -   `412 Precondition Failed`
-  # @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3
-  #   for details about weak and strong validator comparison.
+  #   304 Not Modified
+  #   : The client provided an `If-Modified-Since:` request header, and the resource hasn’t been modified since the given timestamp.
+  #
+  #   400 Bad Request
+  #   : Couldn’t parse one or more <tt>If-*</tt> headers, or a weak validator comparison was requested for methods other than `GET` or `HEAD`.
+  #
+  #   404 Not Found
+  #   : TODO: document
+  #
+  #   412 Precondition Failed
+  #   : The client provided an `If-Match:`, `If-None-Match:`, or `If-Unmodified-Since` request header, and the precondition therein was not fulfilled.
+  # @see http://tools.ietf.org/html/rfc2616#section-13.3.3 RFC2616, section 13.3.3 for details about weak and strong validator comparison.
   # @todo Implement support for the `If-Range:` header.
   def assert_if_headers
     #raise HTTP501NotImplemented, 'If-Range: request header is not supported.' \
@@ -191,6 +195,7 @@ class Request < Rack::Request
         end
       end
     end
+    self
   end
 
 
