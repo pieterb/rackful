@@ -9,6 +9,9 @@ require 'rackful/global.rb'
 module Rackful
 
 # Rack compliant server class for implementing RESTful web services.
+#
+# This class is explicitly *not* a singleton: there can be multiple instances
+# of Rackful::Server, for example serving different parts of the URI namespace.
 class Rackful::Server
   
   include StatusCodes
