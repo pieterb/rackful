@@ -22,13 +22,14 @@ module Rackful
 # many parameters, exceeding the maximum URI length in your client or server.
 # In that case, you can put the parameters in a `POST` body, like this:
 #
-#     POST /some_resource HTTP/1.1
-#     Host: example.com
-#     Content-Type: application/x-www-form-urlencoded
-#     Content-Length: 123456789
-#      
-#     param_1=hello&param_2=world&param_3=...
-# {:.language-http}
+# ```http
+# POST /some_resource HTTP/1.1
+# Host: example.com
+# Content-Type: application/x-www-form-urlencoded
+# Content-Length: 123456789
+#
+# param_1=hello&param_2=world&param_3=...
+# ```
 #
 # Caveats:
 #
@@ -51,14 +52,14 @@ module Rackful
 #     wasn’t handled for some reason).
 # *   Rackful::MethodOverride is documented ;-)
 # @example Using this middleware
-#   require 'rackful/method_override'
+#   require_relative 'method_override'
 #   use Rackful::MethodOverride
 class MethodOverride
-  
+
   include StatusCodes
 
   METHOD_OVERRIDE_PARAM_KEY = '_method'.freeze
-  
+
   POST_TO_GET_REQUEST_BODY_MAX_SIZE = 1024 * 1024
 
   ALLOWED_OVERRIDES = {

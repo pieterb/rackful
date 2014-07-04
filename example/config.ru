@@ -1,45 +1,57 @@
+# encoding: utf-8
+
+$LOAD_PATH << File.expand_path( File.join( '..', 'lib' ), File.dirname( File.expand_path( __FILE__ ) ) )
+
 # Load core functionality:
 require 'rackful'
+
+
+# Load extra middlewares {Rackful::MethodOverride MethodOverride} and {Rackful::HeaderSpoofing HeaderSpoofing}:
 require 'rackful/middleware'
 
-# Load extra middlewares: ({Rackful::MethodOverride}, {Rackful::HeaderSpoofing})
-require 'rackful/middleware'
+
+# Used below for calculating ETags:
 require 'digest/md5'
 
 
 # The class of the object we're going to serve:
 class MyResource
-  include Rackful::Resource
-  attr_reader :to_rackful, :get_last_modified
+  include Rackful::Representable
+
+  attr_reader :last_modified, :hal_properties, :hal_links
 
   def initialize
-    self.uri = '/hello_world'
-    @to_rackful = {
+    @hal_properties = {
       :a => 'Hello',
       :b => Time.now,
-      :c => URI('http://www.example.com/some/path')
     }
-    @get_last_modified = [ Time.now, false ]
+    @hal_links = { :example => Rackful::HALLink('http://www.example.com/some/path') }
+    @last_modified = [ Time.now, false ]
   end
 
-  def to_rackful= data
-    @to_rackful = data
-    @get_last_modified = [ Time.now, false ]
+
+  def do_PUT request, response
+    @hal_properties = parser(request).to_rackful
+    @last_modified = [ Time.now, false ]
   end
-  
-  def get_etag
-    '"' + Digest::MD5.new.update(to_rackful.inspect).to_s + '"'
+
+
+  def etag
+    '"' + Digest::MD5.new.update(hal_properties.inspect).to_s + '"'
   end
-  add_serializer Rackful::Serializer::XHTML, 1.0
-  add_serializer Rackful::Serializer::JSON, 0.5
-  add_parser Rackful::Parser::XHTML
-  add_parser Rackful::Parser::JSON
+  add_serializer Rackful::Serializer::HALJSON
+  add_parser Rackful::Parser::HALJSON
 end
+
+
+$hello_world = MyResource.new
+$hello_world.uri = '/hello_world'
 
 use Rack::Reloader
 use Rackful::MethodOverride
 use Rackful::HeaderSpoofing
 run Rackful::Server.new {
   |uri|
-  $root_resource ||= MyResource.new
+  $hello_world
+  #'/hello_world' === uri.path ? $hello_world : nil
 }

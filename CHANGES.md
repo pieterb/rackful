@@ -27,7 +27,7 @@ The 0.1.x series is a major revision, not backward compatible with 0.0.x.
 *   `Rackful::Path`, a subclass of `String`, is used for HTTP paths. This allows
     serializers, especially for hypermedia, to distinguish paths from “ordinary”
     strings, and render them accordingly.
-*   The concept of `Rackful::Serializer Serializers` was introduced. A serializer
+*   The concept of `Rackful::Representation Serializers` was introduced. A serializer
     is an object that knows how to serialize an object to a certain media type.
 *   The mechanism for content negotiation has changed completely. See
     `Rackful::Resource#serializer` and `Rackful::Resource::ClassMethods#best_content_type`.

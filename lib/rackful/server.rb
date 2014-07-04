@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 # Required for parsing:
-require 'rackful/global.rb'
+require_relative 'global.rb'
 
 # Required for running:
 
@@ -13,7 +13,7 @@ module Rackful
 # This class is explicitly *not* a singleton: there can be multiple instances
 # of Rackful::Server, for example serving different parts of the URI namespace.
 class Rackful::Server
-  
+
   include StatusCodes
 
 
@@ -31,7 +31,7 @@ class Rackful::Server
   # {Resource#empty? empty resource}.
   #
   # The provided code block must be thread-safe and reentrant.
-  # @yieldparam uri [URI::Generic] The {URI::Generic#normalize! normalized}
+  # @yieldparam uri [URI] The {URI::Generic#normalize! normalized}
   #   URI of the requested resource.
   # @yieldreturn [Resource] A (possibly {Resource#empty? empty}) resource, or nil.
   def initialize &resource_registry
@@ -50,25 +50,28 @@ class Rackful::Server
     response = Rack::Response.new
     begin
       resource = request.resource
+      if resource.empty? and %w{DELETE GET HEAD PATCH POST}.include?( request.request_method )
+        raise HTTP404NotFound
+      end
       if request.url != request.canonical_uri.to_s
-        if %w{HEAD GET}.include?( request.request_method )
-          raise HTTP404NotFound if resource.empty?
-          raise HTTP301MovedPermanently, request.canonical_uri
-        end
+        # Why did I think this was a good idea?:
+        #if %w{HEAD GET}.include?( request.request_method )
+        #  raise HTTP301MovedPermanently, request.canonical_uri
+        #end
         response.header['Content-Location'] = request.canonical_uri.to_s
-       end
+      end
       request.assert_if_headers
       if %w{HEAD GET OPTIONS PATCH POST PUT DELETE}.include?( request.request_method )
         resource.__send__( :"http_#{request.request_method}", request, response )
       else
-        resource.http_method request, response
+        resource.http_OTHER request, response
       end
       # Make sure the Location: response header contains an absolute URI:
       if response['Location'] and response['Location'][0] == ?/
         response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
       end
-    rescue HTTPStatus => e
-      response = e.to_response(request)
+    rescue HTTPStatus
+      response = $!.to_response(request)
     end
     begin
       if  201 == response.status &&
@@ -81,22 +84,22 @@ class Rackful::Server
           ! new_resource.empty?
         response.headers.merge! new_resource.default_headers
       end
-    rescue HTTP404NotFound => e
+    rescue HTTP404NotFound
     end
     response.finish
   end
-  
-  
+
+
   private
-  
-  
+
+
   def relative_to_absolute_location request, response
-    if  response['Location'] and response['Location'][0] == ?/
+    if response['Location'] and response['Location'][0] == ?/
       response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
     end
   end
-    
-  
+
+
 
 end # class Rackful::Server
 

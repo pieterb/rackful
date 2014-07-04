@@ -1,0 +1,388 @@
+# encoding: utf-8
+
+# Required for parsing:
+require_relative '../representation.rb'
+
+# Required for running:
+
+
+module Rackful
+
+  # XHTML4 representation of the resource.
+  #
+  # Relation types
+  # --------------
+  # whatwg.org maintains [this list of link relation types](http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#linkTypes), and furthermore states:
+  #
+  # *   a `link`, `a` or `area` element can have a `rel` attribute, consisting of a space separeted list of relation types.
+  # *   link types are always ASCII and case-insensitive.
+  #
+  # The microformats.org wiki has [this even longer list of relation types](http://microformats.org/wiki/existing-rel-values).
+  class Serializer::HTML5 < Serializer
+
+
+    produces 'text/html; charset=UTF-8'
+
+    # @yieldparam xhtml [String]
+    # FIXME Resources may not have a URI!
+    def each &block
+      tmp = <<-EOS
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<head>
+<title>#{ Rack::Utils.escape_html( Rack::Utils.unescape( resource.uri.segments.last ) ) }</title>
+<base href="#{ html_base_uri }"/>
+      EOS
+      unless '/' == request.canonical_uri.path
+        tmp += <<-EOS
+<link rel="contents" href="#{ '/' === request.canonical_uri.path[-1] ? '../' : './' }"/>
+        EOS
+      end
+      r = resource.to_rackful
+      tmp += header + '<div id="rackful-content"' + xsd_type( r ) + '>'
+      yield tmp
+      each_nested( r, &block )
+      yield '</div>' + footer
+    end
+
+
+    # @api private
+    def header
+      self.class.class_variable_defined?( :@@header ) && @@header ?
+      @@header.call( self ) :
+      "</head><body>"
+    end
+
+
+    # Set a header generator.
+    # @yieldparam representation [Representation::XHTML4] This representation
+    # @yieldreturn [String] some XHTML4
+    def self.header &block
+      @@header = block
+      self
+    end
+
+
+    # @api private
+    def footer
+      self.class.class_variable_defined?( :@@footer ) && @@footer ?
+      @@footer.call( self ) :
+      '<div class="rackful-powered">Powered by <a href="http://github.com/pieterb/Rackful">Rackful</a></div></body></html>'
+    end
+
+
+    # Set a footer generator.
+    # @yieldparam representation [Representation::XHTML4] This representation
+    # @yieldreturn [String] some XHTML4
+    def self.footer &block
+      @@footer = block
+      self
+    end
+
+
+    # Serializes many kinds of objects to XHTML4.
+    #
+    # How an object is serialized, depends:
+    #
+    # * A *{Resource}* will be serialized by its own {Resource#representation representation}.
+    # * A *{URI}* will be serialized as a hyperlink.
+    # * An Object responding to *`#each_pair`* (i.e. something {Hash}-like) will
+    #   be represented by
+    #   * a descriptive list, with
+    # * An Object responding to *`#each`* (i.e. something {Enumerable}) will
+    #   be represented as a JSON array.
+    # * A *binary encoded {String}* (i.e. a blob} is represented by a JSON string,
+    #   containing the base64 encoded version of the data.
+    # * A *{Time}* is represented by a string containing a dateTime as defined by
+    #   XMLSchema.
+    # * On *all the rest,* method `#to_json` is invoked.
+    # @overload each_nested
+    #   @yieldparam xhtml [String]
+    # @api private
+    def each_nested p = self.resource.to_rackful, &block
+
+      # A Resource:
+      if p.kind_of?( Representable ) && ! p.equal?( resource )
+        p.serializer(request, self.class).each_nested( &block )
+
+        # A URI:
+      elsif p.kind_of?( URI )
+        rel_path = p.relative? ? p : p.route_from( html_base_uri )
+        yield "<a href=\"#{rel_path}\">" +
+        Rack::Utils.escape_html( Rack::Utils.unescape( rel_path.to_s ) ) + '</a>'
+
+        # An Object:
+      elsif p.respond_to?( :each_pair )
+        yield '<br/><dl>'
+        p.each_pair do
+          |key, value|
+          yield '<dt xs:type="xs:string">' +
+          Rack::Utils.escape_html( key.to_s.split('_').join(' ') ) +
+          "</dt><dd#{xsd_type(value)}>"
+          each_nested value, &block
+          yield "</dd>\n"
+        end
+        yield '</dl>'
+
+        # A List of Objects with identical keys:
+      elsif p.kind_of?( Enumerable ) and
+      ( q = p.first ) and
+      (
+      q.respond_to?( :keys ) && ( keys = q.keys ) &&
+      p.all? { |r| r.respond_to?( :keys ) && r.keys == keys }
+        )
+        yield '<table><thead><tr>' +
+        keys.collect {
+          |column|
+          '<th xs:type="xs:string">' +
+          Rack::Utils.escape_html( column.to_s.split('_').join(' ') ) +
+          "</th>\n"
+        }.join + '</tr></thead><tbody>'
+        p.each do
+          |h|
+          yield '<tr>'
+          h.each_pair do
+            |key, value|
+            yield "<td#{xsd_type(value)}>"
+            each_nested value, &block
+            yield "</td>\n"
+          end
+          yield '</tr>'
+        end
+        yield "</tbody></table>"
+
+        # A List:
+      elsif p.kind_of?( Enumerable )
+        yield '<ul>'
+        p.each do
+          |value|
+          yield "<li#{xsd_type(value)}>"
+          each_nested value, &block
+          yield "</li>\n"
+        end
+        yield '</ul>'
+
+        # A Time:
+      elsif p.kind_of?( Time )
+        yield p.utc.xmlschema
+
+        # A Blob:
+      elsif p.kind_of?( String ) && p.encoding == Encoding::BINARY
+        yield Base64.encode64(p).chomp
+
+        # Something serializable (including nil, true, false, Numeric):
+      else
+        yield Rack::Utils.escape_html( p.to_s )
+
+      end
+    end
+
+    private
+
+
+    # @return [URI::HTTP]
+    def html_base_uri
+      @html_base_uri ||= begin
+        retval = request.canonical_uri.dup
+        retval.path = retval.path.sub( %r{[^/]+\z}, '' )
+        retval.query = nil
+        retval
+      end
+    end
+
+
+    def xsd_type v
+      if v.respond_to? :to_rackful
+        v = v.to_rackful
+      end
+      if [nil, true, false].include? v
+        ' xs:type="xs:boolean" xs:nil="true"'
+      elsif v.kind_of? Integer
+        ' xs:type="xs:integer"'
+      elsif v.kind_of? Numeric
+        ' xs:type="xs:decimal"'
+      elsif v.kind_of? Time
+        ' xs:type="xs:dateTime"'
+      elsif v.kind_of?( String ) && v.encoding == Encoding::BINARY
+        ' xs:type="xs:base64Binary"'
+      elsif v.kind_of?( String )
+        ' xs:type="xs:string"'
+      else
+        ''
+      end
+    end
+
+
+  end # class Representation::HTML5
+
+
+  class Representation::XHTML5 < Representation::HTML5
+
+    produces 'application/xhtml+xml; charset=UTF-8'
+    #'application/xml; charset=UTF-8',
+    #'text/xml; charset=UTF-8',
+
+    def each &block
+      yield "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+      super( &block )
+    end
+
+  end
+
+
+  class Parser::XHTML5 < Parser::XML
+
+
+    consumes 'application/xhtml+xml'
+
+    def to_rackful
+      return @to_rackful_cache if @to_rackful_cache
+      # Try to find the actual content:
+      content = document.root.xpath(
+      '//html:div[@id="rackful-content"]',
+      'html' => 'http://www.w3.org/1999/xhtml'
+      )
+      # There must be exactly one element <div id="rackful_content"/> in the document:
+      if content.empty?
+        raise HTTP400BadRequest, 'Couldn’t find div#rackful-content in request body.'
+      end
+      if content.length > 1
+        raise HTTP400BadRequest, 'Multiple instances of div#rackful-content found in request body.'
+      end
+      # Initialize @base_url:
+      base_url = document.root.xpath(
+      '/html:html/html:head/html:base',
+      'html' => 'http://www.w3.org/1999/xhtml'
+      )
+      if base_url.empty?
+        @base_url = request.canonical_uri.dup
+      else
+        @base_url = URI( base_url.first.attribute('href').text ).normalize
+        if @base_url.relative?
+          @base_url = request.canonical_uri + @base_url
+        end
+      end
+      # Parse the f*cking thing:
+      @to_rackful_cache = parse_recursive content.first
+    end
+
+
+    # @api private
+    def parse_recursive node
+
+      # A URI:
+      if ( nodelist = node.xpath( 'html:a', 'html' => 'http://www.w3.org/1999/xhtml' ) ).length == 1
+        r = URI( nodelist.first.attribute('href').text )
+        r.relative? ? @base_url + r : r
+
+        # An Object (AKA a Hash)
+      elsif ( nodelist = node.xpath( 'html:dl', 'html' => 'http://www.w3.org/1999/xhtml' ) ).length == 1
+        parse_object nodelist.first
+
+        # A list of Objects with identical keys:
+      elsif ( nodelist = node.xpath( 'html:table', 'html' => 'http://www.w3.org/1999/xhtml' ) ).length == 1
+        parse_object_list nodelist.first
+
+        # A list of things (AKA an Array):
+      elsif ( nodelist = node.xpath( 'html:ul', 'html' => 'http://www.w3.org/1999/xhtml' ) ).length == 1
+        nodelist.first.xpath(
+        'html:li',
+        'html' => 'http://www.w3.org/1999/xhtml'
+        ).collect do |n| parse_recursive n end
+
+        # A simple type:
+      elsif type = node.attribute_with_ns( 'type', 'http://www.w3.org/2001/XMLSchema' )
+        prefix, typename = type.text.split(':', 2)
+        unless typename && 'http://www.w3.org/2001/XMLSchema' == node.namespaces["xmlns:#{prefix}"]
+          raise HTTP400BadRequest, "Unknown XML Schema type: #{type}"
+        end
+        parse_simple_type node, typename
+      else
+        raise HTTP400BadRequest, 'Can’t parse:<br/>' + Rack::Utils.escape_html(node.to_xml)
+      end
+    end
+    private :parse_recursive
+
+
+    def parse_simple_type node, typename
+      case typename
+      when 'boolean'
+        case node.inner_text.strip
+        when 'true'  then true
+        when 'false' then false
+        else nil
+        end
+      when 'integer'
+        node.inner_text.strip.to_i
+      when 'numeric'
+        node.inner_text.strip.to_f
+      when 'dateTime'
+        Time.xmlschema(node.inner_text.strip)
+      when 'base64Binary'
+        Base64.decode64(node.inner_text)
+      when 'string'
+        node.inner_text
+      else
+        raise HTTP400BadRequest, "Unknown XML Schema type: #{type}"
+      end
+    end
+    private :parse_simple_type
+
+
+    # @api private
+    def parse_object node
+      current_property = nil
+      r = {}
+      node.children.each do |child|
+        if 'dt' == child.name and 'http://www.w3.org/1999/xhtml' == child.namespace.href
+          if current_property
+            raise HTTP400BadRequest, 'Can’t parse:<br/>' + Rack::Utils.escape_html(node.to_xml)
+          end
+          current_property = child.inner_text.strip.split(' ').join('_').to_sym
+        elsif 'dd' == child.name &&
+        'http://www.w3.org/1999/xhtml' == child.namespace.href
+          unless current_property
+            raise HTTP400BadRequest, 'Can’t parse:<br/>' + Rack::Utils.escape_html(node.to_xml)
+          end
+          r[current_property] = parse_recursive( child )
+          current_property = nil
+        end
+      end
+      r
+    end
+    private :parse_object
+
+
+    # @api private
+    def parse_object_list node
+      properties = node.xpath(
+      'html:thead/html:tr/html:th',
+      'html' => 'http://www.w3.org/1999/xhtml'
+      ).collect do |th|
+        th.inner_text.strip.split(' ').join('_').to_sym
+      end
+      if properties.empty?
+        raise HTTP400BadRequest, 'Can’t parse:<br/>' + Rack::Utils.escape_html(node.to_xml)
+      end
+      n = properties.length
+      node.xpath(
+      'html:tbody/html:tr',
+      'html' => 'http://www.w3.org/1999/xhtml'
+      ).collect do |row|
+        values = row.xpath(
+        'html:td', 'html' => 'http://www.w3.org/1999/xhtml'
+        )
+        unless values.length == n
+          raise HTTP400BadRequest, 'Can’t parse:<br/>' + Rack::Utils.escape_html(row.to_xml)
+        end
+        object = {}
+        Range.new(0,n-1).each do |i|
+          object[properties[i]] = parse_recursive( values[i] )
+        end
+        object
+      end
+    end
+    private :parse_object_list
+  end
+
+
+end # module Rackful

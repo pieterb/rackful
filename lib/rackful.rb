@@ -1,19 +1,16 @@
 # encoding: utf-8
 
-# External requirements:
-require 'nokogiri'
-require 'rack'
-require 'rack/utils'
-require 'base64'
-require 'time'
-require 'json'
+# Internal “core” files, in alphabetic order and excluding `rackful/global.rb`:
+#require_relative 'rackful/parser.rb' # Superseded by Representation
+require_relative 'rackful/request.rb'
+require_relative 'rackful/server.rb'
+require_relative 'rackful/statuscodes.rb'
 
-# Internal “core” files, in alphabetic order:
-require 'rackful/global.rb'
-require 'rackful/parser.rb'
-require 'rackful/request.rb'
-require 'rackful/resource.rb'
-require 'rackful/serializer.rb'
-require 'rackful/server.rb'
-require 'rackful/statuscodes.rb'
-require 'rackful/uri.rb'
+# Inclusion tree:
+# rackful.rb
+# |- request.rb
+# |- server.rb
+# `- statuscodes.rb
+#    `- representation/hal_json.rb
+#       `- representation.rb
+#          `- resource.rb

@@ -1,25 +1,25 @@
 #!/bin/bash
 
-cd "$(dirname "$BASH_SCRIPT[0]")"/lib
+cd "$(dirname "$BASH_SOURCE[0]")"
 
 function quality_check() {
 
-  grep -rlP '[ \t]+$' "$0" &&
+  egrep -n '[[:blank:]]+$' "$1" &&
     echo '>>> TRAILING SPACES <<<'
 
-  grep -rlP '@private\b' "$0" &&
+  egrep -l '@private\b' "$1" &&
     echo '>>> @private INSTEAD OF @api private <<<'
 
-  grep -rlP '^=begin\s*$' "$0" &&
+  egrep -l '^=begin\s*$' "$1" &&
     echo '>>> =begin WITHOUT QUALIFIER <<<'
 
-  grep -rlP '^@param\s+\[' "$0" &&
+  egrep -l '^@param\s+\[' "$1" &&
     echo '>>> @param [Type] name INSTEAD OF @param name [Type] <<<'
 
 }
 
-for i in `find . -name \*.rb`; do
+for i in `find lib -name \*.rb`; do
   echo -n "${i}..."
-  ruby "$i" && echo " OK"
+  ruby -w -I lib "$i" && echo " OK"
   quality_check "$i"
 done
