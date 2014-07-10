@@ -1,3 +1,7 @@
+Given(/^test server "(.*?)"$/) do |name|
+  app = eval("$#{name}")
+end
+
 When(/^I GET "(\/\S*)"$/) do
   | path |
   get "http://localhost#{path}"

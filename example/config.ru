@@ -31,7 +31,10 @@ class MyResource
 
 
   def do_PUT request, response
-    @hal_properties = parser(request).to_rackful
+    parser = self.parser(request)
+    @hal_properties = parser.hal_properties
+    @hal_links = parser.hal_links
+    @hal_links.delete :self
     @last_modified = [ Time.now, false ]
   end
 

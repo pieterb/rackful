@@ -44,6 +44,9 @@ module Rackful
       self.env['rackful.resource'] ||= begin
         c = URI(url).normalize
         retval = self.resource_at(c)
+        unless resource_uri = retval.uri
+          raise "Resource at #{c} has Nil URI."
+        end
         # This step removes the query string...
         c += retval.uri
         # ...which is restored here:

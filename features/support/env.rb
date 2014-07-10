@@ -25,43 +25,79 @@ class Greeter
 
   def do_GET(request, response)
     response.body << 'Hello world!'
-    response['Content-Type'] = 'text/plain; charset="utf-8"'
+    response['Content-Type'] = 'text/plain; charset="UTF-8"'
   end
 end
 
 
 # The class of the object we're going to serve:
 class MyRepresentable
-  include Rackful::Resource
-  include Rackful::Serializable
+  include Rackful::Representable
+  add_serializer Rackful::Serializer::HALJSON
+  add_parser Rackful::Parser::HALJSON
 
-  attr_reader :to_rackful, :get_last_modified
+  def self.collection_hallink
+    @collection_hallink ||= Rackful::HALLink.new('/representables/', MyRepresentableCollection.instance)
+  end
+
+  attr_reader :last_modified, :hal_properties
+
+
+  def hal_links
+    retval = @hal_links.dup
+    retval[:collection] = self.class.collection_hallink
+    retval
+  end
+
 
   def initialize uri
     self.uri = uri
-    @to_rackful = {
+    @hal_properties = {
       :a => 'Hello',
       :b => Time.now,
-      :c => URI('http://www.example.com/some/path')
     }
-    @get_last_modified = [ Time.now, false ]
+    @hal_links = { :example => Rackful::HALLink('http://www.example.com/some/path') }
+    @last_modified = [ Time.now, false ]
   end
 
 
   def do_PUT request, response
-    @to_rackful = parser(request).to_rackful
-    @get_last_modified = [ Time.now, false ]
+    parser = self.parser(request)
+    @hal_properties = parser.hal_properties
+    @hal_links = parser.hal_links
+    @hal_links.delete :self
+    @last_modified = [ Time.now, false ]
   end
 
 
-  def get_etag
-    '"' + Digest::MD5.new.update(to_rackful.inspect).to_s + '"'
+  def etag
+    '"' + Digest::MD5.new.update(hal_properties.inspect).to_s + '"'
   end
-  add_representation Rackful::Representation::XHTML5
-  add_representation Rackful::Representation::HTML5, :quality => 0.9
-  add_representation Rackful::Representation::JSON,  :quality => 0.5
-  add_parser Rackful::Parser::XHTML5
-  add_parser Rackful::Parser::JSON
+end
+
+
+class MyRepresentableCollection
+  include Rackful::Representable
+  add_serializer Rackful::Serializer::HALJSON
+  add_parser Rackful::Parser::HALJSON
+
+  def self.instance
+    @instance ||= self.new
+  end
+
+
+  def initialize
+    self.uri = '/representables/'
+    @representables = {}
+  end
+  attr_reader :representables
+  def representable x
+    self.representables[x] ||= MyRepresentable.new(self.uri.to_s + x)
+  end
+  def hal_links
+    { :item => self.representables.values.map { |r| HALLink.new(r.uri, r) } }
+  end
+
 end
 
 
@@ -76,6 +112,10 @@ $APP1 = Rack::Builder.new do
     $app1_cache[uri.path] ||= case uri.path
     when '/greeter'
       Greeter.new(uri.path)
+    when %r{^/representables/?$}
+      MyRepresentableCollection.new(uri.slashify.path)
+    when %r{^/representables/(.+)$}
+      MyRepresentableCollection.instance.representable $1
     end
   }
 
@@ -85,12 +125,17 @@ end.to_app
 require 'rack/test'
 
 
-module App1Helper
+module AppHelper
 
   def app
-    $APP1
+    $current_app ||= $APP1
+  end
+
+
+  def app= app
+    $current_app = app
   end
 end
 
 
-World(Rack::Test::Methods, App1Helper)
+World(Rack::Test::Methods, AppHelper)
