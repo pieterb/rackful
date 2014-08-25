@@ -11,6 +11,5 @@ require_relative 'rackful/statuscodes.rb'
 # |- request.rb
 # |- server.rb
 # `- statuscodes.rb
-#    `- representation/hal_json.rb
-#       `- representation.rb
-#          `- resource.rb
+#    `- serializable.rb
+#       `- resource.rb

@@ -45,6 +45,7 @@ module Rackful
     def uri=( uri )
       @uri = uri.kind_of?(URI) ? uri.dup : URI(uri)
       @uri.normalize!
+      uri
     end
 
 

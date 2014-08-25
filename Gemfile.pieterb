@@ -1,12 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in rack-rpc.gemspec
+# Specify your gem's dependencies in rackful.gemspec
 gemspec :name => "rackful"
-
-# We can do this here, or in the .gemspec file...
-#if defined?( RUBY_ENGINE ) and 'ruby' === RUBY_ENGINE
-#  group :yard do
-#    gem 'yard'
-#    gem 'redcarpet'
-#  end
-#end

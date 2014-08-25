@@ -24,10 +24,10 @@ Gem::Specification.new do |gem|
   gem.test_files         = %w()
 
   gem.required_ruby_version = '>= 1.9.2'
-  gem.add_runtime_dependency     'rack',       '~> 1.5'
-  gem.add_development_dependency 'multi_xml',  '~> 0.5'
-  gem.add_development_dependency 'multi_json', '~> 1.10'
-  gem.add_development_dependency 'nokogiri'
+  gem.add_runtime_dependency 'rack',       '~> 1.5'
+  gem.add_runtime_dependency 'multi_json', '~> 1.10'
+  #gem.add_development_dependency 'multi_xml',  '~> 0.5'
+  #gem.add_development_dependency 'nokogiri'
   gem.add_development_dependency 'cucumber',   '~> 1.3'
   gem.add_development_dependency 'rack-test',  '~> 0.5'
   gem.add_development_dependency 'rspec-expectations', '~> 2.14'
@@ -35,18 +35,18 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'yard'
     gem.add_development_dependency 'redcarpet'
   end
-  gem.post_install_message = <<EOS
-To use the built-in XHTML and JSON serializers and parsers, you'll have to 
-install multi_xml and multi_json respectively, by running:
-
-  gem install multi_xml
-  gem install multi_json
-  
-or, if you're using bundler, by adding them to your Gemfile:
-
-  gem 'multi_xml',  '~> 0.5'
-  gem 'multi_json', '~> 1.10'
-
-and running `bundle install`.
-EOS
+#  gem.post_install_message = <<EOS
+#To use the built-in XHTML and JSON serializers and parsers, you'll have to 
+#install multi_xml and multi_json respectively, by running:
+#
+#  gem install multi_xml
+#  gem install multi_json
+#  
+#or, if you're using bundler, by adding them to your Gemfile:
+#
+#  gem 'multi_xml',  '~> 0.5'
+#  gem 'multi_json', '~> 1.10'
+#
+#and running `bundle install`.
+#EOS
 end

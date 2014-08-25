@@ -2,7 +2,9 @@
 
 # Required for parsing:
 require_relative 'global.rb'
-require_relative 'representation/hal_json.rb'
+require_relative 'serializable.rb'
+require 'yaks'
+
 
 # Required for running:
 
@@ -21,106 +23,94 @@ module Rackful
     #
     # @!attribute [r] headers
     #   @return [Hash{String => String}]
-    #
-
     class HTTPStatus < RuntimeError
 
-      include Representable
-
-      #      class XHTML5 < Serializer::XHTML5
-      #
-      #        def header
-      #          retval = super
-      #          retval += "<h1>HTTP/1.1 #{ resource.full_status }</h1>\n"
-      #          unless resource.message.empty?
-      #            retval += "<div id=\"rackful-description\">#{resource.message}</div>\n"
-      #          end
-      #          retval
-      #        end
-      #
-      #
-      #        def headers; resource.headers; end
-      #
-      #
-      #      end # class Rackful::StatusCodes::HTTPStatus::XHTML5
+      include Serializable
 
       # @see #headers
-      class HALJSON < Serializer::HALJSON
+      class HALJSON < Serializer
 
-        # Just a proxy for `obj.resource.headers`.
+        produces 'application/hal+json'
+
+        @@yaks = Yaks.new do |yaks|
+
+          derive_mapper_from_object do |model|
+            HTTPStatusMapper
+          end
+
+          format_options(:hal, plural_links: [:created])
+          # ... more configuration
+        end
+
+
+        # Just a proxy for `resource.headers`.
         # @return [Hash{String => String}]
         def headers; resource.headers; end
-      end
+
+
+        def each
+          yield MultiJson.dump(@@yaks.serialize(resource, format: :hal))
+        end
+
+
+      end # class HALJSON < Serializer
 
 
       add_serializer HALJSON
 
-      attr_reader :status, :headers, :hal_links, :hal_properties
+      attr_reader :headers, :hal_links, :hal_properties
 
 
-      # @return [String] The full HTTP status string, e.g. `"404 Not Found"`.
-      def full_status
-        @full_status ||= '%d %s' % [
-          status, Rack::Utils::HTTP_STATUS_CODES[status]
-        ]
+      def status
+        @hal_properties[:status]
       end
 
 
       # @param status [Symbol, Integer] e.g. `404` or `:not_found`
-      # @param message [String] XHTML5
+      # @param message [String]
       # @param info [ { Symbol, String => Object, String } ]
       #   *   **Objects** indexed by **Symbols** are returned as HAL properties in the response body.
       #   *   **Strings** indexed by **Strings** are returned as response headers.
       def initialize status, message = nil, info = {}
-
-        @status = Rack::Utils.status_code status
-        raise "Wrong status: #{status}" if 0 === @status
+        status = Rack::Utils.status_code(status)
+        raise "Wrong status: #{status}" if 0 === status
+        full_status = '%d %s' % [
+          status, Rack::Utils::HTTP_STATUS_CODES[status]
+        ]
+        @hal_properties = {
+          :status => status,
+          :full_status => full_status
+        }
 
         # Rack::Utils.escape_path just does true uri-escaping:
         # Commented out because resources no longer MUST have a uri.
         #self.uri = '/http_status/' + Rack::Utils.escape_path( self.full_status )
 
-        @hal_properties = {
-          :status => @status,
-          :full_status => self.full_status
-        }
         @headers = Rack::Utils::HeaderHash.new
         info.each do
           |k, v|
           if k.kind_of? Symbol
             @hal_properties[k] = v
-          elsif k.kind_of?(String) and /^[\w][-\w]+$/i === k
-            @headers[k] = v.to_s
+          elsif k.respond_to?(:to_str)
+            if /^[\w][-\w]+$/i === k
+              @headers[k] = v.to_s
+            else
+              raise ArgumentError, "#{k.to_str} is not a valid HTTP header."
+            end
           else
             raise ArgumentError, "#{k.class.name} found where a Symbol or String was expected."
           end
         end
 
-        @hal_links = {}
+        @hal_links = []
 
         if message
           message = message.to_s
           @hal_properties[:message] = message
         else
-          message = self.full_status
+          message = full_status
         end
         super message
-      end
-
-
-      # @param html [#to_s]
-      # @return [String]
-      # @deprecated in favor of nothing. This code was used back when there was an XHTML serialization of HTTPStatus.
-      def self.escape_html html
-        begin
-          Nokogiri.XML(
-          '<?xml version="1.0" encoding="UTF-8" ?>' +
-          "<div>#{html}</div>"
-          ) do |config| config.strict.nonet end
-        rescue
-          html = Rack::Utils.escape_html(html)
-        end
-        html.to_s
       end
 
 
@@ -140,7 +130,7 @@ module Rackful
           end
           # Make sure the Location: response header contains an absolute URI:
           if response['Location'] and response['Location'][0] == ?/
-            response['Location'] = ( self.canonical_uri + response['Location'] ).to_s
+            response['Location'] = ( request.canonical_uri + response['Location'] ).to_s
           end
         end
         # The next statement fixes a small peculiarity in RFC2616: the response body of a `HEAD` request _must_ be empty, even for responses outside 2xx.
@@ -153,6 +143,21 @@ module Rackful
 
 
     end # class Rackful::StatusCodes::HTTPStatus
+
+
+    class HTTPStatusMapper < Yaks::Mapper
+
+      def map_attributes(resource)
+        resource.update_attributes(object.hal_properties)
+      end
+
+
+      def map_links(resource)
+        object.hal_links.inject(resource) do |r, resource_link|
+          r.add_link(resource_link)
+        end
+      end
+    end
 
 
     # @abstract Base class for HTTP status codes with only a simple text message, or
@@ -169,21 +174,18 @@ module Rackful
 
     class HTTP201Created < HTTPStatus
 
-      # @param locations [URI, String, Array<URI, String>]
+      # @param locations [Array<#to_s>]
       def initialize locations
         locations = [ locations ] unless locations.kind_of? Array
-        locations = locations.collect do |location|
-          HALLink(location)
-        end
         if locations.size > 1
           super( 201 )
-          @hal_links[:created] = locations
         elsif locations.size == 1
-          location = locations[0]
-          super( 201, nil, 'Location' => location.href.to_s )
-          @hal_links[:created] = location
+          super( 201, nil, 'Location' => locations[0].to_s )
         else
           raise ArgumentError, "No Locations provided."
+        end
+        @hal_links = locations.map do |location|
+          Yaks::Resource::Link.new :created, location.to_s, {}
         end
       end
 
@@ -195,9 +197,8 @@ module Rackful
       # @param location [URI, String, HALLink, Resource]
       def initialize location = nil
         if location
-          location = HALLink(location)
-          super( 202, nil, 'Location' => location.href.to_s )
-          @hal_links[:status] = location
+          super( 202, nil, 'Location' => location.to_s )
+          @hal_links << Yaks::Resource::Link.new( :status, location.to_s, {} )
         else
           super 202
         end
@@ -210,9 +211,8 @@ module Rackful
 
       # @param location [URI, String]
       def initialize location
-        location = HALLink(location)
-        super( 301, nil, 'Location' => location.href.to_s )
-        @hal_links[:follow] = location
+        super( 301, nil, 'Location' => location.to_s )
+        @hal_links << Yaks::Resource::Link.new( :follow, location.to_s, {} )
       end
 
     end
@@ -222,9 +222,8 @@ module Rackful
 
       # @param location [URI, String]
       def initialize location
-        location = HALLink(location)
-        super( 303, nil, 'Location' => location.href.to_s )
-        @hal_links[:follow] = location
+        super( 303, nil, 'Location' => location.to_s )
+        @hal_links << Yaks::Resource::Link.new( :follow, location.to_s, {} )
       end
 
     end
@@ -237,9 +236,8 @@ module Rackful
 
       # @param location [URI, String]
       def initialize location
-        location = HALLink(location)
-        super( 307, nil, 'Location' => location.href.to_s )
-        @hal_links[:follow] = location
+        super( 307, nil, 'Location' => location.to_s )
+        @hal_links << Yaks::Resource::Link.new( :follow, location.to_s, {} )
       end
 
     end
